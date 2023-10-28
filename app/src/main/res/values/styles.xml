@@ -7,6 +7,7 @@
         <item name="android:textSize">12sp</item>
         <item name="itemIconTint">@drawable/selector_navigation</item>
         <item name="itemTextColor">@drawable/selector_navigation</item>
+        <item name="backgroundTint">@color/white</item>
     </style>
 
 </resources>
