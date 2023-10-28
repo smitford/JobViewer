@@ -14,4 +14,9 @@
         android:id="@+id/searchFragment"
         android:name="ru.practicum.android.diploma.search.presentation.SearchFragment"
         android:label="SearchFragment" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="ru.practicum.android.diploma.favorite.presentation.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
 </navigation>

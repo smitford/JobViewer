@@ -9,5 +9,6 @@
     <dimen name="textSize_12sp">12sp</dimen>
     <dimen name="textSize_22sp">22sp</dimen>
     <dimen name="textSize_32sp">32sp</dimen>
+    <dimen name="margin_46_dp">46dp</dimen>
 
 </resources>
