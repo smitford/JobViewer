@@ -5,9 +5,11 @@
     <dimen name="margin_19dp">19dp</dimen>
     <dimen name="margin_32dp">32dp</dimen>
     <dimen name="margin_43dp">43dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
     <dimen name="textSize_16sp">16sp</dimen>
     <dimen name="textSize_12sp">12sp</dimen>
     <dimen name="textSize_22sp">22sp</dimen>
     <dimen name="textSize_32sp">32sp</dimen>
+    <dimen name="iconSize_48dp">48</dimen>
 
 </resources>
