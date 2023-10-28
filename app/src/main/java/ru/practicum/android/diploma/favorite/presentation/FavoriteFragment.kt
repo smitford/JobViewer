@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavoriteBinding
 import ru.practicum.android.diploma.favorite.domain.StateFavorite
 
@@ -33,6 +34,9 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.ivPlaceholderPng.setImageResource(R.drawable.error_list_favorite)
+        binding.tvMessage.text = getText(R.string.error_list_favorite)
+
         viewModel.getFavoriteLiveData().observe(viewLifecycleOwner){
 
             when (it.first) {
@@ -42,16 +46,18 @@ class FavoriteFragment : Fragment() {
                 }
                 StateFavorite.EMPTY -> {
                     // Пустой список
-                    var g = 0
+                    binding.ivPlaceholderPng.setImageResource(R.drawable.empty_list_favorite)
+                    binding.tvMessage.text = getText(R.string.empty_list)
                 }
                 else -> {
                     // Ошибка
-                    var h = 0
+                    binding.ivPlaceholderPng.setImageResource(R.drawable.error_list_favorite)
+                    binding.tvMessage.text = getText(R.string.error_list_favorite)
                 }
             }
         }
 
-        viewModel.getFavoriteTracks()
+        viewModel.getFavorite()
 
     }
 }

@@ -6,4 +6,5 @@
     <string name="developer_3">Калмыков Андрей Дмитриевич</string>
     <string name="developer_4">Вебер Андрей Дмитриевич</string>
     <string name="empty_list">Список пуст</string>
+    <string name="error_list_favorite">Не удалось получить список вакансий</string>
 </resources>

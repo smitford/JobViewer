@@ -15,9 +15,9 @@ class FavoriteViewModel(private val favoriteInteractor: FavoriteInteractor): Vie
 
     fun getFavoriteLiveData(): LiveData<Pair<StateFavorite,ArrayList<FavoriteTrack>>> = favorite
 
-    fun getFavoriteTracks(){
+    fun getFavorite(){
         viewModelScope.launch {
-            favoriteInteractor.getFavoriteTracks().collect{
+            favoriteInteractor.get().collect{
                 favorite.value = it
             }
         }

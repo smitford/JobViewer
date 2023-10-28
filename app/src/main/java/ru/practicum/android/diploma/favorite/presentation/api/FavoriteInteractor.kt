@@ -6,6 +6,6 @@ import ru.practicum.android.diploma.favorite.domain.StateFavorite
 
 interface FavoriteInteractor {
 
-    fun getFavoriteTracks() : Flow<Pair<StateFavorite,ArrayList<FavoriteTrack>>>
+    fun get() : Flow<Pair<StateFavorite,ArrayList<FavoriteTrack>>>
 
 }
