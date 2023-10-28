@@ -25,7 +25,7 @@
         tools:src="@drawable/placeholder_32px" />
 
     <TextView
-        android:id="@+id/iv_job_name"
+        android:id="@+id/tv_job_name"
         style="@style/textMedium22"
         app:layout_constraintStart_toEndOf="@id/textBarrier"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,7 +35,7 @@
         android:id="@+id/department"
         style="@style/textRegular16"
         app:layout_constraintStart_toEndOf="@id/textBarrier"
-        app:layout_constraintTop_toBottomOf="@id/iv_job_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_job_name"
         tools:text="Some text" />
 
     <TextView
