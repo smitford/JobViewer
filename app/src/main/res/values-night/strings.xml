@@ -1,10 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Practicum-Android-Diploma</string>
-    <string name="main">Главная</string>
-    <string name="favorite">Избранное</string>
-    <string name="team">Команда</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="whoMakeIt">Над приложением работали</string>
     <string name="developer_1">Киселев Алексей Викторович</string>
     <string name="developer_2">Серпухов Андрей Александрович</string>

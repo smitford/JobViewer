@@ -9,4 +9,5 @@
     <attr name="background" format="reference" />
     <attr name="black_universal" format="reference" />
     <attr name="white_universal" format="reference" />
+    <attr name="blackWhiteColor" format="reference" />
 </resources>
