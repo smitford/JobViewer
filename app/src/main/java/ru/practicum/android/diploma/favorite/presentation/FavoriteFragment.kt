@@ -8,11 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentFavoriteBinding
+import ru.practicum.android.diploma.favorite.domain.StateFavorite
+
 
 class FavoriteFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoriteBinding
+    private val viewModel: FavoriteViewModel by viewModel()
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     @RequiresApi(Build.VERSION_CODES.R)
@@ -28,6 +32,26 @@ class FavoriteFragment : Fragment() {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.getFavoriteLiveData().observe(viewLifecycleOwner){
+
+            when (it.first) {
+                StateFavorite.FULL -> {
+                    // есть треки
+                    var f = 0
+                }
+                StateFavorite.EMPTY -> {
+                    // Пустой список
+                    var g = 0
+                }
+                else -> {
+                    // Ошибка
+                    var h = 0
+                }
+            }
+        }
+
+        viewModel.getFavoriteTracks()
 
     }
 }
