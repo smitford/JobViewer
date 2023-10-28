@@ -51,7 +51,7 @@ class FavoriteFragment : Fragment() {
             }
         }
 
-        viewModel.getFavoriteTracks()
+        viewModel.getFavorite()
 
     }
 }
