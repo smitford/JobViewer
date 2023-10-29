@@ -11,4 +11,15 @@
     <string name="developer_4">Вебер Андрей Дмитриевич</string>
     <string name="empty_list">Список пуст</string>
     <string name="error_list_favorite">Не удалось получить список вакансий</string>
+    <string name="job">Вакансия</string>
+    <string name="required_experience">Требуемый опыт</string>
+    <string name="job_description">Описание вакансии</string>
+    <string name="main_skills">Ключевые навыки</string>
+    <string name="contacts">Контакты</string>
+    <string name="employer_contacts">Контактное лицо</string>
+    <string name="email">E-mail</string>
+    <string name="phone_number">Телефон</string>
+    <string name="comment">Комментарий</string>
+    <string name="similar_jobs">Похожие вакансии</string>
+    <string name="server_error">Ошибка сервера</string>
 </resources>

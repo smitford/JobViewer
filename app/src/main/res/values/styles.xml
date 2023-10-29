@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Widget.BottomNavigationView"
-        parent="Widget.Design.BottomNavigationView">
+    <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
         <item name="fontFamily">@font/ys_display_regular</item>
         <item name="android:textSize">@dimen/textSize_12sp</item>
         <item name="itemIconTint">@drawable/selector_navigation</item>
@@ -44,4 +43,82 @@
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
+    <style name="imageBtnJobStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="job16TextMedium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/textSize_16sp</item>
+        <item name="android:fontWeight">@dimen/fontWeight_500</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="job16TextRegular">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/textSize_16sp</item>
+        <item name="android:fontWeight">@dimen/fontWeight_400</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="job22Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/textSize_22sp</item>
+        <item name="android:fontWeight">@dimen/fontWeight_500</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="job32Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ys_display_bold</item>
+        <item name="android:textSize">@dimen/textSize_32sp</item>
+        <item name="android:fontWeight">@dimen/fontWeight_700</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="jobCard16Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/textSize_16sp</item>
+        <item name="android:fontWeight">@dimen/fontWeight_400</item>
+        <item name="android:textColor">@color/black_universal</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="jobCard22Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/textSize_22sp</item>
+        <item name="android:fontWeight">@dimen/fontWeight_500</item>
+        <item name="android:textColor">@color/black_universal</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="jobImageStyle">
+        <item name="android:layout_width">@dimen/iconSize_48dp</item>
+        <item name="android:layout_height">@dimen/iconSize_48dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="ButtonLong">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSize_16sp</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textColor">@color/white_universal</item>
+        <item name="android:maxLines">1</item>
+    </style>
 </resources>
