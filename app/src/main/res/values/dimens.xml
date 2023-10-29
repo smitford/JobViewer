@@ -2,20 +2,22 @@
 <resources>
     <dimen name="margin_4dp">4dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
-    <dimen name="margin_12dp">12dp</dimen>
     <dimen name="margin_16dp">16dp</dimen>
     <dimen name="margin_19dp">19dp</dimen>
     <dimen name="margin_24dp">24dp</dimen>
     <dimen name="margin_32dp">32dp</dimen>
     <dimen name="margin_43dp">43dp</dimen>
-
+    <dimen name="margin_12dp">12dp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
     <dimen name="textSize_16sp">16sp</dimen>
     <dimen name="textSize_12sp">12sp</dimen>
     <dimen name="textSize_22sp">22sp</dimen>
     <dimen name="textSize_32sp">32sp</dimen>
     <dimen name="margin_46_dp">46dp</dimen>
     <dimen name="iconSize_48dp">48dp</dimen>
-
+    <dimen name="zero_0dp">0dp</dimen>
+    <dimen name="radius_12dp">12dp</dimen>
+    <dimen name="editTextSize_56dp">56dp</dimen>
     <dimen name="fontWeight_400">400</dimen>
     <dimen name="fontWeight_500">500</dimen>
     <dimen name="fontWeight_700">700</dimen>

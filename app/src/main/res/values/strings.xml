@@ -10,7 +10,6 @@
     <string name="developer_3">Калмыков Андрей Дмитриевич</string>
     <string name="developer_4">Вебер Андрей Дмитриевич</string>
     <string name="empty_list">Список пуст</string>
-    <string name="error_list_favorite">Не удалось получить список вакансий</string>
     <string name="job">Вакансия</string>
     <string name="required_experience">Требуемый опыт</string>
     <string name="job_description">Описание вакансии</string>
@@ -22,4 +21,10 @@
     <string name="comment">Комментарий</string>
     <string name="similar_jobs">Похожие вакансии</string>
     <string name="server_error">Ошибка сервера</string>
+    <string name="error_list_favorite">Не удалось получить \n список вакансий</string>
+    <string name="search_vacancies">Поиск вакансий</string>
+    <string name="enter_request">Введите запрос</string>
+    <string name="internet_connection_issue">Нет интернета</string>
+    <string name="vacancy_mismatch">Таких вакансий нет</string>
+    <string name="founded">Найдено </string>
 </resources>

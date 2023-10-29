@@ -43,6 +43,13 @@
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextColor">?attr/colorOnSecondary</item>
+        <item name="android:drawable">@drawable/search</item>
+        <item name="endIconDrawable">@drawable/search</item>
+    </style>
+
+
     <style name="imageBtnJobStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
