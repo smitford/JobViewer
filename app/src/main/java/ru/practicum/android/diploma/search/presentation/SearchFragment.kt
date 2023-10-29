@@ -46,6 +46,7 @@ class SearchFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
+
     }
 
 }
