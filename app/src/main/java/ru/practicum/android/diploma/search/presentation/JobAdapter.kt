@@ -8,7 +8,7 @@ import ru.practicum.android.diploma.databinding.RecyclerVacancyItemBinding
 import ru.practicum.android.diploma.search.domain.models.JobInfo
 
 
-class JobAdapter(val onJobClickedCB: (JobInfo) -> Int) : RecyclerView.Adapter<JobViewHolder>() {
+class JobAdapter(val onJobClickedCB: (JobInfo) -> Unit) : RecyclerView.Adapter<JobViewHolder>() {
 
     var jobsList = mutableListOf<JobInfo>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {

@@ -11,6 +11,6 @@
     <dimen name="textSize_22sp">22sp</dimen>
     <dimen name="textSize_32sp">32sp</dimen>
     <dimen name="margin_46_dp">46dp</dimen>
-    <dimen name="iconSize_48dp">48</dimen>
+    <dimen name="iconSize_48dp">48dp</dimen>
 
 </resources>

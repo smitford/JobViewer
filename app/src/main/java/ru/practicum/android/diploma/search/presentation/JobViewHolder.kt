@@ -14,6 +14,7 @@ class JobViewHolder(private val binding: RecyclerVacancyItemBinding) :
     fun bind(jobInfo: JobInfo) {
         binding.department.text = jobInfo.department
         binding.salary.text = jobInfo.salary
+        binding.tvJobName.text = jobInfo.name
 
         Glide.with(binding.ivCompany)
             .load(jobInfo.employerImgUrl)
