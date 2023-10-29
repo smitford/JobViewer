@@ -21,4 +21,6 @@
     <dimen name="fontWeight_400">400</dimen>
     <dimen name="fontWeight_500">500</dimen>
     <dimen name="fontWeight_700">700</dimen>
+    <dimen name="minHeightToolBar_64dp">64dp</dimen>
+    <dimen name="heightPoints_60dp">60dp</dimen>
 </resources>

@@ -27,4 +27,11 @@
     <string name="internet_connection_issue">Нет интернета</string>
     <string name="vacancy_mismatch">Таких вакансий нет</string>
     <string name="founded">Найдено </string>
+    <string name="filter_settings">Настройки фильтрации</string>
+    <string name="place_of_work">Место работы</string>
+    <string name="sector">Отрасль</string>
+    <string name="et_expected_salary">Ожидаемая зарплата</string>
+    <string name="input_summ">Введите сумму</string>
+    <string name="show_with_salary">Не показывать без зарплаты</string>
+    <string name="back_btn">Кнопка назад</string>
 </resources>
