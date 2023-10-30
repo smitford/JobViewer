@@ -34,4 +34,14 @@
     <string name="input_summ">Введите сумму</string>
     <string name="show_with_salary">Не показывать без зарплаты</string>
     <string name="back_btn">Кнопка назад</string>
+    <string name="country_selection">Выбор страны</string>
+    <string name="russia">Россия</string>
+    <string name="ukraina">Украина</string>
+    <string name="kazakstan">Казахстан</string>
+    <string name="azerbaijan">Азербайджан</string>
+    <string name="belarus">Беларусь</string>
+    <string name="georgia">Грузия</string>
+    <string name="kyrgyzstan">Кыргыстан</string>
+    <string name="uzbekistan">Узбекистан</string>
+    <string name="other_country">Другие регионы</string>
 </resources>
