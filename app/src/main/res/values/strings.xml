@@ -34,4 +34,7 @@
     <string name="input_summ">Введите сумму</string>
     <string name="show_with_salary">Не показывать без зарплаты</string>
     <string name="back_btn">Кнопка назад</string>
+    <string name="choos_place_of_work">Выбор места работы</string>
+    <string name="country">Страна</string>
+    <string name="region">Регион</string>
 </resources>
