@@ -47,4 +47,5 @@
     <string name="choos_place_of_work">Выбор места работы</string>
     <string name="country">Страна</string>
     <string name="region">Регион</string>
+    <string name="similar_job">Похожие вакансии</string>
 </resources>
