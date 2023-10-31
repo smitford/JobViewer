@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".filter.presentation.PlacesOfWorkFragment">
+
+    <LinearLayout
+        android:id="@+id/ll_top_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_16dp"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/minHeightToolBar_64dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ib_arrow_back"
+            style="@style/imageBtnJobStyle"
+            android:layout_marginStart="@dimen/margin_4dp"
+            android:contentDescription="@string/back_btn"
+            android:src="@drawable/ic_arrow_back" />
+
+        <TextView
+            style="@style/job22Text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/margin_4dp"
+            android:layout_weight="1"
+            android:text="@string/choos_place_of_work" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_country"
+        style="@style/MenuPointsStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heightPoints_60dp"
+        android:paddingHorizontal="@dimen/margin_16dp"
+        android:text="@string/country"
+        android:textColor="?attr/colorOnSecondary"
+        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
+
+    <TextView
+        android:id="@+id/tv_region"
+        style="@style/MenuPointsStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heightPoints_60dp"
+        android:paddingHorizontal="@dimen/margin_16dp"
+        android:text="@string/region"
+        android:textColor="?attr/colorOnSecondary"
+        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
+
+</LinearLayout>
