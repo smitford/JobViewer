@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.RecyclerVacancyItemBinding
-import ru.practicum.android.diploma.search.domain.models.JobInfo
+import ru.practicum.android.diploma.search.domain.models.Job
 
 
-class JobAdapter(val onJobClickedCB: (JobInfo) -> Unit) : RecyclerView.Adapter<JobViewHolder>() {
+class JobAdapter(val onJobClickedCB: (Job) -> Unit) : RecyclerView.Adapter<JobViewHolder>() {
 
-    var jobsList = mutableListOf<JobInfo>()
+    var jobsList = mutableListOf<Job>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return JobViewHolder(

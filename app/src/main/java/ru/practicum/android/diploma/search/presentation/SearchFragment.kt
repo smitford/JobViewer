@@ -10,13 +10,18 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.search.domain.models.JobInfo
+import ru.practicum.android.diploma.search.domain.models.Filter
+import ru.practicum.android.diploma.search.domain.models.Job
 
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
+    private lateinit var filter: Filter
+    private val viewModel: SearchViewModel by viewModel { parametersOf(filter) }
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     @RequiresApi(Build.VERSION_CODES.R)
@@ -36,11 +41,11 @@ class SearchFragment : Fragment() {
         val recyclerView = binding.rvSearch
         val adapter = JobAdapter({ _ -> Unit })
         adapter.jobsList = mutableListOf(
-            JobInfo(
+            Job(
                 id = "1234", area = "Moscow", department = "Eda", employerImgUrl = "",
                 employer = "", name = "Android Developer", salary = "from 1 to 100", type = "rab"
             ),
-            JobInfo(
+            Job(
                 id = "1235", area = "Kiev", department = "Voda", employerImgUrl = "",
                 employer = "", name = "Android Developer", salary = "from 1 to 100", type = "rab"
             )
