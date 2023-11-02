@@ -23,9 +23,9 @@ object AdapterJob {
 
 
     fun filterToJobReq(filter: Filter)= JobSearchRequest(
-        page = filter.page,
-        perPage = 20,
-        request = filter.request,
+        page = 0,
+        perPage = 10,
+        text = filter.request,
         area = filter.area,
         industry = filter.industry,
         salary = filter.salary,

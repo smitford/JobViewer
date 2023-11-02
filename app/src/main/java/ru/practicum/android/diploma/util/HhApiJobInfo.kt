@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.search.data.models.JobSearchResponseDto
 interface HhApiJobInfo {
     @GET("vacancies")
     suspend fun getJobList(
-        @Header("Authorization") token: String,
+        @Header("Authorization") bearer: String,
         @Body request: JobSearchRequest
     ) : JobSearchResponseDto
 

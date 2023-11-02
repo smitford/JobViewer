@@ -30,7 +30,7 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
         return when (dto) {
             is JobSearchRequest -> try {
                 val resp = hhService.getJobList(
-                    token = BuildConfig.HH_ACCESS_TOKEN,
+                    bearer = BuildConfig.HH_ACCESS_TOKEN,
                     request = dto
                 )
                 resp.apply { responseCode = ResultCodes.SUCCESS }

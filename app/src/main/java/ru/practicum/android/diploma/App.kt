@@ -9,6 +9,7 @@ import ru.practicum.android.diploma.job.di.jobModule
 import ru.practicum.android.diploma.search.di.searchModule
 import ru.practicum.android.diploma.similarjob.di.similarJobModule
 import ru.practicum.android.diploma.team.di.teamModule
+import ru.practicum.android.diploma.util.utilDi
 
 class App : Application() {
 
@@ -20,7 +21,7 @@ class App : Application() {
             // Передаём все необходимые модули
             modules(
                 teamModule, similarJobModule, searchModule,
-                jobModule, filterModule, favoriteModule
+                jobModule, filterModule, favoriteModule, utilDi
             )
         }
 

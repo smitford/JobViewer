@@ -20,7 +20,14 @@ import ru.practicum.android.diploma.search.domain.models.Job
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var filter: Filter
+    private var filter: Filter = Filter(
+        page = 0,
+        request = "разработчик",
+        area = " ",
+        industry = "",
+        salary = 1000,
+        onlyWithSalary = false
+    )
     private val viewModel: SearchViewModel by viewModel { parametersOf(filter) }
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -52,6 +59,8 @@ class SearchFragment : Fragment() {
         )
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+
+        viewModel.loadJobs()
 
         binding.ivFilter.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filterSettingsFragment)
