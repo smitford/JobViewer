@@ -53,6 +53,7 @@
     <string name="there_is_no_such_region">Такого региона нет</string>
     <string name="failed_to_get_the_list">Не удалось получить список</string>
     <string name="error">Ошибка</string>
+    <string name="no_internet">Нет интернета</string>
     <string name="choosing_industry">Выбор отрасли</string>
     <string name="enter_industry">Введите отрасль</string>
 </resources>

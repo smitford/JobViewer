@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.favorite.domain
 
-enum class StateFavorite {
+enum class FavoriteState {
     EMPTY,
     ERROR,
     FULL

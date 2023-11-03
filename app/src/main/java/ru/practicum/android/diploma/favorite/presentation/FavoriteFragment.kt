@@ -11,7 +11,7 @@ import androidx.annotation.RequiresApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavoriteBinding
-import ru.practicum.android.diploma.favorite.domain.StateFavorite
+import ru.practicum.android.diploma.favorite.domain.FavoriteState
 
 
 class FavoriteFragment : Fragment() {
@@ -40,11 +40,11 @@ class FavoriteFragment : Fragment() {
         viewModel.getFavoriteLiveData().observe(viewLifecycleOwner){
 
             when (it.first) {
-                StateFavorite.FULL -> {
+                FavoriteState.FULL -> {
                     // есть треки
                     var f = 0
                 }
-                StateFavorite.EMPTY -> {
+                FavoriteState.EMPTY -> {
                     // Пустой список
                     binding.ivPlaceholderPng.setImageResource(R.drawable.empty_list_favorite)
                     binding.tvMessage.text = getText(R.string.empty_list)
