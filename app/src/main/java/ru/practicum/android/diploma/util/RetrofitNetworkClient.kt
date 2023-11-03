@@ -14,6 +14,7 @@ import ru.practicum.android.diploma.search.data.models.ResultCodes
 class RetrofitNetworkClient(val context: Context) : NetworkClient {
 
     override var lock = Any()
+    val requestOptions: HashMap<String, String> = HashMap()
 
     private val retrofitHh =
         Retrofit.Builder()
@@ -29,9 +30,9 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
 
         return when (dto) {
             is JobSearchRequest -> try {
+
                 val resp = hhService.getJobList(
-                    bearer = BuildConfig.HH_ACCESS_TOKEN,
-                    request = dto
+                    options = dto.queryMap
                 )
                 resp.apply { responseCode = ResultCodes.SUCCESS }
             } catch (e: Exception) {

@@ -25,7 +25,7 @@ class JobNetworkRepositoryImp(private val networkClient: NetworkClient) : JobNet
                         AdapterJob
                             .jobInfoDtoToJobInfo(
                                 response = (response as JobSearchResponseDto)
-                                    .jobsList
+                                    .items
                             )
                     )
                 )
