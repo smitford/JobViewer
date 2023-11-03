@@ -5,19 +5,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.RecyclerVacancyItemBinding
-import ru.practicum.android.diploma.search.domain.models.JobInfo
+import ru.practicum.android.diploma.search.domain.models.Job
 import ru.practicum.android.diploma.util.ImgFunctions
 
 class JobViewHolder(private val binding: RecyclerVacancyItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(jobInfo: JobInfo) {
-        binding.department.text = jobInfo.department
-        binding.salary.text = jobInfo.salary
-        binding.tvJobName.text = jobInfo.name
+    fun bind(job: Job) {
+        binding.department.text = job.department
+        binding.salary.text = job.salary
+        binding.tvJobName.text = job.name
 
         Glide.with(binding.ivCompany)
-            .load(jobInfo.employerImgUrl)
+            .load(job.employerImgUrl)
             .placeholder(R.drawable.placeholder_32px)
             .centerCrop()
             .transform(
