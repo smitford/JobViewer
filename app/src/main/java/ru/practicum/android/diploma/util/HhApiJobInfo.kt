@@ -11,8 +11,8 @@ import ru.practicum.android.diploma.search.data.models.JobSearchResponseDto
 
 interface HhApiJobInfo {
     @Headers(
-        "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}",
-        "HH-User-Agent: Diplom_Yandex_HH (alk68@yandex.ru)"
+        HEADER_AUTH,
+        USER
     )
     @GET("vacancies")
     suspend fun getJobList(
@@ -20,4 +20,9 @@ interface HhApiJobInfo {
     ): JobSearchResponseDto
 
     // Ниже добавляйте свои ф-ии
+
+    companion object{
+        const val HEADER_AUTH = "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}"
+        const val USER = "HH-User-Agent: Diplom_Yandex_HH (alk68@yandex.ru)"
+    }
 }
