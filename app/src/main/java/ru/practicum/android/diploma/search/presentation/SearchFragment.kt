@@ -22,7 +22,7 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private var filter: Filter = Filter(
         page = 0,
-        request = "разработчик",
+        request = "android",
         area = " ",
         industry = "",
         salary = 1000,
