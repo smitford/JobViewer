@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_searchFragment_to_filterSettingsFragment"
             app:destination="@id/filterSettingsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_jobFragment"
+            app:destination="@id/jobFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -28,7 +31,11 @@
         android:id="@+id/jobFragment"
         android:name="ru.practicum.android.diploma.job.presentation.JobFragment"
         android:label="fragment_job"
-        tools:layout="@layout/fragment_job" />
+        tools:layout="@layout/fragment_job" >
+        <argument
+            android:name="jobId"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/filterSettingsFragment"
         android:name="ru.practicum.android.diploma.filter.presentation.FilterSettingsFragment"

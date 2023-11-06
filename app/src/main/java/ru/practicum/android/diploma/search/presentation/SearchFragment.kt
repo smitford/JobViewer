@@ -38,7 +38,7 @@ class SearchFragment : Fragment() {
     )
 
     private val viewModel: SearchViewModel by viewModel { parametersOf(filter) }
-    private lateinit var jobClickCb: (Int) -> Unit
+    private lateinit var jobClickCb: (String) -> Unit
     private var searchJob: Job? = null
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -55,9 +55,9 @@ class SearchFragment : Fragment() {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        jobClickCb = initClickCb()
         val recyclerView = binding.rvSearch
-        val adapter = JobAdapter({ _ -> Unit })
+        val adapter = JobAdapter(jobClickCb)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
@@ -178,6 +178,10 @@ class SearchFragment : Fragment() {
 
     }
 
+    private fun initClickCb() : (String) -> Unit = { jobId->
+        val arg =SearchFragmentDirections.actionSearchFragmentToJobFragment(jobId)
+        findNavController().navigate(arg)
+    }
     private fun changeVisBottomNav(state: Int) {
         val bottomNav =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
