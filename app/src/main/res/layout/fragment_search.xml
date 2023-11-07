@@ -45,28 +45,31 @@
         android:id="@+id/til_search"
         style="@style/TextInputLayout"
         android:layout_width="@dimen/zero_0dp"
-        android:layout_height="@dimen/editTextSize_56dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_8dp"
         android:background="@drawable/bg_et_search"
-
         android:imeOptions="actionDone"
-        android:padding="@dimen/margin_4dp"
+        android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintTop_toBottomOf="@+id/tb_search">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_search"
             style="@style/textRegular16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/search_vacancies"
             android:layout_gravity="center_vertical"
-            android:background="?attr/colorPrimaryContainer"
+
             android:drawableEnd="@drawable/search"
             android:drawablePadding="@dimen/margin_16dp"
+            android:hint="@string/search_vacancies"
+            android:imeOptions="actionDone"
             android:lines="1"
-            android:paddingStart="@dimen/margin_12dp" />
+            android:paddingStart="@dimen/margin_12dp"
+            android:singleLine="true"
+            tools:text="@string/developer_1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,10 +103,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16dp"
         app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@id/search_progressBar"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintTop_toBottomOf="@id/tv_rv_header"
-        app:layout_constraintBottom_toTopOf="@id/search_progressBar"
         tools:itemCount="3"
         tools:listitem="@layout/recycler_vacancy_item" />
 
@@ -124,12 +127,12 @@
         android:id="@+id/tv_error"
         style="@style/textMedium22"
         android:layout_marginTop="@dimen/margin_16dp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintTop_toBottomOf="@id/iv_error"
-        android:gravity="center"
-        tools:text="@string/error_list_favorite"/>
+        tools:text="@string/error_list_favorite" />
 
     <ProgressBar
         android:id="@+id/search_progressBar"
@@ -138,9 +141,9 @@
         android:layout_marginTop="248dp"
         android:indeterminateTint="@color/blue"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_search"
         tools:visibility="visible" />
 

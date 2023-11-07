@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.search.data.net
 
 import ru.practicum.android.diploma.search.data.models.JobInfoDto
 import ru.practicum.android.diploma.search.data.models.JobSearchRequest
+import ru.practicum.android.diploma.search.data.models.LogoUrls
 import ru.practicum.android.diploma.search.data.models.Salary
 import ru.practicum.android.diploma.search.domain.models.Filter
 import ru.practicum.android.diploma.search.domain.models.Job
@@ -13,7 +14,7 @@ object AdapterJob {
             id = it.id,
             area = it.area.name,
             department = it.department?.name ?: " ",
-            employerImgUrl = it.employer.url ?: " ",
+            employerImgUrl = getLogo(it.employer.logoUrls),
             employer = it.employer.name,
             name = it.name,
             salary = formSalaryString(it.salary),
@@ -26,9 +27,21 @@ object AdapterJob {
         makeHasMap(filter)
     )
 
+    private fun getLogo(logoUrls: LogoUrls?): String {
+        // if (logoUrls?.smallIcon != null) return logoUrls.smallIcon.toString()
+        if (logoUrls?.mediumIcon != null) return logoUrls.mediumIcon.toString()
+        if (logoUrls?.original != null) return logoUrls.original.toString()
+        return " "
+    }
+
     private fun formSalaryString(salary: Salary?): String {
         if (salary == null) return " "
-        return "от  ${salary.from.toString()}  до  ${salary.to.toString()} ${salary.currency}"
+        if (salary.from != null && salary.to != null)
+            return "от  ${salary.from}  до  ${salary.to}"
+        return if (salary.from != null)
+            "от  ${salary.from}"
+        else
+            "до  ${salary.to}"
     }
 
     private fun makeHasMap(filter: Filter): HashMap<String, String> {
