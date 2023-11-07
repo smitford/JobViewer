@@ -40,5 +40,39 @@
         android:id="@+id/filterSettingsFragment"
         android:name="ru.practicum.android.diploma.filter.presentation.FilterSettingsFragment"
         android:label="fragment_filter_settings"
-        tools:layout="@layout/fragment_filter_settings" />
+        tools:layout="@layout/fragment_filter_settings" >
+        <action
+            android:id="@+id/action_filterSettingsFragment_to_placesOfWorkFragment2"
+            app:destination="@id/placesOfWorkFragment" />
+        <action
+            android:id="@+id/action_filterSettingsFragment_to_choosingIndustryFragment2"
+            app:destination="@id/choosingIndustryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/choosingIndustryFragment"
+        android:name="ru.practicum.android.diploma.filter.presentation.ChoosingIndustryFragment"
+        android:label="fragment_choosing_industry"
+        tools:layout="@layout/fragment_choosing_industry" />
+    <fragment
+        android:id="@+id/choosingRegionFragment"
+        android:name="ru.practicum.android.diploma.filter.presentation.ChoosingRegionFragment"
+        android:label="fragment_choosing_region"
+        tools:layout="@layout/fragment_choosing_region" />
+    <fragment
+        android:id="@+id/countrySelectionFragment"
+        android:name="ru.practicum.android.diploma.filter.presentation.CountrySelectionFragment"
+        android:label="fragment_country_selection"
+        tools:layout="@layout/fragment_country_selection" />
+    <fragment
+        android:id="@+id/placesOfWorkFragment"
+        android:name="ru.practicum.android.diploma.filter.presentation.PlacesOfWorkFragment"
+        android:label="fragment_places_of_work"
+        tools:layout="@layout/fragment_places_of_work" >
+        <action
+            android:id="@+id/action_placesOfWorkFragment_to_countrySelectionFragment"
+            app:destination="@id/countrySelectionFragment" />
+        <action
+            android:id="@+id/action_placesOfWorkFragment_to_choosingRegionFragment"
+            app:destination="@id/choosingRegionFragment" />
+    </fragment>
 </navigation>
