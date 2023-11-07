@@ -40,5 +40,39 @@
         android:id="@+id/filterSettingsFragment"
         android:name="ru.practicum.android.diploma.filter.presentation.FilterSettingsFragment"
         android:label="fragment_filter_settings"
-        tools:layout="@layout/fragment_filter_settings" />
+        tools:layout="@layout/fragment_filter_settings" >
+        <action
+            android:id="@+id/action_filterSettingsFragment_to_placesOfWorkFragment2"
+            app:destination="@id/placesOfWorkFragment2" />
+        <action
+            android:id="@+id/action_filterSettingsFragment_to_choosingIndustryFragment2"
+            app:destination="@id/choosingIndustryFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/choosingIndustryFragment2"
+        android:name="ru.practicum.android.diploma.filter.presentation.ChoosingIndustryFragment"
+        android:label="fragment_choosing_industry"
+        tools:layout="@layout/fragment_choosing_industry" />
+    <fragment
+        android:id="@+id/choosingRegionFragment2"
+        android:name="ru.practicum.android.diploma.filter.presentation.ChoosingRegionFragment"
+        android:label="fragment_choosing_region"
+        tools:layout="@layout/fragment_choosing_region" />
+    <fragment
+        android:id="@+id/countrySelectionFragment2"
+        android:name="ru.practicum.android.diploma.filter.presentation.CountrySelectionFragment"
+        android:label="fragment_country_selection"
+        tools:layout="@layout/fragment_country_selection" />
+    <fragment
+        android:id="@+id/placesOfWorkFragment2"
+        android:name="ru.practicum.android.diploma.filter.presentation.PlacesOfWorkFragment"
+        android:label="fragment_places_of_work"
+        tools:layout="@layout/fragment_places_of_work" >
+        <action
+            android:id="@+id/action_placesOfWorkFragment2_to_countrySelectionFragment2"
+            app:destination="@id/countrySelectionFragment2" />
+        <action
+            android:id="@+id/action_placesOfWorkFragment2_to_choosingRegionFragment2"
+            app:destination="@id/choosingRegionFragment2" />
+    </fragment>
 </navigation>
