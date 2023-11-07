@@ -45,7 +45,7 @@
         app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
 
     <TextView
-        android:id="@+id/tv_sector"
+        android:id="@+id/tv_industry"
         style="@style/MenuPointsStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/heightPoints_60dp"
