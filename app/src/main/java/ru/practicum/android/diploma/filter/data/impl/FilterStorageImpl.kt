@@ -36,5 +36,11 @@ class FilterStorageImpl(
         }
     }
 
+    override fun clearFilterSettings() {
+        sharedPreferences
+            .edit()
+            .remove(FILTER_SETTINGS)
+            .apply()
+    }
 
 }

@@ -51,4 +51,12 @@ class FilterSettingsViewModel(private val filterInteractor: FilterInteractor) : 
         _showWithSalary.value = filterParameters.onlyWithSalary
     }
 
+    fun clearFilterSettings(){
+        filterInteractor.clearFilterSettings()
+    }
+
+    fun saveSalarySettings(salary: String, onlyWithSalary: Boolean){
+        filterInteractor.saveSalarySettings(salary,onlyWithSalary)
+    }
+
 }

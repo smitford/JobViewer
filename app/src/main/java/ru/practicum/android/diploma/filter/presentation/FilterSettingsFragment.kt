@@ -81,7 +81,7 @@ class FilterSettingsFragment : Fragment() {
         }
 
         vM.showWithSalary.observe(viewLifecycleOwner) {
-            binding.cbShowWithSalary.isActivated = it
+            binding.cbShowWithSalary.isChecked = it
         }
 
         binding.etSalary.doOnTextChanged { text, _, _, _ ->
@@ -89,6 +89,20 @@ class FilterSettingsFragment : Fragment() {
             buttonVisibility()
         }
         binding.cbShowWithSalary.setOnClickListener {
+            buttonVisibility()
+        }
+
+        binding.btnAccept.setOnClickListener {
+            vM.saveSalarySettings(
+                salary = binding.etSalary.text.toString(),
+                onlyWithSalary = binding.cbShowWithSalary.isChecked
+            )
+            findNavController().popBackStack()
+        }
+
+        binding.btnReset.setOnClickListener {
+            vM.clearFilterSettings()
+            vM.setFiltersInFragment()
             buttonVisibility()
         }
 
