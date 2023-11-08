@@ -73,7 +73,6 @@ class SearchFragment : Fragment() {
                     adapter.jobsList = state.trackList.toMutableList()
                     adapter.notifyDataSetChanged()
                 }
-
                 is SearchStates.Loading -> setLoadingScreen()
             }
         }
@@ -178,10 +177,11 @@ class SearchFragment : Fragment() {
 
     }
 
-    private fun initClickCb() : (String) -> Unit = { jobId->
-        val arg =SearchFragmentDirections.actionSearchFragmentToJobFragment(jobId)
+    private fun initClickCb(): (String) -> Unit = { jobId ->
+        val arg = SearchFragmentDirections.actionSearchFragmentToJobFragment(jobId)
         findNavController().navigate(arg)
     }
+
     private fun changeVisBottomNav(state: Int) {
         val bottomNav =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
