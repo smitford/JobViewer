@@ -11,7 +11,7 @@ class FavoriteRepositoryImpl(private val appDataBase: AppDataBase): FavoriteRepo
 
     override fun get(): Flow<Pair<FavoriteState, ArrayList<FavoriteTrack>>> = flow{
 
-        val jobs =  appDataBase.favoriteDAO().get()
+        //val jobs =  appDataBase.favoriteDAO().get()
 
         emit(Pair(FavoriteState.FULL, arrayListOf()))
 
