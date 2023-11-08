@@ -4,6 +4,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
+import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.search.data.models.JobSearchRequest
@@ -20,6 +21,10 @@ interface HhApiJobInfo {
     ): JobSearchResponseDto
 
     // Ниже добавляйте свои ф-ии
+
+    @GET("vacancies/{vacancy_id}/similar_vacancies")
+    suspend fun getSimilarVacancies(@Path("vacancy_di")vacancyId: String) :
+            JobSearchResponseDto
 
     companion object{
         const val HEADER_AUTH = "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}"
