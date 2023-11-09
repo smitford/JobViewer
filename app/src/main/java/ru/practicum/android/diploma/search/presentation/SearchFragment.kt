@@ -19,25 +19,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.search.domain.models.Filter
 import ru.practicum.android.diploma.search.presentation.models.SearchStates
 
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
-    private var filter: Filter = Filter(
-        page = 0,
-        request = "android",
-        area = null,
-        industry = null,
-        salary = null,
-        onlyWithSalary = false
-    )
 
-    private val viewModel: SearchViewModel by viewModel { parametersOf(filter) }
+    private val viewModel: SearchViewModel by viewModel()
     private lateinit var jobClickCb: (String) -> Unit
     private var searchJob: Job? = null
 
@@ -69,10 +59,11 @@ class SearchFragment : Fragment() {
                 is SearchStates.ConnectionError -> setConnectionLostScreen()
                 is SearchStates.InvalidRequest -> setInvalidRequestScreen()
                 is SearchStates.Success -> {
-                    setSuccessScreen(state.trackList.count()) //Передать общее кол-во найденных вакансий
-                    adapter.jobsList = state.trackList.toMutableList()
+                    setSuccessScreen(state.found) //Передать общее кол-во найденных вакансий
+                    adapter.jobsList = state.jobList.toMutableList()
                     adapter.notifyDataSetChanged()
                 }
+
                 is SearchStates.Loading -> setLoadingScreen()
             }
         }
@@ -125,7 +116,7 @@ class SearchFragment : Fragment() {
         binding.searchProgressBar.visibility = GONE
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = VISIBLE
-        binding.tvRvHeader.text = amount.toString()
+        binding.tvRvHeader.text = getString(R.string.founded,amount)
     }
 
     private fun setInvalidRequestScreen() {
@@ -164,8 +155,8 @@ class SearchFragment : Fragment() {
                 searchJob?.cancel()
                 searchJob = viewLifecycleOwner.lifecycleScope.launch {
                     delay(SEARCH_DEBOUNCE_DELAY_MILS)
-                    filter.request = s?.toString() ?: ""
-                    viewModel.loadJobs()
+
+                    viewModel.loadJobs(s?.toString() ?: "")
 
                 }
             }
@@ -189,6 +180,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun clearText() {
+        searchJob?.cancel()
         binding.etSearch.setText("")
         val endDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.search)
         binding.etSearch.setCompoundDrawablesRelativeWithIntrinsicBounds(
