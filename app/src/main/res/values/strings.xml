@@ -58,4 +58,5 @@
     <string name="enter_industry">Введите отрасль</string>
     <string name="btn_accept">Применить</string>
     <string name="btn_reset">Сбросить</string>
+    <string name="choose">Выбрать</string>
 </resources>
