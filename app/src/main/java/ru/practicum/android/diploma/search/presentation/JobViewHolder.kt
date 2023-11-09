@@ -12,7 +12,7 @@ class JobViewHolder(private val binding: RecyclerVacancyItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(job: Job) {
-        binding.department.text = job.department
+        binding.department.text = job.employer
         binding.salary.text = job.salary
         binding.tvJobName.text = job.name
 

@@ -56,4 +56,6 @@
     <string name="no_internet">Нет интернета</string>
     <string name="choosing_industry">Выбор отрасли</string>
     <string name="enter_industry">Введите отрасль</string>
+    <string name="btn_accept">Применить</string>
+    <string name="btn_reset">Сбросить</string>
 </resources>

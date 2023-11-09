@@ -24,24 +24,28 @@ class RootActivity : AppCompatActivity() {
         val bottomNavBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavBar.setupWithNavController(navController)
 
-        // На будущее когда потребуется убирать строку команд в заисимости от экрана
-
-//        navController.addOnDestinationChangedListener { _, destination, _ ->
-//            when (destination.id) {
-//                R.id.playerFragment -> {
-//                    bottomNavBar.visibility = View.GONE
-//                }
-//                R.id.newPlaylistFragment -> {
-//                    bottomNavBar.visibility = View.GONE
-//                }
-//                R.id.showAlbumFragment ->{
-//                    bottomNavBar.visibility = View.GONE
-//                }
-//                else -> {
-//                    bottomNavBar.visibility = View.VISIBLE
-//                }
-//            }
-//        }
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.filterSettingsFragment -> {
+                    bottomNavBar.visibility = View.GONE
+                }
+                R.id.placesOfWorkFragment -> {
+                    bottomNavBar.visibility = View.GONE
+                }
+                R.id.countrySelectionFragment ->{
+                    bottomNavBar.visibility = View.GONE
+                }
+                R.id.choosingRegionFragment ->{
+                    bottomNavBar.visibility = View.GONE
+                }
+                R.id.choosingIndustryFragment ->{
+                    bottomNavBar.visibility = View.GONE
+                }
+                else -> {
+                    bottomNavBar.visibility = View.VISIBLE
+                }
+            }
+        }
 
     }
 

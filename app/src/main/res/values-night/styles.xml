@@ -33,4 +33,15 @@
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
+    <style name="ThemeOverlay.AppTheme.TextInputEditText.Outlined" parent="">
+        <item name="colorControlActivated">@color/blue</item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextColor">?attr/colorOnSecondary</item>
+        <item name="android:drawable">@drawable/bg_et_search</item>
+        <item name="endIconDrawable">@drawable/search</item>
+        <item name="boxStrokeColor">@color/box_stroke</item>
+    </style>
+
 </resources>
