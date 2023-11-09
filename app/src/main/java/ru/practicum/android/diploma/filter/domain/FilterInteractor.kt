@@ -1,9 +1,10 @@
-package ru.practicum.android.diploma.filter.data
+package ru.practicum.android.diploma.filter.domain
 
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 
-interface FilterStorage {
+interface FilterInteractor {
+
     fun getFilterSettings(): FilterParameters
-    fun saveFilterSettings(filterParameters: FilterParameters)
     fun clearFilterSettings()
+    fun saveSalarySettings(salary: String, onlyWithSalary: Boolean)
 }
