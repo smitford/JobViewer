@@ -9,16 +9,15 @@ import ru.practicum.android.diploma.favorite.data.impl.JobFavoriteRepositoryImpl
 import ru.practicum.android.diploma.favorite.domain.api.JobFavoriteRepository
 import ru.practicum.android.diploma.favorite.domain.impl.JobFavoriteInteractorImpl
 import ru.practicum.android.diploma.favorite.presentation.api.JobFavoriteInteractor
-import ru.practicum.android.diploma.job.data.repositoryimpl.JobRepositoryImpl
-import ru.practicum.android.diploma.job.domain.api.JobRepository
-import ru.practicum.android.diploma.job.domain.usecases.impl.LoadJobUseCase
-import ru.practicum.android.diploma.job.domain.usecases.impl.LoadJobUseCaseImpl
+import ru.practicum.android.diploma.job.data.impl.JobRepositoryImpl
+import ru.practicum.android.diploma.job.data.impl.mapper.JobForScreenMapper
+import ru.practicum.android.diploma.job.domain.interactor.LoadJobInteractor
+import ru.practicum.android.diploma.job.domain.impl.LoadJobInteractorImpl
 import ru.practicum.android.diploma.job.presentation.viewmodel.JobFragmentViewModel
-import ru.practicum.android.diploma.job.sharing.data.SharingRepositoryImpl
-import ru.practicum.android.diploma.job.sharing.domain.impl.SharingInteractorImpl
-import ru.practicum.android.diploma.job.sharing.domain.interactor.SharingInteractor
-import ru.practicum.android.diploma.job.sharing.domain.repository.SharingRepository
-import ru.practicum.android.diploma.search.presentation.SearchViewModel
+import ru.practicum.android.diploma.sharing.data.SharingRepositoryImpl
+import ru.practicum.android.diploma.sharing.domain.impl.SharingInteractorImpl
+import ru.practicum.android.diploma.sharing.domain.interactor.SharingInteractor
+import ru.practicum.android.diploma.sharing.domain.repository.SharingRepository
 
 val jobModule = module {
 
@@ -44,19 +43,19 @@ val jobModule = module {
         SharingInteractorImpl(get())
     }
 
-    single<JobRepository> {
-        JobRepositoryImpl(networkClient = get())
+    single {
+        JobForScreenMapper()
     }
 
-    factory<LoadJobUseCase> {
-        LoadJobUseCaseImpl(repository = get())
+    single {
+        JobRepositoryImpl(get(), get())
+    }
+
+    factory<LoadJobInteractor> {
+        LoadJobInteractorImpl(get())
     }
 
     viewModel {
-        JobFragmentViewModel(
-            sharingInteractor = get(),
-            loadJobUseCaseImpl = get()
-        )
+        JobFragmentViewModel(get(), get())
     }
-
 }

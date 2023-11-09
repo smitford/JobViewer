@@ -1,9 +1,9 @@
-package ru.practicum.android.diploma.job.sharing.data
+package ru.practicum.android.diploma.sharing.data
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import ru.practicum.android.diploma.job.sharing.domain.repository.SharingRepository
+import ru.practicum.android.diploma.sharing.domain.repository.SharingRepository
 
 class SharingRepositoryImpl(private val context: Context) : SharingRepository {
 

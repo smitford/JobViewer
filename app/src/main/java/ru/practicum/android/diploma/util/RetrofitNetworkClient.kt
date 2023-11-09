@@ -6,7 +6,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenRequest
 import ru.practicum.android.diploma.search.data.models.JobSearchRequest
 import ru.practicum.android.diploma.search.data.models.ResponseDto
@@ -30,6 +29,7 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
         if (!isConnected()) return ResponseDto()
 
         return when (dto) {
+            //Поиск вакансий
             is JobSearchRequest -> try {
                 val resp = hhService.getJobList(
                     options = dto.queryMap
@@ -39,11 +39,10 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }
             }
 
-            //Тут добавляете реализацию своего запроса
-
+            //Просмотр вакансии
             is JobDtoForScreenRequest -> try {
                 val resp = hhService.getJobById(
-                   id = dto.id
+                    id = dto.id
                 )
                 resp.apply { responseCode = ResultCodes.SUCCESS }
             } catch (e: Exception) {

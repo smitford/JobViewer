@@ -1,7 +1,7 @@
-package ru.practicum.android.diploma.job.sharing.domain.impl
+package ru.practicum.android.diploma.sharing.domain.impl
 
-import ru.practicum.android.diploma.job.sharing.domain.interactor.SharingInteractor
-import ru.practicum.android.diploma.job.sharing.domain.repository.SharingRepository
+import ru.practicum.android.diploma.sharing.domain.interactor.SharingInteractor
+import ru.practicum.android.diploma.sharing.domain.repository.SharingRepository
 
 class SharingInteractorImpl(private val sharingRepository: SharingRepository) : SharingInteractor {
     override fun shareJobLink(jobLink: String) {

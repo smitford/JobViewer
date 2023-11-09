@@ -4,7 +4,7 @@ import ru.practicum.android.diploma.search.data.models.LogoUrls
 
 data class Employer(
     val id: String?,
-    val logoUrls: LogoUrls?,
+    val logo_urls: LogoUrls?,
     val name: String,
     val url: String?
 )
