@@ -25,20 +25,26 @@ import ru.practicum.android.diploma.search.presentation.models.SearchStates
 
 class SearchFragment : Fragment() {
 
-    private lateinit var binding: FragmentSearchBinding
-
-    private val viewModel: SearchViewModel by viewModel()
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel by viewModel<SearchViewModel>()
     private lateinit var jobClickCb: (String) -> Unit
     private var searchJob: Job? = null
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        viewModel.refreshFilter()
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -65,6 +71,7 @@ class SearchFragment : Fragment() {
                 }
 
                 is SearchStates.Loading -> setLoadingScreen()
+                else -> Unit
             }
         }
 
@@ -81,6 +88,11 @@ class SearchFragment : Fragment() {
             clearText()
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setDefaultScreen() {
@@ -116,7 +128,7 @@ class SearchFragment : Fragment() {
         binding.searchProgressBar.visibility = GONE
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = VISIBLE
-        binding.tvRvHeader.text = getString(R.string.founded,amount)
+        binding.tvRvHeader.text = getString(R.string.founded, addSeparator(amount))
     }
 
     private fun setInvalidRequestScreen() {
@@ -137,6 +149,7 @@ class SearchFragment : Fragment() {
         binding.tvRvHeader.visibility = GONE
     }
 
+    private fun addSeparator(number: Int) = "%,d".format(number).replace(",", " ")
     private fun tWCreator() = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             changeVisBottomNav(GONE)

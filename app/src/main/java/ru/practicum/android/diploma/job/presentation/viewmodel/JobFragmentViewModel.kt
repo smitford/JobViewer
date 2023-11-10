@@ -50,5 +50,8 @@ class JobFragmentViewModel(
             Codes.NO_NET_CONNECTION -> {
                 Log.d("requestHandlerJob", jobForScreenInfo.responseCodes.name)
             }
+            Codes.NO_RESULTS->{
+                Log.d("requestHandlerJob", jobForScreenInfo.responseCodes.name)
+            }
         }
 }

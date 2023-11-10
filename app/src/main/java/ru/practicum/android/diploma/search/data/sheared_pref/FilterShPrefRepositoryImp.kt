@@ -9,11 +9,10 @@ import ru.practicum.android.diploma.util.DataUtils
 
 
 class FilterShPrefRepositoryImp(
-    private val sharePref: SharedPreferences
+    private val sharePref: SharedPreferences,
+    private val gson: Gson
 ) :
     FilterShPrefRepository {
-
-    private val gson = Gson()
     override fun getFilter(): Filter {
         val filterString = sharePref.getString(DataUtils.FILTER_SETTINGS, null)
         val filter = try {

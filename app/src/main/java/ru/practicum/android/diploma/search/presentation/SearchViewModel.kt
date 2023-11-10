@@ -16,21 +16,26 @@ class SearchViewModel(
     private val loadJobsUseCase: LoadJobsUseCase,
     private val getSearchFilterUseCase: GetSearchFilterUseCase
 ) : ViewModel() {
+    private var filter: Filter =
+        Filter(area = null, industry = null, salary = null, onlyWithSalary = false)
 
-    private var filter: Filter = Filter(
-        page = 0,
-        request = "android",
-        area = null,
-        industry = null,
-        salary = null,
-        onlyWithSalary = false
-    )
+    /*
+    init {
+        filter = getFilter()
+    }
+
+     */
+
     private var state: SearchStates = SearchStates.Default
     private val stateLiveData = MutableLiveData(state)
 
     fun loadJobs(text: String) {
         if (text.isBlank()) return
         filter.request = text
+        search()
+    }
+
+    private fun search() {
         stateLiveData.value = SearchStates.Loading
         viewModelScope.launch {
             loadJobsUseCase.execute(filter = filter).collect { jobsInfo ->
@@ -39,9 +44,24 @@ class SearchViewModel(
         }
     }
 
+    private fun refreshSearch() {
+        if (filter.request.isBlank()) return else search()
+    }
+
     fun getFilterRequest(): String = filter.request
 
     fun getState() = stateLiveData
+
+    private fun getFilter() = getSearchFilterUseCase.execute()
+
+    fun refreshFilter() {
+        val newFiler = getFilter()
+        if (newFiler != filter) {
+            newFiler.request = filter.request
+            filter = newFiler
+            refreshSearch()
+        }
+    }
 
     private fun requestHandler(jobsInfo: JobsInfo) {
         when (jobsInfo.responseCodes) {
