@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,10 +12,12 @@
         android:id="@+id/ll_top_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_16dp"
         android:gravity="center_vertical"
         android:minHeight="@dimen/minHeightToolBar_64dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/ib_arrow_back"
@@ -36,23 +38,145 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_country"
+        android:id="@+id/tv_country_clear"
         style="@style/MenuPointsStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/heightPoints_60dp"
+        android:layout_marginTop="@dimen/margin_16dp"
         android:paddingHorizontal="@dimen/margin_16dp"
         android:text="@string/country"
         android:textColor="?attr/colorOnSecondary"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
+        app:drawableEndCompat="@drawable/ic_arrow_forward_24px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons" />
 
     <TextView
-        android:id="@+id/tv_region"
+        android:id="@+id/tv_region_clear"
         style="@style/MenuPointsStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/heightPoints_60dp"
         android:paddingHorizontal="@dimen/margin_16dp"
         android:text="@string/region"
         android:textColor="?attr/colorOnSecondary"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
+        app:drawableEndCompat="@drawable/ic_arrow_forward_24px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_country_clear" />
 
-</LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_country"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heightPoints_60dp"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons">
+
+        <TextView
+            android:id="@+id/tv_country_title"
+            style="@style/textRegular12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_12dp"
+            android:layout_marginEnd="@dimen/margin_4dp"
+            android:text="@string/country"
+            app:layout_constraintEnd_toStartOf="@+id/iv_clear_country"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_country_text"
+            style="@style/textRegular16"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginEnd="@dimen/margin_4dp"
+            android:layout_marginBottom="@dimen/margin_12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_clear_country"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_country_title"
+            tools:text="Россия" />
+
+        <ImageView
+            android:id="@+id/iv_clear_country"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/cross"
+            android:padding="@dimen/margin_16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_region"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heightPoints_60dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_country_clear">
+
+        <TextView
+            android:id="@+id/tv_region_title"
+            style="@style/textRegular12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_12dp"
+            android:layout_marginEnd="@dimen/margin_4dp"
+            android:text="@string/region"
+            app:layout_constraintEnd_toStartOf="@+id/iv_clear_region"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_region_text"
+            style="@style/textRegular16"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginEnd="@dimen/margin_4dp"
+            android:layout_marginBottom="@dimen/margin_12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_clear_region"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_region_title"
+            tools:text="Москва" />
+
+        <ImageView
+            android:id="@+id/iv_clear_region"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:padding="@dimen/margin_16dp"
+            android:src="@drawable/cross"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_choose"
+        style="@style/ButtonAccept"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16dp"
+        android:layout_marginBottom="@dimen/margin_24dp"
+        android:paddingHorizontal="@dimen/margin_8dp"
+        android:paddingVertical="@dimen/margin_20dp"
+        android:text="@string/choose"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

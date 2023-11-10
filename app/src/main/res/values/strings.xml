@@ -59,4 +59,5 @@
     <string name="empty_salary">зарплата не указана</string>
     <string name="btn_accept">Применить</string>
     <string name="btn_reset">Сбросить</string>
+    <string name="choose">Выбрать</string>
 </resources>
