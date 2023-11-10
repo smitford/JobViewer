@@ -1,20 +1,18 @@
 package ru.practicum.android.diploma.job.domain.models
 
-import ru.practicum.android.diploma.job.data.secondarymodels.Phones
-import ru.practicum.android.diploma.job.data.secondarymodels.Skill
+import ru.practicum.android.diploma.job.data.secondarymodels.Skills
 
 data class JobForScreen(
     val id: String?,
     val name: String?,
     val salaryFrom: String?,
-    val employerUrl: String?,
+    val employerLogoUrl: String?,
     val employerName: String?,
     val area: String?,
     val experience: String?,
     val employment: String?,
     val description: String?,
-    val keySkills: List<Skill?>,
+    val keySkills: List<Skills?>,
     val contactsName: String?,
-    val email: String?,
-    val phonesNumber: List<Phones>?
+    val email: String?
 )

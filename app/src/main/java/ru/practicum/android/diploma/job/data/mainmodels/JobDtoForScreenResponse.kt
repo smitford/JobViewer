@@ -5,8 +5,8 @@ import ru.practicum.android.diploma.job.data.secondarymodels.Contacts
 import ru.practicum.android.diploma.job.data.secondarymodels.Employer
 import ru.practicum.android.diploma.job.data.secondarymodels.Employment
 import ru.practicum.android.diploma.job.data.secondarymodels.Experience
+import ru.practicum.android.diploma.job.data.secondarymodels.Skills
 import ru.practicum.android.diploma.job.data.secondarymodels.Salary
-import ru.practicum.android.diploma.job.data.secondarymodels.Skill
 import ru.practicum.android.diploma.search.data.models.ResponseDto
 
 data class JobDtoForScreenResponse(
@@ -18,6 +18,6 @@ data class JobDtoForScreenResponse(
     val experience: Experience?,
     val employment: Employment?,
     val description: String?,
-    val key_skills: List<Skill?>,
+    val key_skills: List<Skills?>,
     val contacts: Contacts?
 ) : ResponseDto()
