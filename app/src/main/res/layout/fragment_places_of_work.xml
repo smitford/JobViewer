@@ -42,11 +42,11 @@
         style="@style/MenuPointsStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/heightPoints_60dp"
+        android:layout_marginTop="@dimen/margin_16dp"
         android:paddingHorizontal="@dimen/margin_16dp"
         android:text="@string/country"
         android:textColor="?attr/colorOnSecondary"
         app:drawableEndCompat="@drawable/ic_arrow_forward_24px"
-        android:layout_marginTop="@dimen/margin_16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons" />
@@ -68,22 +68,22 @@
         android:id="@+id/cl_country"
         android:layout_width="match_parent"
         android:layout_height="@dimen/heightPoints_60dp"
-        android:orientation="horizontal"
         android:layout_marginTop="@dimen/margin_16dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons"
-        android:visibility="gone">
+        app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons">
 
         <TextView
             android:id="@+id/tv_country_title"
+            style="@style/textRegular12"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/country"
-            style="@style/textRegular12"
             android:layout_marginStart="@dimen/margin_16dp"
             android:layout_marginTop="@dimen/margin_12dp"
             android:layout_marginEnd="@dimen/margin_4dp"
+            android:text="@string/country"
             app:layout_constraintEnd_toStartOf="@+id/iv_clear_country"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -94,8 +94,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_16dp"
-            android:layout_marginBottom="@dimen/margin_12dp"
             android:layout_marginEnd="@dimen/margin_4dp"
+            android:layout_marginBottom="@dimen/margin_12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/iv_clear_country"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,8 +106,8 @@
             android:id="@+id/iv_clear_country"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:padding="@dimen/margin_16dp"
             android:src="@drawable/cross"
+            android:padding="@dimen/margin_16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -166,7 +166,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_reset"
+        android:id="@+id/btn_choose"
         style="@style/ButtonAccept"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
