@@ -26,7 +26,7 @@
     <string name="enter_request">Введите запрос</string>
     <string name="internet_connection_issue">Нет интернета</string>
     <string name="vacancy_mismatch">Таких вакансий нет</string>
-    <string name="founded">Найдено %1$d вакансий</string>
+    <string name="founded">Найдено %s вакансий</string>
     <string name="filter_settings">Настройки фильтрации</string>
     <string name="place_of_work">Место работы</string>
     <string name="sector">Отрасль</string>
