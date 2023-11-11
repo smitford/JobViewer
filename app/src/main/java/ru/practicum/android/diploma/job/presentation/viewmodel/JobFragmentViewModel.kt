@@ -59,5 +59,8 @@ class JobFragmentViewModel(
                 _state.postValue(JobScreenState.ConnectionError)
                 Log.d("requestHandlerJob", jobForScreenInfo.responseCodes.name)
             }
+            Codes.NO_RESULTS->{
+                Log.d("requestHandlerJob", jobForScreenInfo.responseCodes.name)
+            }
         }
 }

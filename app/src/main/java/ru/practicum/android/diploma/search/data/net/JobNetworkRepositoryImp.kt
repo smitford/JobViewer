@@ -9,14 +9,14 @@ import ru.practicum.android.diploma.search.data.models.ResultCodes
 import ru.practicum.android.diploma.search.domain.api.JobNetworkRepository
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
 import ru.practicum.android.diploma.search.domain.models.Filter
-import ru.practicum.android.diploma.search.domain.models.Job
+import ru.practicum.android.diploma.search.domain.models.JobsInfo
 import ru.practicum.android.diploma.util.NetworkClient
 
 class JobNetworkRepositoryImp(private val networkClient: NetworkClient) : JobNetworkRepository {
 
     override suspend fun getJobs(
         filter: Filter
-    ): Flow<DtoConsumer<List<Job>>> =
+    ): Flow<DtoConsumer<JobsInfo>> =
         flow {
             val response = networkClient.doRequest(AdapterJob.filterToJobReq(filter))
             when (response.responseCode) {
@@ -24,8 +24,8 @@ class JobNetworkRepositoryImp(private val networkClient: NetworkClient) : JobNet
                     DtoConsumer.Success(
                         AdapterJob
                             .jobInfoDtoToJobInfo(
+                                code = response.responseCode.code,
                                 response = (response as JobSearchResponseDto)
-                                    .items
                             )
                     )
                 )
