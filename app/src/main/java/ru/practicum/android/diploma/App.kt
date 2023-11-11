@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma
 
 import android.app.Application
+import android.content.res.Resources
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import ru.practicum.android.diploma.favorite.di.favoriteModule
@@ -26,5 +27,4 @@ class App : Application() {
         }
 
     }
-
 }

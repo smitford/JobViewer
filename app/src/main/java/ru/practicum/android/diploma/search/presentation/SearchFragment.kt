@@ -178,7 +178,6 @@ class SearchFragment : Fragment() {
         override fun afterTextChanged(s: Editable?) {
             changeVisBottomNav(VISIBLE)
         }
-
     }
 
     private fun initClickCb(): (String) -> Unit = { jobId ->
@@ -203,7 +202,6 @@ class SearchFragment : Fragment() {
             null
         )
     }
-
 
     companion object {
         const val VISIBLE = View.VISIBLE

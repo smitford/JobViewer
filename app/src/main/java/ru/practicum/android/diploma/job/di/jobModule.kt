@@ -44,7 +44,7 @@ val jobModule = module {
     }
 
     single {
-        JobForScreenMapper()
+        JobForScreenMapper(get())
     }
 
     single {

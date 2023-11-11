@@ -66,6 +66,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_job_name"
                         style="@style/job32Text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -74,6 +75,7 @@
                         tools:text="[Android-разработчик]" />
 
                     <TextView
+                        android:id="@+id/tv_salary"
                         style="@style/job22Text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -138,7 +140,7 @@
 
                     <!--Schedule-->
                     <TextView
-                        android:id="@+id/tv_schedule"
+                        android:id="@+id/tv_employment"
                         style="@style/job16TextRegular"
                         android:layout_marginTop="@dimen/margin_8dp"
                         tools:text="[Полная занятость, Удаленная работа]" />
@@ -217,6 +219,7 @@
                         android:text="@string/comment" />
 
                     <TextView
+                        android:id="@+id/tv_comments"
                         style="@style/job16TextRegular"
                         android:layout_marginTop="@dimen/margin_4dp"
                         android:layout_marginBottom="@dimen/margin_24dp"

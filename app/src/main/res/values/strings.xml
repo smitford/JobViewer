@@ -60,4 +60,13 @@
     <string name="btn_accept">Применить</string>
     <string name="btn_reset">Сбросить</string>
     <string name="choose">Выбрать</string>
+    <string name="RUR">₽</string>
+    <string name="USD">$</string>
+    <string name="AZN">₼</string>
+    <string name="BYR">Br</string>
+    <string name="EUR">€</string>
+    <string name="GEL">₾</string>
+    <string name="KGS">с</string>
+    <string name="KZT">₸</string>
+    <string name="UAH">₴</string>
 </resources>
