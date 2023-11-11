@@ -219,6 +219,7 @@
                         android:text="@string/comment" />
 
                     <TextView
+                        android:id="@+id/tv_comments"
                         style="@style/job16TextRegular"
                         android:layout_marginTop="@dimen/margin_4dp"
                         android:layout_marginBottom="@dimen/margin_24dp"

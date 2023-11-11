@@ -3,12 +3,11 @@ package ru.practicum.android.diploma.util
 import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
-import android.util.Log
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.job.data.impl.mapper.TypeForMapper
 import ru.practicum.android.diploma.job.data.secondarymodels.Phones
 import ru.practicum.android.diploma.job.data.secondarymodels.Skills
 import ru.practicum.android.diploma.job.data.secondarymodels.Salary
-import java.util.Objects
 
 
 object TextUtils {
@@ -28,58 +27,49 @@ object TextUtils {
         return "$from $to ${checkCurrencyIcon(salaryDto?.currency, resourceProvider)}"
     }
 
-    fun checkCurrencyIcon(currency: String?, resourceProvider: ResourceProvider): String {
+    private fun checkCurrencyIcon(currency: String?, resourceProvider: ResourceProvider): String {
         return when (currency) {
-            "RUR" -> {
-                resourceProvider.getString(R.string.RUR)
-            }
-
-            "USD" -> {
-                resourceProvider.getString(R.string.USD)
-            }
-
-            "AZN" -> {
-                resourceProvider.getString(R.string.AZN)
-            }
-
-            "BYR" -> {
-                resourceProvider.getString(R.string.BYR)
-            }
-
-            "EUR" -> {
-                resourceProvider.getString(R.string.EUR)
-            }
-
-            "GEL" -> {
-                resourceProvider.getString(R.string.GEL)
-            }
-
-            "KGS" -> {
-                resourceProvider.getString(R.string.KGS)
-            }
-
-            "KZT" -> {
-                resourceProvider.getString(R.string.KZT)
-            }
-
-            "UAH" -> {
-                resourceProvider.getString(R.string.UAH)
-            }
-
+            "RUR" -> {resourceProvider.getString(R.string.RUR)}
+            "USD" -> {resourceProvider.getString(R.string.USD)}
+            "AZN" -> {resourceProvider.getString(R.string.AZN)}
+            "BYR" -> {resourceProvider.getString(R.string.BYR)}
+            "EUR" -> {resourceProvider.getString(R.string.EUR)}
+            "GEL" -> {resourceProvider.getString(R.string.GEL)}
+            "KGS" -> {resourceProvider.getString(R.string.KGS)}
+            "KZT" -> {resourceProvider.getString(R.string.KZT)}
+            "UAH" -> {resourceProvider.getString(R.string.UAH)}
             else -> {
                 return ""
             }
         }
     }
 
-    fun keySkillsToString(keySkills: List<Skills?>): String {
-        var formattedSkills = ""
-        if (keySkills.isNotEmpty()) {
-            for (i in keySkills.indices) {
-                formattedSkills += ("• " + keySkills[i]?.name + "\n")
+    fun arrayToStrInJob(array: Array<Any>?, itemType: TypeForMapper): String {
+        var formattedString = ""
+        if (!array.isNullOrEmpty()) {
+            for (i in array.indices) {
+                val item: Any
+                when(itemType) {
+                   is TypeForMapper.Skills ->
+                       if (array.isArrayOf<Skills>()) {
+                           item = array[i] as Skills
+                           formattedString += ("• " + item.name + "\n")
+                       }
+                   is TypeForMapper.Phones ->
+                       if (array.isArrayOf<Phones>()) {
+                           item = array[i] as Phones
+                           formattedString += (item.formatted + "\n")
+                       }
+                    is TypeForMapper.Comment ->
+                        if (array.isArrayOf<Phones>()) {
+                            item = array[i] as Phones
+                            formattedString += (item.comment + "\n")
+                        }
+
+                }
             }
         }
-        return formattedSkills
+        return formattedString
     }
 
     fun fromHtml(html: String?): Spanned? {

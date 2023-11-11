@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.job.domain.models
 
+import ru.practicum.android.diploma.job.data.secondarymodels.Phones
 import ru.practicum.android.diploma.job.data.secondarymodels.Skills
 
 data class JobForScreen(
@@ -12,7 +13,8 @@ data class JobForScreen(
     val experience: String?,
     val employment: String?,
     val description: String?,
-    val keySkills: List<Skills?>,
+    val keySkills: Array<Skills?>,
     val contactsName: String?,
-    val email: String?
+    val email: String?,
+    val phones: Array<Phones?>?
 )

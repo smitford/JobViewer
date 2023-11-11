@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentJobBinding
+import ru.practicum.android.diploma.job.data.impl.mapper.TypeForMapper
 import ru.practicum.android.diploma.job.domain.models.JobForScreen
 import ru.practicum.android.diploma.job.presentation.states.JobScreenState
 import ru.practicum.android.diploma.job.presentation.viewmodel.JobFragmentViewModel
@@ -66,6 +67,7 @@ class JobFragment : Fragment() {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun fillContent(job: JobForScreen) {
         with(binding) {
             tvJobName.text = job.name
@@ -88,8 +90,18 @@ class JobFragment : Fragment() {
             tvRequiredExperience.text = job.experience
             tvEmployment.text = job.employment
             tvJobDiscription.text = TextUtils.fromHtml(job.description)
-            tvMainSkills.text = TextUtils.keySkillsToString(job.keySkills)
+            tvMainSkills.text =
+                TextUtils.arrayToStrInJob(job.keySkills as Array<Any>, TypeForMapper.Skills)
             tvEmailContacts.text = job.email
+            tvPhoneContacts.text =
+                TextUtils.arrayToStrInJob(
+                    job.phones?.let { job.phones as Array<Any> },
+                    TypeForMapper.Phones
+                )
+            tvComments.text = TextUtils.arrayToStrInJob(
+                job.phones?.let { job.phones as Array<Any> },
+                TypeForMapper.Comment
+            )
         }
     }
 
