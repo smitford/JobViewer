@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.practicum.android.diploma.filter.data.models.FilterRequest
 import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenRequest
 import ru.practicum.android.diploma.search.data.models.JobSearchRequest
 import ru.practicum.android.diploma.search.data.models.ResponseDto
@@ -44,6 +45,14 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
                 val resp = hhService.getJobById(
                     id = dto.id
                 )
+                resp.apply { responseCode = ResultCodes.SUCCESS }
+            } catch (e: Exception) {
+                ResponseDto().apply { responseCode = ResultCodes.ERROR }
+            }
+
+            //Список стран
+            is FilterRequest.Countries -> try {
+                val resp = hhService.getCountries()
                 resp.apply { responseCode = ResultCodes.SUCCESS }
             } catch (e: Exception) {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }

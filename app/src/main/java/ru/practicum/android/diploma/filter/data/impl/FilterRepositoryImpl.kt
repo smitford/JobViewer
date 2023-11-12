@@ -1,10 +1,17 @@
 package ru.practicum.android.diploma.filter.data.impl
 
+import kotlinx.coroutines.flow.Flow
+import ru.practicum.android.diploma.filter.data.FilterNetwork
 import ru.practicum.android.diploma.filter.data.FilterStorage
 import ru.practicum.android.diploma.filter.domain.FilterRepository
+import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
+import ru.practicum.android.diploma.search.domain.api.DtoConsumer
 
-class FilterRepositoryImpl(private val filterStorage: FilterStorage) : FilterRepository {
+class FilterRepositoryImpl(
+    private val filterStorage: FilterStorage,
+    private val filterNetwork: FilterNetwork
+    ) : FilterRepository {
     override fun getFilterSettings(): FilterParameters {
         return filterStorage.getFilterSettings()
     }
@@ -25,5 +32,9 @@ class FilterRepositoryImpl(private val filterStorage: FilterStorage) : FilterRep
                 onlyWithSalary = onlyWithSalary
             )
         )
+    }
+
+    override suspend fun getCountries(): Flow<DtoConsumer<List<Country>>> {
+        return filterNetwork.getCountries()
     }
 }
