@@ -1,11 +1,11 @@
 package ru.practicum.android.diploma.util
 
-import com.google.gson.annotations.SerializedName
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
+import ru.practicum.android.diploma.filter.data.models.CountriesResponse
 import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenResponse
 import ru.practicum.android.diploma.search.data.models.JobSearchResponseDto
 
@@ -27,6 +27,13 @@ interface HhApiJobInfo {
     )
     @GET("vacancies/{vacancy_id}")
     suspend fun getJobById(@Path("vacancy_id") id: String): JobDtoForScreenResponse
+
+    //Получение списка стран
+    @Headers(
+        USER
+    )
+    @GET("areas/countries")
+    suspend fun getCountries(): CountriesResponse
 
     companion object {
         const val HEADER_AUTH = "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}"

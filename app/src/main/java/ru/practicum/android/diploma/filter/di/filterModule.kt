@@ -5,7 +5,9 @@ import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import ru.practicum.android.diploma.filter.data.FilterNetwork
 import ru.practicum.android.diploma.filter.data.FilterStorage
+import ru.practicum.android.diploma.filter.data.impl.FilterNetworkImpl
 import ru.practicum.android.diploma.filter.data.impl.FilterRepositoryImpl
 import ru.practicum.android.diploma.filter.data.impl.FilterStorageImpl
 import ru.practicum.android.diploma.filter.domain.FilterInteractor
@@ -30,8 +32,12 @@ val filterModule = module {
         FilterStorageImpl(get(),get())
     }
 
+    single <FilterNetwork> {
+        FilterNetworkImpl(get())
+    }
+
     single <FilterRepository> {
-        FilterRepositoryImpl(get())
+        FilterRepositoryImpl(get(),get())
     }
 
     single <FilterInteractor> {
