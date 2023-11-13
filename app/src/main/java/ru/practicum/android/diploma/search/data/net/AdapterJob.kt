@@ -85,7 +85,7 @@ object AdapterJob {
         // request["per_page"] = filter.request
         if (filter.area != null) request["areaId"] = filter.area
         if (filter.industry != null) request["industryId"] = filter.industry
-        if (filter.salary != null) request["areaId"] = filter.salary.toString()
+        if (filter.salary != null) request["salary"] = filter.salary.toString()
 
         return request
     }
