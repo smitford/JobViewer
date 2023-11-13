@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.similarjob.SimilarJobState
 
 interface SimilarJobRepository {
-    fun getSimilarJobs(vacancyId:Long): Flow<Pair<SimilarJobState, ArrayList<JobInfo>>>
+    fun getSimilarJobs(vacancyId:String): Flow<Pair<SimilarJobState, ArrayList<JobInfo>>>
 }

@@ -21,7 +21,7 @@ val similarJobModule = module {
     }
 
     single<SimilarJobRepository> {
-        SimilarJobRepositoryImpl()
+        SimilarJobRepositoryImpl(get())
     }
 
 

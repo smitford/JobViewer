@@ -7,7 +7,8 @@ import ru.practicum.android.diploma.similarjob.domain.api.SimilarJobRepository
 import ru.practicum.android.diploma.similarjob.presentation.api.SimilarJobInteractor
 
 class SimilarJobInteractorImpl(private val similarJobRepository: SimilarJobRepository): SimilarJobInteractor {
-    override fun getSimilarJobs(vacancyId: Long): Flow<Pair<SimilarJobState, ArrayList<JobInfo>>> {
+    override fun getSimilarJobs(vacancyId: String): Flow<Pair<SimilarJobState, ArrayList<JobInfo>>> {
         return similarJobRepository.getSimilarJobs(vacancyId)
     }
+
 }
