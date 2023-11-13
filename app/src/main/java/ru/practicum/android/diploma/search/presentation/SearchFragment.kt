@@ -19,36 +19,32 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.search.domain.models.Filter
 import ru.practicum.android.diploma.search.presentation.models.SearchStates
 
 class SearchFragment : Fragment() {
 
-    private lateinit var binding: FragmentSearchBinding
-    private var filter: Filter = Filter(
-        page = 0,
-        request = "android",
-        area = null,
-        industry = null,
-        salary = null,
-        onlyWithSalary = false
-    )
-
-    private val viewModel: SearchViewModel by viewModel { parametersOf(filter) }
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel by viewModel<SearchViewModel>()
     private lateinit var jobClickCb: (String) -> Unit
     private var searchJob: Job? = null
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        viewModel.refreshFilter()
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -69,11 +65,13 @@ class SearchFragment : Fragment() {
                 is SearchStates.ConnectionError -> setConnectionLostScreen()
                 is SearchStates.InvalidRequest -> setInvalidRequestScreen()
                 is SearchStates.Success -> {
-                    setSuccessScreen(state.trackList.count()) //Передать общее кол-во найденных вакансий
-                    adapter.jobsList = state.trackList.toMutableList()
+                    setSuccessScreen(state.found) //Передать общее кол-во найденных вакансий
+                    adapter.jobsList = state.jobList.toMutableList()
                     adapter.notifyDataSetChanged()
                 }
+
                 is SearchStates.Loading -> setLoadingScreen()
+                else -> Unit
             }
         }
 
@@ -90,6 +88,11 @@ class SearchFragment : Fragment() {
             clearText()
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setDefaultScreen() {
@@ -125,7 +128,7 @@ class SearchFragment : Fragment() {
         binding.searchProgressBar.visibility = GONE
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = VISIBLE
-        binding.tvRvHeader.text = amount.toString()
+        binding.tvRvHeader.text = getString(R.string.founded, addSeparator(amount))
     }
 
     private fun setInvalidRequestScreen() {
@@ -146,6 +149,7 @@ class SearchFragment : Fragment() {
         binding.tvRvHeader.visibility = GONE
     }
 
+    private fun addSeparator(number: Int) = "%,d".format(number).replace(",", " ")
     private fun tWCreator() = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             changeVisBottomNav(GONE)
@@ -164,8 +168,8 @@ class SearchFragment : Fragment() {
                 searchJob?.cancel()
                 searchJob = viewLifecycleOwner.lifecycleScope.launch {
                     delay(SEARCH_DEBOUNCE_DELAY_MILS)
-                    filter.request = s?.toString() ?: ""
-                    viewModel.loadJobs()
+
+                    viewModel.loadJobs(s?.toString() ?: "")
 
                 }
             }
@@ -174,7 +178,6 @@ class SearchFragment : Fragment() {
         override fun afterTextChanged(s: Editable?) {
             changeVisBottomNav(VISIBLE)
         }
-
     }
 
     private fun initClickCb(): (String) -> Unit = { jobId ->
@@ -189,6 +192,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun clearText() {
+        searchJob?.cancel()
         binding.etSearch.setText("")
         val endDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.search)
         binding.etSearch.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -198,7 +202,6 @@ class SearchFragment : Fragment() {
             null
         )
     }
-
 
     companion object {
         const val VISIBLE = View.VISIBLE

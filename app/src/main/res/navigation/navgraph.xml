@@ -29,7 +29,7 @@
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/jobFragment"
-        android:name="ru.practicum.android.diploma.job.presentation.JobFragment"
+        android:name="ru.practicum.android.diploma.job.presentation.fragment.JobFragment"
         android:label="fragment_job"
         tools:layout="@layout/fragment_job" >
         <argument
