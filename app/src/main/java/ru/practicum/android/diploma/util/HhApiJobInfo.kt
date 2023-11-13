@@ -40,7 +40,7 @@ interface HhApiJobInfo {
         USER
     )
     @GET("vacancies/{vacancy_id}/similar_vacancies")
-    suspend fun getSimilarVacancies(@Path("vacancy_di")vacancyId: String) :
+    suspend fun getSimilarVacancies(@Path("vacancy_id")vacancyId: String) :
             JobSearchResponseDto
 
     companion object{
