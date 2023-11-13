@@ -44,9 +44,12 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_placeholder_png" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="80dp"
+        android:layout_marginStart="@dimen/margin_16dp"
+        android:layout_marginEnd="@dimen/margin_16dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
