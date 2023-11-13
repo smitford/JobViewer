@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_job_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="@dimen/margin_16dp"
@@ -49,11 +50,12 @@
                     android:layout_gravity="end"
                     android:layout_marginStart="@dimen/margin_4dp"
                     android:layout_marginEnd="@dimen/margin_8dp"
-                    android:src="@drawable/ic_favourite" />
+                    android:src="@drawable/ic_favorites_off" />
             </LinearLayout>
 
             <!--MainContent-->
             <LinearLayout
+                android:id="@+id/ll_main_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -105,6 +107,7 @@
                         style="@style/jobCard22Text"
                         android:layout_marginStart="@dimen/margin_8dp"
                         android:layout_marginTop="@dimen/margin_16dp"
+                        android:layout_marginEnd="20dp"
                         app:layout_constraintBottom_toTopOf="@+id/tv_employer_city"
                         app:layout_constraintStart_toEndOf="@id/iv_job"
                         app:layout_constraintTop_toTopOf="parent"
@@ -159,71 +162,92 @@
                         tools:text="[• Sample Text\n• Sample Text\n• Sample Text\n• Sample Text\n• Sample Text]" />
 
                     <!--JobDescription-->
-                    <TextView
-                        style="@style/job22Text"
-                        android:layout_marginTop="@dimen/margin_24dp"
-                        android:layout_marginBottom="@dimen/margin_16dp"
-                        android:text="@string/main_skills" />
 
-                    <TextView
-                        android:id="@+id/tv_main_skills"
-                        style="@style/job16TextRegular"
-                        tools:layout_marginStart="@dimen/margin_16dp"
-                        tools:text="[• Sample Text\n• Sample Text\n• Sample Text\n• Sample Text\n• Sample Text]" />
+                    <LinearLayout
+                        android:id="@+id/ll_key_skills"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
+                        <TextView
+                            style="@style/job22Text"
+                            android:layout_marginTop="@dimen/margin_24dp"
+                            android:layout_marginBottom="@dimen/margin_16dp"
+                            android:text="@string/main_skills" />
+
+                        <TextView
+                            android:id="@+id/tv_main_skills"
+                            style="@style/job16TextRegular"
+                            tools:layout_marginStart="@dimen/margin_16dp"
+                            tools:text="[• Sample Text\n• Sample Text\n• Sample Text\n• Sample Text\n• Sample Text]" />
+                    </LinearLayout>
                     <!--Contacts-->
-                    <TextView
-                        style="@style/job22Text"
-                        android:layout_marginTop="@dimen/margin_24dp"
-                        android:layout_marginBottom="@dimen/margin_16dp"
-                        android:text="@string/contacts" />
 
-                    <!--EmployerContacts-->
-                    <TextView
-                        style="@style/job16TextMedium"
-                        android:text="@string/employer_contacts" />
+                    <LinearLayout
+                        android:id="@+id/ll_contacts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
-                    <TextView
-                        style="@style/job16TextRegular"
-                        android:layout_marginTop="@dimen/margin_4dp"
-                        android:layout_marginBottom="@dimen/margin_16dp"
-                        tools:text="[Amogus]" />
+                        <TextView
+                            style="@style/job22Text"
+                            android:layout_marginTop="@dimen/margin_24dp"
+                            android:layout_marginBottom="@dimen/margin_16dp"
+                            android:text="@string/contacts" />
 
-                    <!--Email-->
-                    <TextView
-                        style="@style/job16TextMedium"
-                        android:text="@string/email" />
+                        <!--EmployerContacts-->
+                        <TextView
+                            style="@style/job16TextMedium"
+                            android:text="@string/employer_contacts" />
 
-                    <TextView
-                        android:id="@+id/tv_email_contacts"
-                        style="@style/job16TextRegular"
-                        android:layout_marginTop="@dimen/margin_4dp"
-                        android:layout_marginBottom="@dimen/margin_16dp"
-                        tools:text="[aboba@bread.com]" />
+                        <TextView
+                            style="@style/job16TextRegular"
+                            android:layout_marginTop="@dimen/margin_4dp"
+                            android:layout_marginBottom="@dimen/margin_16dp"
+                            tools:text="[Amogus]" />
 
-                    <!--PhoneNumber-->
-                    <TextView
-                        style="@style/job16TextMedium"
-                        android:text="@string/phone_number" />
+                        <!--Email-->
+                        <TextView
+                            style="@style/job16TextMedium"
+                            android:text="@string/email" />
 
-                    <TextView
-                        android:id="@+id/tv_phone_contacts"
-                        style="@style/job16TextRegular"
-                        android:layout_marginTop="@dimen/margin_4dp"
-                        android:layout_marginBottom="@dimen/margin_16dp"
-                        tools:text="[+7 999 228 13 37]" />
+                        <TextView
+                            android:id="@+id/tv_email_contacts"
+                            style="@style/job16TextRegular"
+                            android:layout_marginTop="@dimen/margin_4dp"
+                            android:layout_marginBottom="@dimen/margin_16dp"
+                            android:textColor="@color/blue"
+                            tools:text="[aboba@bread.com]" />
 
-                    <!--Comment-->
-                    <TextView
-                        style="@style/job16TextMedium"
-                        android:text="@string/comment" />
+                        <!--PhoneNumber-->
+                        <TextView
+                            style="@style/job16TextMedium"
+                            android:text="@string/phone_number" />
 
-                    <TextView
-                        android:id="@+id/tv_comments"
-                        style="@style/job16TextRegular"
-                        android:layout_marginTop="@dimen/margin_4dp"
-                        android:layout_marginBottom="@dimen/margin_24dp"
-                        tools:text="[Заполнить анкету по форме можно на нашем сайте]" />
+                        <TextView
+                            android:id="@+id/tv_phone_contacts"
+                            style="@style/job16TextRegular"
+                            android:layout_marginTop="@dimen/margin_4dp"
+                            android:layout_marginBottom="@dimen/margin_16dp"
+                            android:textColor="@color/blue"
+                            tools:text="[+7 999 228 13 37]" />
+
+                        <!--Comment-->
+                        <TextView
+                            style="@style/job16TextMedium"
+                            android:text="@string/comment" />
+
+                        <TextView
+                            android:id="@+id/tv_comments"
+                            style="@style/job16TextRegular"
+                            android:layout_marginTop="@dimen/margin_4dp"
+                            android:layout_marginBottom="@dimen/margin_24dp"
+                            tools:text="[Заполнить анкету по форме можно на нашем сайте]" />
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/btn_similar_jobs"
@@ -258,4 +282,15 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/pb_job"
+        android:layout_width="@dimen/progressBarSize"
+        android:layout_height="@dimen/progressBarSize"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

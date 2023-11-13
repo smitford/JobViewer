@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.job.data.mainmodels
 
+import ru.practicum.android.diploma.job.data.secondarymodels.Address
 import ru.practicum.android.diploma.job.data.secondarymodels.Area
 import ru.practicum.android.diploma.job.data.secondarymodels.Contacts
 import ru.practicum.android.diploma.job.data.secondarymodels.Employer
@@ -15,6 +16,7 @@ data class JobDtoForScreenResponse(
     val salary: Salary?,
     val employer: Employer?,
     val area: Area?,
+    val address: Address?,
     val experience: Experience?,
     val employment: Employment?,
     val description: String?,
