@@ -35,6 +35,10 @@ interface HhApiJobInfo {
     @GET("areas/countries")
     suspend fun getCountries(): CountriesResponse
 
+    @Headers(
+        HEADER_AUTH,
+        USER
+    )
     @GET("vacancies/{vacancy_id}/similar_vacancies")
     suspend fun getSimilarVacancies(@Path("vacancy_di")vacancyId: String) :
             JobSearchResponseDto

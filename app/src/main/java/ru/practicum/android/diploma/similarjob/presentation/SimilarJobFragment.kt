@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSimilarJobBinding
 import ru.practicum.android.diploma.favorite.presentation.FavoriteViewModel
@@ -17,8 +19,20 @@ import ru.practicum.android.diploma.similarjob.SimilarJobState
 
 class SimilarJobFragment : Fragment() {
 
+
+    companion object {
+        private const val IDJOB = "id_job"
+
+        fun createArgs(id: String?): Bundle {
+            return bundleOf(IDJOB to id)
+        }
+    }
+
     private lateinit var binding: FragmentSimilarJobBinding
-    private val viewModel: SimilarJobViewModel by viewModel()
+
+    private val viewModel: SimilarJobViewModel by viewModel{
+        parametersOf(requireArguments().getString(IDJOB))
+    }
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     @RequiresApi(Build.VERSION_CODES.R)
@@ -64,7 +78,7 @@ class SimilarJobFragment : Fragment() {
             }
         }
 
-        viewModel.getSimilar(0L)
+        viewModel.getSimilar()
 
     }
 }

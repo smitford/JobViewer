@@ -12,8 +12,8 @@ import ru.practicum.android.diploma.similarjob.presentation.api.SimilarJobIntera
 
 val similarJobModule = module {
 
-    viewModel {
-        SimilarJobViewModel(get())
+    viewModel { (id: String) ->
+        SimilarJobViewModel(get(),id)
     }
 
     single<SimilarJobInteractor> {

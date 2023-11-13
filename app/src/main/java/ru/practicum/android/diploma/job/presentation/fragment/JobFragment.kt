@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -15,6 +16,7 @@ import ru.practicum.android.diploma.job.data.impl.mapper.TypeForMapper
 import ru.practicum.android.diploma.job.domain.models.JobForScreen
 import ru.practicum.android.diploma.job.presentation.states.JobScreenState
 import ru.practicum.android.diploma.job.presentation.viewmodel.JobFragmentViewModel
+import ru.practicum.android.diploma.similarjob.presentation.SimilarJobFragment
 import ru.practicum.android.diploma.util.ImgFunctions
 import ru.practicum.android.diploma.util.TextUtils
 
@@ -23,6 +25,7 @@ class JobFragment : Fragment() {
     private val jobFragmentViewModel: JobFragmentViewModel by viewModel()
     private lateinit var binding: FragmentJobBinding
     private val args: JobFragmentArgs by navArgs()
+    private lateinit var id :String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +43,13 @@ class JobFragment : Fragment() {
             .observe(viewLifecycleOwner) { status ->
                 showContentBasedOnState(status)
             }
+
+        binding.btnSimilarJobs.setOnClickListener {
+
+            findNavController().navigate(R.id.action_jobFragment_to_similarJobFragment,
+                SimilarJobFragment.createArgs(id))
+
+        }
     }
 
     private fun showContentBasedOnState(status: JobScreenState) {
@@ -102,6 +112,9 @@ class JobFragment : Fragment() {
                 job.phones?.let { job.phones as Array<Any> },
                 TypeForMapper.Comment
             )
+
+            id = job.id.toString()
+
         }
     }
 
