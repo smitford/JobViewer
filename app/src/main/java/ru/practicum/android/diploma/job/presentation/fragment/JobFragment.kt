@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -16,7 +15,6 @@ import ru.practicum.android.diploma.job.data.impl.mapper.TypeForMapper
 import ru.practicum.android.diploma.job.domain.models.JobForScreen
 import ru.practicum.android.diploma.job.presentation.states.JobScreenState
 import ru.practicum.android.diploma.job.presentation.viewmodel.JobFragmentViewModel
-import ru.practicum.android.diploma.similarjob.presentation.SimilarJobFragment
 import ru.practicum.android.diploma.util.ImgFunctions
 import ru.practicum.android.diploma.util.TextUtils
 
@@ -24,8 +22,9 @@ class JobFragment : Fragment() {
 
     private val jobFragmentViewModel: JobFragmentViewModel by viewModel()
     private lateinit var binding: FragmentJobBinding
+    private lateinit var jobData: JobForScreen
     private val args: JobFragmentArgs by navArgs()
-    private lateinit var id :String
+    private var isFavorite:Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +36,7 @@ class JobFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         jobFragmentViewModel.getJob(args.jobId)
 
         jobFragmentViewModel.observeJobScreenLiveData()
@@ -44,10 +44,23 @@ class JobFragment : Fragment() {
                 showContentBasedOnState(status)
             }
 
-        binding.btnSimilarJobs.setOnClickListener {
+        jobFragmentViewModel.observeFavoriteLifeData().observe(viewLifecycleOwner){
 
-            findNavController().navigate(R.id.action_jobFragment_to_similarJobFragment,
-                SimilarJobFragment.createArgs(id))
+            isFavorite = it
+            if (isFavorite){
+                binding.ibFavourite.setImageResource(R.drawable.ic_favorites_on__24px)
+            }else{
+                binding.ibFavourite.setImageResource(R.drawable.ic_favourite)
+            }
+        }
+
+        binding.ibFavourite.setOnClickListener {
+
+            if (isFavorite){
+                jobData.id?.let { id -> jobFragmentViewModel.deleteFromFavorite(id) }
+            }else{
+                jobFragmentViewModel.addToFavorite(jobData)
+            }
 
         }
     }
@@ -113,7 +126,9 @@ class JobFragment : Fragment() {
                 TypeForMapper.Comment
             )
 
-            id = job.id.toString()
+            // Проверить в избранном
+            job.id?.let { jobFragmentViewModel.includedToFavorite(it) }
+            jobData = job
 
         }
     }

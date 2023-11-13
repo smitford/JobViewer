@@ -5,15 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.favorite.domain.FavoriteTrack
 import ru.practicum.android.diploma.favorite.domain.FavoriteState
 import ru.practicum.android.diploma.favorite.presentation.api.FavoriteInteractor
+import ru.practicum.android.diploma.search.domain.models.Job
 
 class FavoriteViewModel(private val favoriteInteractor: FavoriteInteractor): ViewModel() {
 
-    private val favorite = MutableLiveData<Pair<FavoriteState,ArrayList<FavoriteTrack>>>()
+    private val favorite = MutableLiveData<Pair<FavoriteState,ArrayList<Job>>>()
 
-    fun getFavoriteLiveData(): LiveData<Pair<FavoriteState,ArrayList<FavoriteTrack>>> = favorite
+    fun getFavoriteLiveData(): LiveData<Pair<FavoriteState,ArrayList<Job>>> = favorite
 
     fun getFavorite(){
         viewModelScope.launch {
