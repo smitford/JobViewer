@@ -44,6 +44,9 @@ class RootActivity : AppCompatActivity() {
                 R.id.jobFragment ->{
                     bottomNavBar.visibility = View.GONE
                 }
+                R.id.similarJobFragment ->{
+                    bottomNavBar.visibility = View.GONE
+                }
                 else -> {
                     bottomNavBar.visibility = View.VISIBLE
                 }

@@ -8,10 +8,30 @@ import ru.practicum.android.diploma.search.domain.models.Codes
 import ru.practicum.android.diploma.search.domain.models.Filter
 import ru.practicum.android.diploma.search.domain.models.Job
 import ru.practicum.android.diploma.search.domain.models.JobsInfo
+import ru.practicum.android.diploma.similarjob.data.dto.JobSearchSimilarResponseDto
 
 object AdapterJob {
 
     fun jobInfoDtoToJobInfo(response: JobSearchResponseDto, code: Int) = JobsInfo(
+        responseCodes = codeMapper(code, response.found),
+        jobs = response.items.map {
+            Job(
+                id = it.id,
+                area = it.area.name,
+                department = it.department?.name ?: " ",
+                employerImgUrl = getLogo(it.employer.logoUrls),
+                employer = it.employer.name,
+                name = it.name,
+                salary = formSalaryString(it.salary),
+                type = it.type.name ?: " "
+            )
+        },
+        found = response.found,
+        page = response.page,
+        pages = response.pages
+    )
+
+    fun jobInfoDtoToJobInfo(response: JobSearchSimilarResponseDto, code: Int) = JobsInfo(
         responseCodes = codeMapper(code, response.found),
         jobs = response.items.map {
             Job(

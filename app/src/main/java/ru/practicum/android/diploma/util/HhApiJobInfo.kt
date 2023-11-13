@@ -8,6 +8,7 @@ import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.filter.data.models.CountriesResponse
 import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenResponse
 import ru.practicum.android.diploma.search.data.models.JobSearchResponseDto
+import ru.practicum.android.diploma.similarjob.data.dto.JobSearchSimilarResponseDto
 
 interface HhApiJobInfo {
     //Поиск вакансий
@@ -35,7 +36,15 @@ interface HhApiJobInfo {
     @GET("areas/countries")
     suspend fun getCountries(): CountriesResponse
 
-    companion object {
+    @Headers(
+        HEADER_AUTH,
+        USER
+    )
+    @GET("vacancies/{vacancy_id}/similar_vacancies")
+    suspend fun getSimilarVacancies(@Path("vacancy_id")vacancyId: String) :
+            JobSearchSimilarResponseDto
+
+    companion object{
         const val HEADER_AUTH = "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}"
         const val USER = "HH-User-Agent: Diplom_Yandex_HH (alk68@yandex.ru)"
     }
