@@ -30,6 +30,7 @@ class SearchViewModel(
 
     fun loadJobs(text: String) {
         if (text.isBlank()) return
+        jobList.clear()
         filter.request = text
         search()
     }
@@ -44,6 +45,7 @@ class SearchViewModel(
     }
 
     private fun refreshSearch() {
+        jobList.clear()
         if (filter.request.isBlank()) return else search()
     }
 
