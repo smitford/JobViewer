@@ -14,6 +14,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -30,6 +32,7 @@ class SearchFragment : Fragment() {
     private val viewModel by viewModel<SearchViewModel>()
     private lateinit var jobClickCb: (String) -> Unit
     private var searchJob: Job? = null
+    private lateinit var adapter: JobAdapter
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     @RequiresApi(Build.VERSION_CODES.R)
@@ -53,7 +56,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         jobClickCb = initClickCb()
         val recyclerView = binding.rvSearch
-        val adapter = JobAdapter(jobClickCb)
+        adapter = JobAdapter(jobClickCb)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
@@ -71,14 +74,12 @@ class SearchFragment : Fragment() {
                 }
 
                 is SearchStates.Loading -> setLoadingScreen()
+                is SearchStates.LoadingPaging -> setLoadingPaggScreen()
                 else -> Unit
             }
         }
 
-
         binding.etSearch.addTextChangedListener(tWCreator())
-
-
 
         binding.ivFilter.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filterSettingsFragment)
@@ -87,6 +88,8 @@ class SearchFragment : Fragment() {
         binding.bClearText.setOnClickListener {
             clearText()
         }
+
+        binding.rvSearch.addOnScrollListener(initScrlLsnr())
 
     }
 
@@ -101,6 +104,7 @@ class SearchFragment : Fragment() {
         binding.searchProgressBar.visibility = GONE
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = GONE
+        binding.pagingPrBar.visibility = GONE
     }
 
     private fun setErrorScreen() {
@@ -110,6 +114,7 @@ class SearchFragment : Fragment() {
         binding.tvError.visibility = VISIBLE
         binding.tvError.setText(R.string.server_error)
         binding.tvRvHeader.visibility = GONE
+        binding.pagingPrBar.visibility = GONE
     }
 
     private fun setConnectionLostScreen() {
@@ -120,6 +125,7 @@ class SearchFragment : Fragment() {
         binding.tvError.visibility = VISIBLE
         binding.tvError.setText(R.string.internet_connection_issue)
         binding.tvRvHeader.visibility = GONE
+        binding.pagingPrBar.visibility = GONE
     }
 
     private fun setSuccessScreen(amount: Int) {
@@ -129,6 +135,7 @@ class SearchFragment : Fragment() {
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = VISIBLE
         binding.tvRvHeader.text = getString(R.string.founded, addSeparator(amount))
+        binding.pagingPrBar.visibility = GONE
     }
 
     private fun setInvalidRequestScreen() {
@@ -139,6 +146,7 @@ class SearchFragment : Fragment() {
         binding.tvError.setText(R.string.internet_connection_issue)
         binding.tvRvHeader.visibility = VISIBLE
         binding.tvRvHeader.setText(R.string.vacancy_mismatch)
+        binding.pagingPrBar.visibility = GONE
     }
 
     private fun setLoadingScreen() {
@@ -147,6 +155,16 @@ class SearchFragment : Fragment() {
         binding.searchProgressBar.visibility = VISIBLE
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = GONE
+        binding.pagingPrBar.visibility = GONE
+    }
+
+    private fun setLoadingPaggScreen() {
+        binding.rvSearch.visibility = VISIBLE
+        binding.ivError.visibility = GONE
+        binding.searchProgressBar.visibility = GONE
+        binding.tvError.visibility = GONE
+        binding.tvRvHeader.visibility = VISIBLE
+        binding.pagingPrBar.visibility = VISIBLE
     }
 
     private fun addSeparator(number: Int) = "%,d".format(number).replace(",", " ")
@@ -183,6 +201,17 @@ class SearchFragment : Fragment() {
     private fun initClickCb(): (String) -> Unit = { jobId ->
         val arg = SearchFragmentDirections.actionSearchFragmentToJobFragment(jobId)
         findNavController().navigate(arg)
+    }
+
+    private fun initScrlLsnr() = object : OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val pos = (binding.rvSearch.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+            val itemsCount = adapter.itemCount
+            if (pos >= itemsCount-1) {
+                viewModel.getNewPage()
+            }
+        }
     }
 
     private fun changeVisBottomNav(state: Int) {
