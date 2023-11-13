@@ -3,19 +3,34 @@ package ru.practicum.android.diploma.favorite.data.impl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.favorite.data.db.AppDataBase
-import ru.practicum.android.diploma.favorite.domain.FavoriteTrack
+import ru.practicum.android.diploma.favorite.data.db.mapper.JobMapper
 import ru.practicum.android.diploma.favorite.domain.FavoriteState
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteRepository
+import ru.practicum.android.diploma.search.domain.models.Job
 
 class FavoriteRepositoryImpl(private val appDataBase: AppDataBase): FavoriteRepository {
 
-    override fun get(): Flow<Pair<FavoriteState, ArrayList<FavoriteTrack>>> = flow{
+    override fun get(): Flow<Pair<FavoriteState, ArrayList<Job>>> = flow{
 
-        //val jobs =  appDataBase.favoriteDAO().get()
+        val mapper = JobMapper()
 
-        emit(Pair(FavoriteState.FULL, arrayListOf()))
+        try {
+            val result = appDataBase.favoriteDAO().get()
+            if (result.isEmpty()) {
+                emit(Pair(FavoriteState.EMPTY, arrayListOf()))
+            } else {
 
-        // Работа с БД
+                val vacancies = ArrayList<Job>()
+
+                result.forEach {
+                    vacancies.add(mapper.mapJob(it))
+                }
+                emit(Pair(FavoriteState.FULL, vacancies))
+            }
+
+        } catch (e: Exception) {
+            emit(Pair(FavoriteState.ERROR, arrayListOf()))
+        }
 
     }
 }

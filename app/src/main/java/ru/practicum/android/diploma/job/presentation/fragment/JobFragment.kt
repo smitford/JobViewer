@@ -22,7 +22,9 @@ class JobFragment : Fragment() {
 
     private val jobFragmentViewModel: JobFragmentViewModel by viewModel()
     private lateinit var binding: FragmentJobBinding
+    private lateinit var jobData: JobForScreen
     private val args: JobFragmentArgs by navArgs()
+    private var isFavorite:Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,12 +36,33 @@ class JobFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         jobFragmentViewModel.getJob(args.jobId)
 
         jobFragmentViewModel.observeJobScreenLiveData()
             .observe(viewLifecycleOwner) { status ->
                 showContentBasedOnState(status)
             }
+
+        jobFragmentViewModel.observeFavoriteLifeData().observe(viewLifecycleOwner){
+
+            isFavorite = it
+            if (isFavorite){
+                binding.ibFavourite.setImageResource(R.drawable.ic_favorites_on__24px)
+            }else{
+                binding.ibFavourite.setImageResource(R.drawable.ic_favourite)
+            }
+        }
+
+        binding.ibFavourite.setOnClickListener {
+
+            if (isFavorite){
+                jobData.id?.let { id -> jobFragmentViewModel.deleteFromFavorite(id) }
+            }else{
+                jobFragmentViewModel.addToFavorite(jobData)
+            }
+
+        }
     }
 
     private fun showContentBasedOnState(status: JobScreenState) {
@@ -102,6 +125,11 @@ class JobFragment : Fragment() {
                 job.phones?.let { job.phones as Array<Any> },
                 TypeForMapper.Comment
             )
+
+            // Проверить в избранном
+            job.id?.let { jobFragmentViewModel.includedToFavorite(it) }
+            jobData = job
+
         }
     }
 
