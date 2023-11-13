@@ -10,12 +10,16 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSimilarJobBinding
-import ru.practicum.android.diploma.favorite.presentation.FavoriteViewModel
-import ru.practicum.android.diploma.similarjob.SimilarJobState
+import ru.practicum.android.diploma.search.domain.api.DtoConsumer
+import ru.practicum.android.diploma.search.domain.models.Job
+import ru.practicum.android.diploma.search.domain.models.JobsInfo
+import ru.practicum.android.diploma.search.presentation.JobAdapter
 
 class SimilarJobFragment : Fragment() {
 
@@ -29,6 +33,7 @@ class SimilarJobFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentSimilarJobBinding
+    private lateinit var jobClickCb: (String) -> Unit
 
     private val viewModel: SimilarJobViewModel by viewModel{
         parametersOf(requireArguments().getString(IDJOB))
@@ -49,17 +54,28 @@ class SimilarJobFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        jobClickCb = initClickCb()
+        val recyclerView = binding.rvSearch
+        val adapter = JobAdapter(jobClickCb)
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
+
         viewModel.getSimilarLiveData().observe(viewLifecycleOwner){
 
-            when(it.first){
-                SimilarJobState.DATA -> {
+            when(it){
+                is DtoConsumer.Success<JobsInfo> -> {
                     binding.rvSearch.isGone = false
                     binding.tvMessage.isGone = true
                     binding.ivPlaceholderPng.isGone = true
                     // Заполнение списка вакансии
+                    adapter.jobsList = it.data.jobs as MutableList<Job>
+                    adapter.notifyDataSetChanged()
+
                 }
 
-                SimilarJobState.NOINTERNET -> {
+                is DtoConsumer.NoInternet<JobsInfo> -> {
+                    // No internet
                     binding.rvSearch.isGone = true
                     binding.tvMessage.isGone = false
                     binding.ivPlaceholderPng.isGone = false
@@ -80,5 +96,14 @@ class SimilarJobFragment : Fragment() {
 
         viewModel.getSimilar()
 
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+    }
+
+    private fun initClickCb(): (String) -> Unit = { jobId ->
+        val arg = SimilarJobFragmentDirections.actionSimilarJobFragmentToJobFragment(jobId)
+        findNavController().navigate(arg)
     }
 }

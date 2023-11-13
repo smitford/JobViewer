@@ -9,7 +9,7 @@
     tools:context=".similarjob.presentation.SimilarJobFragment">
 
     <ImageView
-        android:id="@+id/back"
+        android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_4dp"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/job22Text"
-        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintStart_toEndOf="@+id/iv_back"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/margin_19dp"
         android:layout_marginStart="@dimen/margin_20dp"
@@ -41,6 +41,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="80dp"
+        android:layout_marginStart="@dimen/margin_16dp"
+        android:layout_marginEnd="@dimen/margin_16dp"
         tools:listitem="@layout/recycler_vacancy_item" />
 
     <ImageView

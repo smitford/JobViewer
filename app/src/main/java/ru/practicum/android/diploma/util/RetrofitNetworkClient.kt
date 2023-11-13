@@ -11,6 +11,7 @@ import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenRequest
 import ru.practicum.android.diploma.search.data.models.JobSearchRequest
 import ru.practicum.android.diploma.search.data.models.ResponseDto
 import ru.practicum.android.diploma.search.data.models.ResultCodes
+import ru.practicum.android.diploma.similarjob.data.dto.JobDtoSimilarRequest
 
 class RetrofitNetworkClient(val context: Context) : NetworkClient {
 
@@ -54,6 +55,14 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
             is FilterRequest.Countries -> try {
                 val resp = hhService.getCountries()
                 resp.apply { responseCode = ResultCodes.SUCCESS }
+            } catch (e: Exception) {
+                ResponseDto().apply { responseCode = ResultCodes.ERROR }
+            }
+
+            is JobDtoSimilarRequest -> try {
+                val resp = hhService.getSimilarVacancies(dto.id)
+                resp.apply { responseCode = ResultCodes.SUCCESS }
+
             } catch (e: Exception) {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }
             }

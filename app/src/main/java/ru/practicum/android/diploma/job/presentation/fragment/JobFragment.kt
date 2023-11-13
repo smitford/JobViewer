@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -15,6 +16,7 @@ import ru.practicum.android.diploma.job.data.impl.mapper.TypeForMapper
 import ru.practicum.android.diploma.job.domain.models.JobForScreen
 import ru.practicum.android.diploma.job.presentation.states.JobScreenState
 import ru.practicum.android.diploma.job.presentation.viewmodel.JobFragmentViewModel
+import ru.practicum.android.diploma.similarjob.presentation.SimilarJobFragment
 import ru.practicum.android.diploma.util.ImgFunctions
 import ru.practicum.android.diploma.util.TextUtils
 
@@ -62,6 +64,13 @@ class JobFragment : Fragment() {
                 jobFragmentViewModel.addToFavorite(jobData)
             }
 
+        }
+
+        binding.btnSimilarJobs.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_jobFragment_to_similarJobFragment,
+                SimilarJobFragment.createArgs(jobData.id)
+            )
         }
     }
 
