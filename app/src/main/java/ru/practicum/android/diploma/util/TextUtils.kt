@@ -3,8 +3,10 @@ package ru.practicum.android.diploma.util
 import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
+import android.util.Log
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.job.data.impl.mapper.TypeForMapper
+import ru.practicum.android.diploma.job.data.secondarymodels.Address
 import ru.practicum.android.diploma.job.data.secondarymodels.Phones
 import ru.practicum.android.diploma.job.data.secondarymodels.Skills
 import ru.practicum.android.diploma.job.data.secondarymodels.Salary
@@ -27,7 +29,7 @@ object TextUtils {
         return "$from $to ${checkCurrencyIcon(salaryDto?.currency, resourceProvider)}"
     }
 
-    private fun checkCurrencyIcon(currency: String?, resourceProvider: ResourceProvider): String {
+    fun checkCurrencyIcon(currency: String?, resourceProvider: ResourceProvider): String {
         return when (currency) {
             "RUR" -> {resourceProvider.getString(R.string.RUR)}
             "USD" -> {resourceProvider.getString(R.string.USD)}
@@ -49,27 +51,49 @@ object TextUtils {
         if (!array.isNullOrEmpty()) {
             for (i in array.indices) {
                 val item: Any
-                when(itemType) {
-                   is TypeForMapper.Skills ->
-                       if (array.isArrayOf<Skills>()) {
-                           item = array[i] as Skills
-                           formattedString += ("• " + item.name + "\n")
-                       }
-                   is TypeForMapper.Phones ->
-                       if (array.isArrayOf<Phones>()) {
-                           item = array[i] as Phones
-                           formattedString += (item.formatted + "\n")
-                       }
+                when (itemType) {
+                    is TypeForMapper.Skills ->
+                        if (array.isArrayOf<Skills>()) {
+                            item = array[i] as Skills
+                            item.name?.let { formattedString += ("• " + item.name + "\n") }
+                        }
+
+                    is TypeForMapper.Phones ->
+                        if (array.isArrayOf<Phones>()) {
+                            item = array[i] as Phones
+                            item.formatted?.let { formattedString += (item.formatted + "\n") }
+                        }
+
                     is TypeForMapper.Comment ->
                         if (array.isArrayOf<Phones>()) {
                             item = array[i] as Phones
-                            formattedString += (item.comment + "\n")
+                            item.comment?.let { formattedString += (item.comment + "\n") }
                         }
-
                 }
             }
         }
         return formattedString
+    }
+
+    fun employerAddressToString(address: Address?, area: String?): String {
+        val addressList = mutableListOf<String>()
+        var resultStr = ""
+
+        if (address != null) {
+            address.city?.let {
+                addressList.add(it)
+            }
+            address.street?.let {
+                addressList.add(it)
+            }
+            address.building?.let {
+                addressList.add(it)
+            }
+            resultStr = addressList.joinToString(", ")
+        } else {
+            area?.let { resultStr = area }
+        }
+        return resultStr
     }
 
     fun fromHtml(html: String?): Spanned? {

@@ -26,7 +26,7 @@ class JobFragment : Fragment() {
     private lateinit var binding: FragmentJobBinding
     private lateinit var jobData: JobForScreen
     private val args: JobFragmentArgs by navArgs()
-    private var isFavorite:Boolean = false
+    private var isFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +38,7 @@ class JobFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initListeners()
 
         jobFragmentViewModel.getJob(args.jobId)
 
@@ -46,21 +47,21 @@ class JobFragment : Fragment() {
                 showContentBasedOnState(status)
             }
 
-        jobFragmentViewModel.observeFavoriteLifeData().observe(viewLifecycleOwner){
+        jobFragmentViewModel.observeFavoriteLifeData().observe(viewLifecycleOwner) {
 
             isFavorite = it
-            if (isFavorite){
-                binding.ibFavourite.setImageResource(R.drawable.ic_favorites_on__24px)
-            }else{
-                binding.ibFavourite.setImageResource(R.drawable.ic_favourite)
+            if (isFavorite) {
+                binding.ibFavourite.setImageResource(R.drawable.ic_favorites_on)
+            } else {
+                binding.ibFavourite.setImageResource(R.drawable.ic_favorites_off)
             }
         }
 
         binding.ibFavourite.setOnClickListener {
 
-            if (isFavorite){
+            if (isFavorite) {
                 jobData.id?.let { id -> jobFragmentViewModel.deleteFromFavorite(id) }
-            }else{
+            } else {
                 jobFragmentViewModel.addToFavorite(jobData)
             }
 
@@ -78,24 +79,41 @@ class JobFragment : Fragment() {
         when (status) {
             is JobScreenState.Success -> {
                 fillContent(status.jobForScreen)
+                with(binding) {
+                    llMainContent.visibility = View.VISIBLE
+                    pbJob.visibility = View.GONE
+                    llServerError.visibility = View.GONE
+                }
             }
 
             is JobScreenState.Loading -> {
-
+                with(binding) {
+                    llMainContent.visibility = View.GONE
+                    pbJob.visibility = View.VISIBLE
+                    llServerError.visibility = View.GONE
+                }
             }
 
             is JobScreenState.ServerError -> {
-
+                showError()
             }
 
             is JobScreenState.ConnectionError -> {
-
+                showError()
             }
 
             is JobScreenState.InvalidRequest -> {
-
+                showError()
             }
 
+        }
+    }
+
+    private fun showError() {
+        with(binding) {
+            llMainContent.visibility = View.GONE
+            pbJob.visibility = View.GONE
+            llServerError.visibility = View.VISIBLE
         }
     }
 
@@ -118,27 +136,54 @@ class JobFragment : Fragment() {
                 )
                 .into(binding.ivJob)
             tvEmployer.text = job.employerName
-            tvEmployerCity.text = job.area
+            tvEmployerCity.text = job.address
             tvRequiredExperience.text = job.experience
             tvEmployment.text = job.employment
             tvJobDiscription.text = TextUtils.fromHtml(job.description)
-            tvMainSkills.text =
-                TextUtils.arrayToStrInJob(job.keySkills as Array<Any>, TypeForMapper.Skills)
-            tvEmailContacts.text = job.email
-            tvPhoneContacts.text =
-                TextUtils.arrayToStrInJob(
-                    job.phones?.let { job.phones as Array<Any> },
-                    TypeForMapper.Phones
+
+            if (job.keySkills.isNotEmpty()) {
+                llKeySkills.visibility = View.VISIBLE
+                tvMainSkills.text =
+                    TextUtils.arrayToStrInJob(job.keySkills as Array<Any>, TypeForMapper.Skills)
+            }
+
+            if (job.email != null && job.phones != null) {
+                llContacts.visibility = View.VISIBLE
+                tvEmailContacts.text = job.email
+                tvPhoneContacts.text =
+                    TextUtils.arrayToStrInJob(
+                        job.phones as Array<Any>,
+                        TypeForMapper.Phones
+                    )
+                tvComments.text = TextUtils.arrayToStrInJob(
+                    job.phones as Array<Any>,
+                    TypeForMapper.Comment
                 )
-            tvComments.text = TextUtils.arrayToStrInJob(
-                job.phones?.let { job.phones as Array<Any> },
-                TypeForMapper.Comment
-            )
+            }
+        }
 
-            // Проверить в избранном
-            job.id?.let { jobFragmentViewModel.includedToFavorite(it) }
-            jobData = job
+        // Проверить в избранном
+        job.id?.let { jobFragmentViewModel.includedToFavorite(it) }
+        jobData = job
+    }
 
+    private fun initListeners() {
+        with(binding) {
+            ibArrowBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
+            ibShare.setOnClickListener {
+                jobData.employerUrl?.let { jobFragmentViewModel.shareJobLink(it) }
+            }
+
+            tvEmailContacts.setOnClickListener {
+                jobFragmentViewModel.shareEmail(tvEmailContacts.text.toString())
+            }
+
+            tvPhoneContacts.setOnClickListener {
+                jobFragmentViewModel.sharePhoneNumber(tvPhoneContacts.text.toString())
+            }
         }
     }
 

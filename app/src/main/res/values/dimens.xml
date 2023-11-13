@@ -23,4 +23,6 @@
     <dimen name="fontWeight_700">700</dimen>
     <dimen name="minHeightToolBar_64dp">64dp</dimen>
     <dimen name="heightPoints_60dp">60dp</dimen>
+    <dimen name="jobCardTextLength">240dp</dimen>
+    <dimen name="progressBarSize">44dp</dimen>
 </resources>
