@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,7 +24,7 @@ class CountrySelectionFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val vM: CountrySelectionViewModel by viewModel()
-    private val adapter = RegionAdapter({})
+    private val adapter = RegionAdapter { clickOnCountry(it) }
     private var recyclerView: RecyclerView? = null
 
 
@@ -46,6 +47,10 @@ class CountrySelectionFragment : Fragment() {
 
         vM.stateLiveData.observe(viewLifecycleOwner) {
             showState(it)
+        }
+
+        binding.ibArrowBack.setOnClickListener {
+            findNavController().popBackStack()
         }
 
     }
@@ -105,6 +110,11 @@ class CountrySelectionFragment : Fragment() {
         binding.ivError.visibility = View.GONE
         adapter.countries = list
         adapter.notifyDataSetChanged()
+    }
+
+    private fun clickOnCountry(country: Country) {
+        vM.saveCountryInFilter(country)
+        findNavController().popBackStack()
     }
 
     companion object {

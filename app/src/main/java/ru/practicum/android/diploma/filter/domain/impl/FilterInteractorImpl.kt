@@ -24,4 +24,12 @@ class FilterInteractorImpl(private val filterRepository: FilterRepository) : Fil
         return filterRepository.getCountries()
     }
 
+    override fun saveCountryToFilter(country: Country){
+        filterRepository.saveCountryToFilter(country)
+    }
+
+    override fun clearCountryInFilter(){
+        filterRepository.clearCountryInFilter()
+    }
+
 }
