@@ -6,6 +6,7 @@ import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.filter.data.models.CountriesResponse
+import ru.practicum.android.diploma.filter.data.models.CountryDto
 import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenResponse
 import ru.practicum.android.diploma.search.data.models.JobSearchResponseDto
 import ru.practicum.android.diploma.similarjob.data.dto.JobSearchSimilarResponseDto
@@ -34,7 +35,7 @@ interface HhApiJobInfo {
         USER
     )
     @GET("areas/countries")
-    suspend fun getCountries(): CountriesResponse
+    suspend fun getCountries(): List<CountryDto>
 
     @Headers(
         HEADER_AUTH,
