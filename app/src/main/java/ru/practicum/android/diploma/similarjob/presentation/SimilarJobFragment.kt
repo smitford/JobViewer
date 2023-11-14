@@ -68,6 +68,7 @@ class SimilarJobFragment : Fragment() {
                     binding.rvSearch.isGone = false
                     binding.tvMessage.isGone = true
                     binding.ivPlaceholderPng.isGone = true
+                    binding.pagingPrBar.isGone = true
                     // Заполнение списка вакансии
                     adapter.jobsList = it.data.jobs as MutableList<Job>
                     adapter.notifyDataSetChanged()
@@ -79,6 +80,7 @@ class SimilarJobFragment : Fragment() {
                     binding.rvSearch.isGone = true
                     binding.tvMessage.isGone = false
                     binding.ivPlaceholderPng.isGone = false
+                    binding.pagingPrBar.isGone = true
                     binding.ivPlaceholderPng.setImageResource(R.drawable.disconnect)
                     binding.tvMessage.text = getText(R.string.no_internet)
                 }
@@ -88,6 +90,7 @@ class SimilarJobFragment : Fragment() {
                     binding.rvSearch.isGone = true
                     binding.tvMessage.isGone = false
                     binding.ivPlaceholderPng.isGone = false
+                    binding.pagingPrBar.isGone = true
                     binding.ivPlaceholderPng.setImageResource(R.drawable.error_server_2)
                     binding.tvMessage.text = getText(R.string.server_error)
                 }

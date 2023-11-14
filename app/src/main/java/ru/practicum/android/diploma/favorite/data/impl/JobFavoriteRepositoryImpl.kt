@@ -11,6 +11,7 @@ class JobFavoriteRepositoryImpl(private val appDataBase: AppDataBase) : JobFavor
 
         val mapper = JobMapper()
         appDataBase.favoriteDAO().add(mapper.map(job))
+
     }
 
     override suspend fun delete(id: String) {
