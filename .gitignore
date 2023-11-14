@@ -20,7 +20,6 @@ out/
 local.properties
 develop.properties
 develop-properties
-develop-properties\DevelopPropertiesPlugin.kt
 
 
 # Gradle-profiler data
