@@ -35,7 +35,4 @@ class SimilarJobRepositoryImpl(private val networkClient: NetworkClient) : Simil
                 ResultCodes.ERROR -> emit(DtoConsumer.Error(response.responseCode.code))
             }
         }.flowOn(Dispatchers.IO)
-
 }
-
-
