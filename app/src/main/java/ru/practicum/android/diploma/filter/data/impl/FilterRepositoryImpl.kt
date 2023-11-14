@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.filter.data.impl
 import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.filter.data.FilterNetwork
 import ru.practicum.android.diploma.filter.data.FilterStorage
+import ru.practicum.android.diploma.filter.data.convertors.FilterParametersConvertor
 import ru.practicum.android.diploma.filter.domain.FilterRepository
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
@@ -11,13 +12,15 @@ import ru.practicum.android.diploma.search.domain.api.DtoConsumer
 class FilterRepositoryImpl(
     private val filterStorage: FilterStorage,
     private val filterNetwork: FilterNetwork
-    ) : FilterRepository {
+) : FilterRepository {
     override fun getFilterSettings(): FilterParameters {
-        return filterStorage.getFilterSettings()
+        return FilterParametersConvertor.filterParamDtoToFilterParam(filterStorage.getFilterSettings())
     }
 
     override fun saveFilterSettings(filterParameters: FilterParameters) {
-        filterStorage.saveFilterSettings(filterParameters)
+        filterStorage.saveFilterSettings(
+            FilterParametersConvertor.filterParamToFilterParamDto(filterParameters)
+        )
     }
 
     override fun clearFilterSettings() {
