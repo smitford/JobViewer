@@ -10,4 +10,10 @@ object CountryConvertor {
             name = country.name
         )
     }
+    fun countryToCountryDto(country: Country) : CountryDto {
+        return CountryDto(
+            id = country.id,
+            name = country.name
+        )
+    }
 }

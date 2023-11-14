@@ -11,4 +11,6 @@ interface FilterInteractor {
     fun clearFilterSettings()
     fun saveSalarySettings(salary: String, onlyWithSalary: Boolean)
     suspend fun getCountry(): Flow<DtoConsumer<List<Country>>>
+    fun saveCountryToFilter(country: Country)
+    fun clearCountryInFilter()
 }

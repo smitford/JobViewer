@@ -25,6 +25,10 @@ class CountrySelectionViewModel(private val filterInteractor: FilterInteractor) 
         }
     }
 
+    fun saveCountryInFilter(country: Country) {
+        filterInteractor.saveCountryToFilter(country)
+    }
+
     private fun requestHandler(request: DtoConsumer<List<Country>>) {
         when (request) {
             is DtoConsumer.Error -> {
