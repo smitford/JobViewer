@@ -14,7 +14,7 @@
         android:gravity="center_vertical"
         android:minHeight="@dimen/minHeightToolBar_64dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/tv_place_of_work_clear"
+        app:layout_constraintBottom_toTopOf="@id/fl_place_of_work"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -37,32 +37,140 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_place_of_work_clear"
-        style="@style/MenuPointsStyle"
+    <FrameLayout
+        android:id="@+id/fl_place_of_work"
         android:layout_width="match_parent"
         android:layout_height="@dimen/heightPoints_60dp"
         android:layout_marginTop="@dimen/margin_16dp"
-        android:paddingHorizontal="@dimen/margin_16dp"
-        android:text="@string/place_of_work"
-        android:textColor="?attr/colorOnSecondary"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons" />
+        app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons">
 
-    <TextView
-        android:id="@+id/tv_industry_clear"
-        style="@style/MenuPointsStyle"
+        <TextView
+            android:id="@+id/tv_place_of_work_clear"
+            style="@style/MenuPointsStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/heightPoints_60dp"
+            android:paddingHorizontal="@dimen/margin_16dp"
+            android:text="@string/place_of_work"
+            android:textColor="?attr/colorOnSecondary"
+            app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_place_of_work"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_place_of_work_title"
+                style="@style/textRegular12"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:layout_marginTop="@dimen/margin_12dp"
+                android:layout_marginEnd="@dimen/margin_4dp"
+                android:text="@string/place_of_work"
+                app:layout_constraintEnd_toStartOf="@+id/iv_clear_place_of_work"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_place_of_work_text"
+                style="@style/textRegular16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:layout_marginEnd="@dimen/margin_4dp"
+                android:layout_marginBottom="@dimen/margin_12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/iv_clear_place_of_work"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_place_of_work_title"
+                tools:text="Россия,Москва" />
+
+            <ImageView
+                android:id="@+id/iv_clear_place_of_work"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:padding="@dimen/margin_16dp"
+                android:src="@drawable/cross"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_industry"
         android:layout_width="match_parent"
         android:layout_height="@dimen/heightPoints_60dp"
-        android:paddingHorizontal="@dimen/margin_16dp"
-        android:text="@string/sector"
-        android:textColor="?attr/colorOnSecondary"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_place_of_work_clear" />
+        app:layout_constraintTop_toBottomOf="@+id/fl_place_of_work">
+
+        <TextView
+            android:id="@+id/tv_industry_clear"
+            style="@style/MenuPointsStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/heightPoints_60dp"
+            android:paddingHorizontal="@dimen/margin_16dp"
+            android:text="@string/sector"
+            android:textColor="?attr/colorOnSecondary"
+            app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_industry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_industry_title"
+                style="@style/textRegular12"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:layout_marginTop="@dimen/margin_12dp"
+                android:layout_marginEnd="@dimen/margin_4dp"
+                android:text="@string/sector"
+                app:layout_constraintEnd_toStartOf="@+id/iv_clear_industry"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_industry_text"
+                style="@style/textRegular16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:layout_marginEnd="@dimen/margin_4dp"
+                android:layout_marginBottom="@dimen/margin_12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/iv_clear_industry"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_industry_title"
+                tools:text="IT" />
+
+            <ImageView
+                android:id="@+id/iv_clear_industry"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:padding="@dimen/margin_16dp"
+                android:src="@drawable/cross"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </FrameLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_name"
@@ -79,14 +187,14 @@
         android:theme="@style/TextInputLayout"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
-        app:endIconMode="clear_text"
         app:endIconDrawable="@drawable/cross"
+        app:endIconMode="clear_text"
         app:expandedHintEnabled="false"
         app:hintTextAppearance="@style/textHint12"
         app:layout_constraintBottom_toTopOf="@id/ll_with_salary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_industry_clear">
+        app:layout_constraintTop_toBottomOf="@+id/fl_industry">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_salary"
@@ -153,108 +261,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_place_of_work"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightPoints_60dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/margin_16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/tv_place_of_work_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/place_of_work"
-            style="@style/textRegular12"
-            android:layout_marginStart="@dimen/margin_16dp"
-            android:layout_marginTop="@dimen/margin_12dp"
-            android:layout_marginEnd="@dimen/margin_4dp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_clear_place_of_work"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_place_of_work_text"
-            style="@style/textRegular16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_16dp"
-            android:layout_marginBottom="@dimen/margin_12dp"
-            android:layout_marginEnd="@dimen/margin_4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/iv_clear_place_of_work"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_place_of_work_title"
-            tools:text="Россия,Москва" />
-
-        <ImageView
-            android:id="@+id/iv_clear_place_of_work"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:padding="@dimen/margin_16dp"
-            android:src="@drawable/cross"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_industry"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightPoints_60dp"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_place_of_work_clear">
-
-        <TextView
-            android:id="@+id/tv_industry_title"
-            style="@style/textRegular12"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_16dp"
-            android:layout_marginTop="@dimen/margin_12dp"
-            android:layout_marginEnd="@dimen/margin_4dp"
-            android:text="@string/sector"
-            app:layout_constraintEnd_toStartOf="@+id/iv_clear_industry"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_industry_text"
-            style="@style/textRegular16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_16dp"
-            android:layout_marginEnd="@dimen/margin_4dp"
-            android:layout_marginBottom="@dimen/margin_12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/iv_clear_industry"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_industry_title"
-            tools:text="IT" />
-
-        <ImageView
-            android:id="@+id/iv_clear_industry"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:padding="@dimen/margin_16dp"
-            android:src="@drawable/cross"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,6 +43,7 @@ class FilterStorageImpl(
             .edit()
             .remove(FILTER_SETTINGS)
             .apply()
+        clearCountry()
     }
 
     private fun saveCountry(country: CountryDto) {
@@ -53,12 +54,12 @@ class FilterStorageImpl(
             .apply()
     }
 
-    override fun getCountry():CountryDto? {
+    override fun getCountry(): CountryDto? {
         val jSON = sharedPreferences.getString(FILTER_COUNTRY, "")
         return if (jSON.isNullOrEmpty()) {
             null
         } else {
-            gson.fromJson(jSON,CountryDto::class.java)
+            gson.fromJson(jSON, CountryDto::class.java)
         }
     }
 
@@ -84,7 +85,7 @@ class FilterStorageImpl(
         }
     }
 
-    override fun clearCountryInFilter(){
+    override fun clearCountryInFilter() {
         val filterParam = getFilterSettings()
         saveFilterSettings(
             filterParam.copy(
