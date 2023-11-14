@@ -6,7 +6,7 @@ import ru.practicum.android.diploma.search.data.models.LogoUrls
 import ru.practicum.android.diploma.search.data.models.Salary
 import ru.practicum.android.diploma.search.domain.models.Codes
 import ru.practicum.android.diploma.search.domain.models.Filter
-import ru.practicum.android.diploma.search.domain.models.Job
+import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.models.JobsInfo
 import ru.practicum.android.diploma.similarjob.data.dto.JobSearchSimilarResponseDto
 
@@ -15,15 +15,15 @@ object AdapterJob {
     fun jobInfoDtoToJobInfo(response: JobSearchResponseDto, code: Int) = JobsInfo(
         responseCodes = codeMapper(code, response.found),
         jobs = response.items.map {
-            Job(
+            Vacancy(
                 id = it.id,
                 area = it.area.name,
-                department = it.department?.name ?: " ",
+                department = it.department?.name ?: "",
                 employerImgUrl = getLogo(it.employer.logoUrls),
                 employer = it.employer.name,
                 name = it.name,
                 salary = formSalaryString(it.salary),
-                type = it.type.name ?: " "
+                type = it.type.name ?: ""
             )
         },
         found = response.found,
@@ -34,15 +34,15 @@ object AdapterJob {
     fun jobInfoDtoToJobInfo(response: JobSearchSimilarResponseDto, code: Int) = JobsInfo(
         responseCodes = codeMapper(code, response.found),
         jobs = response.items.map {
-            Job(
+            Vacancy(
                 id = it.id,
                 area = it.area.name,
-                department = it.department?.name ?: " ",
+                department = it.department?.name ?: "",
                 employerImgUrl = getLogo(it.employer.logoUrls),
                 employer = it.employer.name,
                 name = it.name,
                 salary = formSalaryString(it.salary),
-                type = it.type.name ?: " "
+                type = it.type.name ?: ""
             )
         },
         found = response.found,
@@ -62,10 +62,9 @@ object AdapterJob {
     }
 
     private fun getLogo(logoUrls: LogoUrls?): String {
-        // if (logoUrls?.smallIcon != null) return logoUrls.smallIcon.toString()
         if (logoUrls?.mediumIcon != null) return logoUrls.mediumIcon.toString()
         if (logoUrls?.original != null) return logoUrls.original.toString()
-        return " "
+        return ""
     }
 
     private fun formSalaryString(salary: Salary?): String {
@@ -81,8 +80,7 @@ object AdapterJob {
     private fun makeHasMap(filter: Filter): HashMap<String, String> {
         val request = HashMap<String, String>()
         request["text"] = filter.request
-        //request["page"] = filter.page.toString()
-        // request["per_page"] = filter.request
+        request["page"] = filter.page.toString()
         if (filter.area != null) request["areaId"] = filter.area
         if (filter.industry != null) request["industryId"] = filter.industry
         if (filter.salary != null) request["salary"] = filter.salary.toString()
