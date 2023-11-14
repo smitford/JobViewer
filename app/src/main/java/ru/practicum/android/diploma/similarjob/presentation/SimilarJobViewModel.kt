@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.similarjob.presentation
 
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,5 +22,4 @@ class SimilarJobViewModel(private val similarJobInteractor: SimilarJobInteractor
             }
         }
     }
-
 }
