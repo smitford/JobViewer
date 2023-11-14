@@ -6,11 +6,11 @@ import ru.practicum.android.diploma.favorite.data.db.AppDataBase
 import ru.practicum.android.diploma.favorite.data.db.mapper.JobMapper
 import ru.practicum.android.diploma.favorite.domain.FavoriteState
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteRepository
-import ru.practicum.android.diploma.search.domain.models.Job
+import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 class FavoriteRepositoryImpl(private val appDataBase: AppDataBase): FavoriteRepository {
 
-    override fun get(): Flow<Pair<FavoriteState, ArrayList<Job>>> = flow{
+    override fun get(): Flow<Pair<FavoriteState, ArrayList<Vacancy>>> = flow{
 
         val mapper = JobMapper()
 
@@ -20,7 +20,7 @@ class FavoriteRepositoryImpl(private val appDataBase: AppDataBase): FavoriteRepo
                 emit(Pair(FavoriteState.EMPTY, arrayListOf()))
             } else {
 
-                val vacancies = ArrayList<Job>()
+                val vacancies = ArrayList<Vacancy>()
 
                 result.forEach {
                     vacancies.add(mapper.mapJob(it))

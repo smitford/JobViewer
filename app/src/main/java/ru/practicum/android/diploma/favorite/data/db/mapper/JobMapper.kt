@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.favorite.data.db.mapper
 
 import ru.practicum.android.diploma.favorite.data.db.entity.FavoriteEntity
 import ru.practicum.android.diploma.job.domain.models.JobForScreen
-import ru.practicum.android.diploma.search.domain.models.Job
+import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 class JobMapper {
 
@@ -48,8 +48,8 @@ class JobMapper {
 
     }
 
-    fun mapJob(job: FavoriteEntity): Job {
-        return Job(
+    fun mapJob(job: FavoriteEntity): Vacancy {
+        return Vacancy(
             job.id,
             job.area?: "",
             job.employment?: "",

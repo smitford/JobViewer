@@ -17,7 +17,7 @@ import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSimilarJobBinding
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
-import ru.practicum.android.diploma.search.domain.models.Job
+import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.models.JobsInfo
 import ru.practicum.android.diploma.search.presentation.JobAdapter
 
@@ -70,7 +70,7 @@ class SimilarJobFragment : Fragment() {
                     binding.ivPlaceholderPng.isGone = true
                     binding.pagingPrBar.isGone = true
                     // Заполнение списка вакансии
-                    adapter.jobsList = it.data.jobs as MutableList<Job>
+                    adapter.jobsList = it.data.jobs as MutableList<Vacancy>
                     adapter.notifyDataSetChanged()
 
                 }

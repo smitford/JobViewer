@@ -1,16 +1,19 @@
 package ru.practicum.android.diploma.search.presentation
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.search.domain.models.Codes
 import ru.practicum.android.diploma.search.domain.models.Filter
-import ru.practicum.android.diploma.search.domain.models.Job
+import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.models.JobsInfo
 import ru.practicum.android.diploma.search.domain.use_cases.GetSearchFilterUseCase
 import ru.practicum.android.diploma.search.domain.use_cases.LoadJobsUseCase
 import ru.practicum.android.diploma.search.presentation.models.SearchStates
+import ru.practicum.android.diploma.util.debounce
 
 class SearchViewModel(
     private val loadJobsUseCase: LoadJobsUseCase,
@@ -23,20 +26,26 @@ class SearchViewModel(
         filter = getFilter()
     }
 
-    private var state: SearchStates = SearchStates.Default
+    private var state: SearchStates = SearchStates.Start
     private val stateLiveData = MutableLiveData(state)
-    private val jobList = mutableListOf<Job>()
+    private val vacancyList = mutableListOf<Vacancy>()
+    private var searchJob: Job? = null
     private var page = 0
+    private var maxPage = 1
+    private val searchDebounce =
+        debounce<String>(SEARCH_DEBOUNCE_DELAY_MILS, viewModelScope, true) {
+            filter.request = it
+            search()
+        }
 
     fun loadJobs(text: String) {
         if (text.isBlank()) return
-        jobList.clear()
-        filter.request = text
-        search()
+        searchDebounce(text)
     }
 
     private fun search() {
-        stateLiveData.value = SearchStates.LoadingPaging
+        stateLiveData.value = SearchStates.Loading
+        vacancyList.clear()
         viewModelScope.launch {
             loadJobsUseCase.execute(filter = filter).collect { jobsInfo ->
                 requestHandler(jobsInfo)
@@ -45,18 +54,17 @@ class SearchViewModel(
     }
 
     private fun refreshSearch() {
-        jobList.clear()
+        vacancyList.clear()
         if (filter.request.isBlank()) return else search()
     }
 
-
-    fun getState() = stateLiveData
+    fun getState(): LiveData<SearchStates> = stateLiveData
 
     private fun getFilter() = getSearchFilterUseCase.execute()
 
     fun refreshFilter() {
         val newFiler = getFilter()
-        if (newFiler != filter) {
+        if (newFiler != filter && filter.request.isNotBlank()) {
             newFiler.request = filter.request
             filter = newFiler
             refreshSearch()
@@ -64,8 +72,10 @@ class SearchViewModel(
     }
 
     fun getNewPage() {
-        filter.page = page + 1
-        search()
+        if (page < maxPage - 1) {
+            filter.page = page + 1
+            search()
+        }
     }
 
     private fun requestHandler(jobsInfo: JobsInfo) {
@@ -75,16 +85,14 @@ class SearchViewModel(
             }
 
             Codes.SUCCESS -> {
-                jobList.addAll(jobsInfo.jobs!!)
+                vacancyList.addAll(jobsInfo.jobs!!)
                 page = jobsInfo.page
-                stateLiveData.value =
-                    jobsInfo.let {
-                        SearchStates.Success(
-                            jobList = jobList,
-                            page = it.page,
-                            found = it.found
-                        )
-                    }
+                maxPage = jobsInfo.pages
+                stateLiveData.value = jobsInfo.let {
+                    SearchStates.Success(
+                        jobList = vacancyList, page = it.page, found = it.found
+                    )
+                }
             }
 
             Codes.NO_NET_CONNECTION -> {
@@ -97,5 +105,20 @@ class SearchViewModel(
         }
     }
 
+    fun clearAll() {
+        stateLiveData.value = SearchStates.Start
+        vacancyList.clear()
+        filter.request = ""
+        searchJob?.cancel()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        searchJob = null
+    }
+
+    companion object {
+        const val SEARCH_DEBOUNCE_DELAY_MILS = 2000L
+    }
 
 }
