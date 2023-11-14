@@ -13,6 +13,7 @@ import ru.practicum.android.diploma.filter.data.impl.FilterStorageImpl
 import ru.practicum.android.diploma.filter.domain.FilterInteractor
 import ru.practicum.android.diploma.filter.domain.FilterRepository
 import ru.practicum.android.diploma.filter.domain.impl.FilterInteractorImpl
+import ru.practicum.android.diploma.filter.presentation.view_model.CountrySelectionViewModel
 import ru.practicum.android.diploma.filter.presentation.view_model.FilterSettingsViewModel
 import ru.practicum.android.diploma.util.DataUtils.Companion.APP_SETTINGS
 
@@ -28,23 +29,27 @@ val filterModule = module {
         )
     }
 
-    single <FilterStorage> {
-        FilterStorageImpl(get(),get())
+    single<FilterStorage> {
+        FilterStorageImpl(get(), get())
     }
 
-    single <FilterNetwork> {
+    single<FilterNetwork> {
         FilterNetworkImpl(get())
     }
 
-    single <FilterRepository> {
-        FilterRepositoryImpl(get(),get())
+    single<FilterRepository> {
+        FilterRepositoryImpl(get(), get())
     }
 
-    single <FilterInteractor> {
+    single<FilterInteractor> {
         FilterInteractorImpl(get())
     }
 
     viewModel {
         FilterSettingsViewModel(get())
+    }
+
+    viewModel {
+        CountrySelectionViewModel(get())
     }
 }
