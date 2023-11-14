@@ -19,6 +19,9 @@ out/
 # Local configuration file (sdk path, etc)
 local.properties
 develop.properties
+develop-properties
+
+
 
 # Gradle-profiler data
 profile-out*/
