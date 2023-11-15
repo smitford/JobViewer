@@ -13,17 +13,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import ru.practicum.android.diploma.search.domain.models.JobsInfo
 
-class SimilarJobRepositoryImpl(private val networkClient: NetworkClient) : SimilarJobRepository {
-
+class SimilarJobRepositoryImpl(
+    private val networkClient: NetworkClient,
+    private val adapterJob: AdapterJob
+) : SimilarJobRepository {
     override fun getSimilarJobs(vacancyId: String): Flow<DtoConsumer<JobsInfo>> =
         flow {
-
             val response = networkClient.doRequest(JobDtoSimilarRequest(vacancyId))
 
             when (response.responseCode) {
                 ResultCodes.SUCCESS -> emit(
                     DtoConsumer.Success(
-                        AdapterJob
+                        adapterJob
                             .jobInfoDtoToJobInfo(
                                 code = response.responseCode.code,
                                 response = (response as JobSearchSimilarResponseDto)

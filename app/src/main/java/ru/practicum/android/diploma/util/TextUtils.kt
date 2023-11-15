@@ -3,43 +3,74 @@ package ru.practicum.android.diploma.util
 import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
-import android.util.Log
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.job.data.impl.mapper.TypeForMapper
 import ru.practicum.android.diploma.job.data.secondarymodels.Address
 import ru.practicum.android.diploma.job.data.secondarymodels.Phones
 import ru.practicum.android.diploma.job.data.secondarymodels.Skills
-import ru.practicum.android.diploma.job.data.secondarymodels.Salary
 
 
 object TextUtils {
-
     fun checkSalaryBorder(salaryDto: Salary?, resourceProvider: ResourceProvider): String {
         var from = ""
         var to = ""
 
         salaryDto?.from?.let {
-            from = "от $it"
+            from = "от ${addSeparator(it)}"
         }
 
         salaryDto?.to?.let {
-            to = "до $it"
+            to = "до ${addSeparator(it)}"
         }
 
         return "$from $to ${checkCurrencyIcon(salaryDto?.currency, resourceProvider)}"
     }
 
+    fun getSalaryString(salaryDto: Salary?, resourceProvider: ResourceProvider): String =
+        if (salaryDto == null)
+            resourceProvider.getString(R.string.empty_salary)
+        else
+            checkSalaryBorder(salaryDto, resourceProvider)
+
+
     fun checkCurrencyIcon(currency: String?, resourceProvider: ResourceProvider): String {
         return when (currency) {
-            "RUR" -> {resourceProvider.getString(R.string.RUR)}
-            "USD" -> {resourceProvider.getString(R.string.USD)}
-            "AZN" -> {resourceProvider.getString(R.string.AZN)}
-            "BYR" -> {resourceProvider.getString(R.string.BYR)}
-            "EUR" -> {resourceProvider.getString(R.string.EUR)}
-            "GEL" -> {resourceProvider.getString(R.string.GEL)}
-            "KGS" -> {resourceProvider.getString(R.string.KGS)}
-            "KZT" -> {resourceProvider.getString(R.string.KZT)}
-            "UAH" -> {resourceProvider.getString(R.string.UAH)}
+            "RUR" -> {
+                resourceProvider.getString(R.string.RUR)
+            }
+
+            "USD" -> {
+                resourceProvider.getString(R.string.USD)
+            }
+
+            "AZN" -> {
+                resourceProvider.getString(R.string.AZN)
+            }
+
+            "BYR" -> {
+                resourceProvider.getString(R.string.BYR)
+            }
+
+            "EUR" -> {
+                resourceProvider.getString(R.string.EUR)
+            }
+
+            "GEL" -> {
+                resourceProvider.getString(R.string.GEL)
+            }
+
+            "KGS" -> {
+                resourceProvider.getString(R.string.KGS)
+            }
+
+            "KZT" -> {
+                resourceProvider.getString(R.string.KZT)
+            }
+
+            "UAH" -> {
+                resourceProvider.getString(R.string.UAH)
+            }
+
             else -> {
                 return ""
             }
@@ -103,4 +134,6 @@ object TextUtils {
             Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT)
         }
     }
+
+    fun addSeparator(number: Int) = "%,d".format(number).replace(",", " ")
 }

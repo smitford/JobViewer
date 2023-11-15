@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.job.data.secondarymodels
+package ru.practicum.android.diploma.util
 
 data class Salary(
     val from: Int?,

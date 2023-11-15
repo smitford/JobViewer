@@ -20,6 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.search.presentation.models.SearchStates
+import ru.practicum.android.diploma.util.TextUtils
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
@@ -124,7 +125,7 @@ class SearchFragment : Fragment() {
         binding.ivError.visibility = GONE
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = VISIBLE
-        binding.tvRvHeader.text = getString(R.string.founded, addSeparator(amount))
+        binding.tvRvHeader.text = getString(R.string.founded, TextUtils.addSeparator(amount))
         binding.pagingPrBar.visibility = GONE
     }
 
@@ -146,7 +147,6 @@ class SearchFragment : Fragment() {
         binding.pagingPrBar.visibility = VISIBLE
     }
 
-    private fun addSeparator(number: Int) = "%,d".format(number).replace(",", " ")
     private fun tWCreator() = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             changeVisBottomNav(GONE)
