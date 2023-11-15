@@ -5,7 +5,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
-import ru.practicum.android.diploma.filter.data.models.CountriesResponse
+import ru.practicum.android.diploma.filter.data.models.AreaDto
 import ru.practicum.android.diploma.filter.data.models.CountryDto
 import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenResponse
 import ru.practicum.android.diploma.search.data.models.JobSearchResponseDto
@@ -31,11 +31,14 @@ interface HhApiJobInfo {
     suspend fun getJobById(@Path("vacancy_id") id: String): JobDtoForScreenResponse
 
     //Получение списка стран
-    @Headers(
-        USER
-    )
+    @Headers(USER)
     @GET("areas/countries")
     suspend fun getCountries(): List<CountryDto>
+
+    //Получение регионов
+    @Headers(USER)
+    @GET("areas")
+    suspend fun getAllAreas(): List<AreaDto>
 
     @Headers(
         HEADER_AUTH,

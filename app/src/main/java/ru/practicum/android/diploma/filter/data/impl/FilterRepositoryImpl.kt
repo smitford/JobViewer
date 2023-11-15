@@ -1,11 +1,14 @@
 package ru.practicum.android.diploma.filter.data.impl
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.filter.data.FilterNetwork
 import ru.practicum.android.diploma.filter.data.FilterStorage
+import ru.practicum.android.diploma.filter.data.convertors.AreasConvertor
 import ru.practicum.android.diploma.filter.data.convertors.CountryConvertor
 import ru.practicum.android.diploma.filter.data.convertors.FilterParametersConvertor
 import ru.practicum.android.diploma.filter.domain.FilterRepository
+import ru.practicum.android.diploma.filter.domain.models.Area
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
@@ -48,5 +51,13 @@ class FilterRepositoryImpl(
 
     override fun clearCountryInFilter() {
         filterStorage.clearCountryInFilter()
+    }
+
+    override suspend fun getAllArea(): Flow<DtoConsumer<List<Area>>> = flow {
+        filterNetwork.getAllArea().collect {
+            if (it is DtoConsumer.Success) {
+                AreasConvertor.convertAreasDtoListToAreaList(it.data)
+            }
+        }
     }
 }
