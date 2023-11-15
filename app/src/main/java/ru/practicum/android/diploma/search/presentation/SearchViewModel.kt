@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.search.domain.models.Codes
 import ru.practicum.android.diploma.search.domain.models.Filter
@@ -47,7 +48,6 @@ class SearchViewModel(
 
     private fun search() {
         stateLiveData.value = SearchStates.Loading
-        vacancyList.clear()
         viewModelScope.launch {
             loadJobsUseCase.execute(filter = filter).collect { jobsInfo ->
                 requestHandler(jobsInfo)
@@ -56,7 +56,6 @@ class SearchViewModel(
     }
 
     private fun refreshSearch() {
-
         vacancyList.clear()
         if (filter.request.isNotBlank()) search()
     }
@@ -83,6 +82,7 @@ class SearchViewModel(
     }
 
     private fun requestHandler(jobsInfo: JobsInfo) {
+
         when (jobsInfo.responseCodes) {
             Codes.ERROR -> {
                 stateLiveData.value = SearchStates.ServerError
@@ -123,6 +123,7 @@ class SearchViewModel(
 
     companion object {
         const val SEARCH_DEBOUNCE_DELAY_MILS = 2000L
+        const val STATUS_DEBOUNCE_DELAY_MILS = 100L
     }
 
 }

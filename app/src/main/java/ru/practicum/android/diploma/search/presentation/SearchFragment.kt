@@ -63,9 +63,8 @@ class SearchFragment : Fragment() {
                 is SearchStates.ConnectionError -> setConnectionLostScreen()
                 is SearchStates.InvalidRequest -> setInvalidRequestScreen()
                 is SearchStates.Success -> {
-                    setSuccessScreen(state.found) //Передать общее кол-во найденных вакансий
+                    setSuccessScreen(state.found)
                     adapter.jobsList = state.jobList.toMutableList()
-                    adapter.notifyDataSetChanged()
                 }
 
                 is SearchStates.Loading -> setLoadingPaggScreen()
@@ -199,7 +198,6 @@ class SearchFragment : Fragment() {
     private fun clearText() {
         binding.etSearch.setText("")
         viewModel.clearAll()
-        adapter.notifyDataSetChanged()
         val endDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.search)
         binding.etSearch.setCompoundDrawablesRelativeWithIntrinsicBounds(
             null,
