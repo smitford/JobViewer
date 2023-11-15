@@ -21,9 +21,9 @@ import ru.practicum.android.diploma.util.ImgFunctions
 import ru.practicum.android.diploma.util.TextUtils
 
 class JobFragment : Fragment() {
-
     private val jobFragmentViewModel: JobFragmentViewModel by viewModel()
-    private lateinit var binding: FragmentJobBinding
+    private var _binding: FragmentJobBinding? = null
+    private val binding get() = _binding!!
     private lateinit var jobData: JobForScreen
     private val args: JobFragmentArgs by navArgs()
     private var isFavorite: Boolean = false
@@ -32,7 +32,7 @@ class JobFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentJobBinding.inflate(inflater, container, false)
+        _binding = FragmentJobBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -48,7 +48,6 @@ class JobFragment : Fragment() {
             }
 
         jobFragmentViewModel.observeFavoriteLifeData().observe(viewLifecycleOwner) {
-
             isFavorite = it
             if (isFavorite) {
                 binding.ibFavourite.setImageResource(R.drawable.ic_favorites_on)
@@ -58,13 +57,11 @@ class JobFragment : Fragment() {
         }
 
         binding.ibFavourite.setOnClickListener {
-
             if (isFavorite) {
                 jobData.id?.let { id -> jobFragmentViewModel.deleteFromFavorite(id) }
             } else {
                 jobFragmentViewModel.addToFavorite(jobData)
             }
-
         }
 
         binding.btnSimilarJobs.setOnClickListener {
@@ -105,7 +102,6 @@ class JobFragment : Fragment() {
             is JobScreenState.InvalidRequest -> {
                 showError()
             }
-
         }
     }
 
@@ -117,7 +113,6 @@ class JobFragment : Fragment() {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
     private fun fillContent(job: JobForScreen) {
         with(binding) {
             tvJobName.text = job.name
@@ -140,14 +135,30 @@ class JobFragment : Fragment() {
             tvRequiredExperience.text = job.experience
             tvEmployment.text = job.employment
             tvJobDiscription.text = TextUtils.fromHtml(job.description)
+        }
 
-            if (job.keySkills.isNotEmpty()) {
+        checkAndShowSkills(job)
+        checkAndShowContacts(job)
+
+        job.id?.let { jobFragmentViewModel.includedToFavorite(it) }
+        jobData = job
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun checkAndShowSkills(job: JobForScreen) {
+        if (job.keySkills.isNotEmpty()) {
+            with(binding) {
                 llKeySkills.visibility = View.VISIBLE
                 tvMainSkills.text =
                     TextUtils.arrayToStrInJob(job.keySkills as Array<Any>, TypeForMapper.Skills)
             }
+        }
+    }
 
-            if (job.email != null && job.phones != null) {
+    @Suppress("UNCHECKED_CAST")
+    private fun checkAndShowContacts(job: JobForScreen) {
+        if (job.email != null && job.phones != null) {
+            with(binding) {
                 llContacts.visibility = View.VISIBLE
                 tvEmailContacts.text = job.email
                 tvPhoneContacts.text =
@@ -161,10 +172,6 @@ class JobFragment : Fragment() {
                 )
             }
         }
-
-        // Проверить в избранном
-        job.id?.let { jobFragmentViewModel.includedToFavorite(it) }
-        jobData = job
     }
 
     private fun initListeners() {
