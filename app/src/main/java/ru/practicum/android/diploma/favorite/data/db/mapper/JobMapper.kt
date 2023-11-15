@@ -30,7 +30,7 @@ class JobMapper {
 
     }
 
-    fun map(job: FavoriteEntity): JobForScreen {
+    fun map(job: FavoriteEntity,skills : Array<Skills?>,phones: Array<Phones?>): JobForScreen {
 
         return JobForScreen(
             job.id,
@@ -44,10 +44,10 @@ class JobMapper {
             job.experience,
             job.employment,
             job.description,
-            emptyArray(),
+            skills,
             job.contactsName,
             job.email,
-            emptyArray()
+            phones
         )
 
     }

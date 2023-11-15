@@ -8,11 +8,9 @@ import ru.practicum.android.diploma.favorite.domain.FavoriteState
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteRepository
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 
-class FavoriteRepositoryImpl(private val appDataBase: AppDataBase): FavoriteRepository {
+class FavoriteRepositoryImpl(private val appDataBase: AppDataBase,private val mapper: JobMapper): FavoriteRepository {
 
     override fun get(): Flow<Pair<FavoriteState, ArrayList<Vacancy>>> = flow{
-
-        val mapper = JobMapper()
 
         try {
             val result = appDataBase.favoriteDAO().get()

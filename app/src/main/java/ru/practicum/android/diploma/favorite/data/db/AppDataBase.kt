@@ -16,6 +16,6 @@ import ru.practicum.android.diploma.favorite.data.db.entity.PhonesEntity
 )
 abstract class AppDataBase : RoomDatabase() {
     abstract fun favoriteDAO(): FavoriteDAO
-    abstract fun KeySkillsDAO(): KeySkillsDAO
-    abstract fun PhonesDAO(): PhonesDAO
+    abstract fun keySkillsDAO(): KeySkillsDAO
+    abstract fun phonesDAO(): PhonesDAO
 }
