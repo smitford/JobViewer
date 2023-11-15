@@ -34,19 +34,17 @@ object TextUtils {
 
     fun checkCurrencyIcon(currency: String?, resourceProvider: ResourceProvider): String {
         return when (currency) {
-            "RUR" -> {resourceProvider.getString(R.string.RUR)}
-            "USD" -> {resourceProvider.getString(R.string.USD)}
-            "AZN" -> {resourceProvider.getString(R.string.AZN)}
-            "BYR" -> {resourceProvider.getString(R.string.BYR)}
-            "EUR" -> {resourceProvider.getString(R.string.EUR)}
-            "GEL" -> {resourceProvider.getString(R.string.GEL)}
-            "KGS" -> {resourceProvider.getString(R.string.KGS)}
-            "KZT" -> {resourceProvider.getString(R.string.KZT)}
-            "UAH" -> {resourceProvider.getString(R.string.UAH)}
-            "UZS" -> {resourceProvider.getString(R.string.UZS)}
-            else -> {
-                return ""
-            }
+            "RUR" -> resourceProvider.getString(R.string.RUR)
+            "USD" -> resourceProvider.getString(R.string.USD)
+            "AZN" -> resourceProvider.getString(R.string.AZN)
+            "BYR" -> resourceProvider.getString(R.string.BYR)
+            "EUR" -> resourceProvider.getString(R.string.EUR)
+            "GEL" -> resourceProvider.getString(R.string.GEL)
+            "KGS" -> resourceProvider.getString(R.string.KGS)
+            "KZT" -> resourceProvider.getString(R.string.KZT)
+            "UAH" -> resourceProvider.getString(R.string.UAH)
+            "UZS" -> resourceProvider.getString(R.string.UZS)
+            else -> return ""
         }
     }
 

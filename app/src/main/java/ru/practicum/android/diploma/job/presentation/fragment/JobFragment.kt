@@ -91,17 +91,9 @@ class JobFragment : Fragment() {
                 }
             }
 
-            is JobScreenState.ServerError -> {
-                showError()
-            }
-
-            is JobScreenState.ConnectionError -> {
-                showError()
-            }
-
-            is JobScreenState.InvalidRequest -> {
-                showError()
-            }
+            is JobScreenState.ServerError -> showError()
+            is JobScreenState.ConnectionError -> showError()
+            is JobScreenState.InvalidRequest -> showError()
         }
     }
 
