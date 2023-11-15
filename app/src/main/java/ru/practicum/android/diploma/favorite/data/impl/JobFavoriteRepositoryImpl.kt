@@ -28,4 +28,8 @@ class JobFavoriteRepositoryImpl(private val appDataBase: AppDataBase) : JobFavor
 
     }
 
+    override suspend fun getFromBase(id: String): JobForScreen {
+        TODO("Not yet implemented")
+    }
+
 }
