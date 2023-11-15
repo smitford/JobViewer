@@ -15,7 +15,7 @@ interface KeySkillsDAO {
 
     // Получить навыки по id
     @Query("SELECT * FROM KeySkills WHERE idVacancy LIKE :idVacancy")
-    suspend fun getSkills(idVacancy: String)
+    suspend fun getSkills(idVacancy: String): List<KeySkillsEntity>
 
     // Добавить навыки
     @Insert(entity = KeySkillsEntity::class, onConflict = OnConflictStrategy.REPLACE)

@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Phones")
 data class PhonesEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id:Int,
-    val idVacancy:String,
+    @PrimaryKey(true)
+    val id:Int = 0,
+    val idVacancy:String?,
     val comment: String?,
     val formatted: String?
 )

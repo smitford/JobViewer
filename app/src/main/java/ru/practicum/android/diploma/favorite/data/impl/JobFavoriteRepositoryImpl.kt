@@ -12,10 +12,22 @@ class JobFavoriteRepositoryImpl(private val appDataBase: AppDataBase) : JobFavor
         val mapper = JobMapper()
         appDataBase.favoriteDAO().add(mapper.map(job))
 
+        // сохранить навыки
+        job.keySkills.forEach {
+            appDataBase.KeySkillsDAO().add(mapper.mapSkills(it!!, job.id!!))
+        }
+
+        // сохранить контакты
+        job.phones?.forEach {
+            appDataBase.PhonesDAO().add(mapper.mapPhones(it!!, job.id!!))
+        }
+
     }
 
     override suspend fun delete(id: String) {
         appDataBase.favoriteDAO().delete(id)
+        appDataBase.KeySkillsDAO().delete(id)
+        appDataBase.PhonesDAO().delete(id)
     }
 
     override suspend fun included(id: String): Boolean {
