@@ -42,7 +42,7 @@ class JobFavoriteRepositoryImpl(private val appDataBase: AppDataBase,private val
     }
 
     override suspend fun getFromBase(id: String): JobForScreen {
-        val favoriteEntity = appDataBase.favoriteDAO().getVacancy(id)
+        val favoriteEntity = appDataBase.favoriteDAO().getVacancy(id)[0]
 
         val skills = ArrayList<Skills?>()
         appDataBase.keySkillsDAO().getSkills(id).forEach {
