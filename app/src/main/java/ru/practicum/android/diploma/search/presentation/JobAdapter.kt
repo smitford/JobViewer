@@ -3,14 +3,21 @@ package ru.practicum.android.diploma.search.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.RecyclerVacancyItemBinding
+import ru.practicum.android.diploma.filter.di.filterModule
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 
 class JobAdapter(val onJobClickedCB: (String) -> Unit) : RecyclerView.Adapter<JobViewHolder>() {
+    var jobsList = listOf<Vacancy>()
+        set(newList) {
+            val diffResult = DiffUtil.calculateDiff(DiffCallbackJob(field, newList))
+            field = newList
+            diffResult.dispatchUpdatesTo(this)
+        }
 
-    var jobsList = mutableListOf<Vacancy>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return JobViewHolder(
