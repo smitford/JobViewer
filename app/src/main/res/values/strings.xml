@@ -69,4 +69,7 @@
     <string name="KGS">с</string>
     <string name="KZT">₸</string>
     <string name="UAH">₴</string>
+    <string name="full_salary">от %s до %s</string>
+    <string name="salary_from">от %s</string>
+    <string name="salary_to">до %s</string>
 </resources>

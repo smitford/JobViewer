@@ -58,4 +58,5 @@ val jobModule = module {
     viewModel {
         JobFragmentViewModel(get(), get(),get())
     }
+
 }

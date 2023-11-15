@@ -3,15 +3,15 @@ package ru.practicum.android.diploma.search.data.net
 import ru.practicum.android.diploma.search.data.models.JobSearchRequest
 import ru.practicum.android.diploma.search.data.models.JobSearchResponseDto
 import ru.practicum.android.diploma.search.data.models.LogoUrls
-import ru.practicum.android.diploma.search.data.models.Salary
 import ru.practicum.android.diploma.search.domain.models.Codes
 import ru.practicum.android.diploma.search.domain.models.Filter
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.models.JobsInfo
 import ru.practicum.android.diploma.similarjob.data.dto.JobSearchSimilarResponseDto
+import ru.practicum.android.diploma.util.ResourceProvider
+import ru.practicum.android.diploma.util.TextUtils
 
-object AdapterJob {
-
+class AdapterJob(private val resourceProvider: ResourceProvider) {
     fun jobInfoDtoToJobInfo(response: JobSearchResponseDto, code: Int) = JobsInfo(
         responseCodes = codeMapper(code, response.found),
         jobs = response.items.map {
@@ -22,7 +22,7 @@ object AdapterJob {
                 employerImgUrl = getLogo(it.employer.logoUrls),
                 employer = it.employer.name,
                 name = it.name,
-                salary = formSalaryString(it.salary),
+                salary = TextUtils.getSalaryString(it.salary, resourceProvider),
                 type = it.type.name ?: ""
             )
         },
@@ -41,7 +41,7 @@ object AdapterJob {
                 employerImgUrl = getLogo(it.employer.logoUrls),
                 employer = it.employer.name,
                 name = it.name,
-                salary = formSalaryString(it.salary),
+                salary = TextUtils.getSalaryString(it.salary, resourceProvider),
                 type = it.type.name ?: ""
             )
         },
@@ -67,16 +67,6 @@ object AdapterJob {
         return ""
     }
 
-    private fun formSalaryString(salary: Salary?): String {
-        if (salary == null) return "зарплата не указана"
-        if (salary.from != null && salary.to != null)
-            return "от  ${salary.from}  до  ${salary.to}"
-        return if (salary.from != null)
-            "от  ${salary.from}"
-        else
-            "до  ${salary.to}"
-    }
-
     private fun makeHasMap(filter: Filter): HashMap<String, String> {
         val request = HashMap<String, String>()
         request["text"] = filter.request
@@ -87,5 +77,6 @@ object AdapterJob {
 
         return request
     }
+
 }
 

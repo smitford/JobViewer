@@ -7,7 +7,7 @@ import ru.practicum.android.diploma.job.data.secondarymodels.Employer
 import ru.practicum.android.diploma.job.data.secondarymodels.Employment
 import ru.practicum.android.diploma.job.data.secondarymodels.Experience
 import ru.practicum.android.diploma.job.data.secondarymodels.Skills
-import ru.practicum.android.diploma.job.data.secondarymodels.Salary
+import ru.practicum.android.diploma.util.Salary
 import ru.practicum.android.diploma.search.data.models.ResponseDto
 
 data class JobDtoForScreenResponse(
