@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.search.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,6 +25,7 @@ class SearchViewModel(
 
     init {
         filter = getFilter()
+        Log.d("filterInit", filter.toString())
     }
 
     private var state: SearchStates = SearchStates.Start
@@ -54,8 +56,9 @@ class SearchViewModel(
     }
 
     private fun refreshSearch() {
+
         vacancyList.clear()
-        if (filter.request.isBlank()) return else search()
+        if (filter.request.isNotBlank()) search()
     }
 
     fun getState(): LiveData<SearchStates> = stateLiveData
@@ -64,7 +67,8 @@ class SearchViewModel(
 
     fun refreshFilter() {
         val newFiler = getFilter()
-        if (newFiler != filter && filter.request.isNotBlank()) {
+        Log.d("filterNew", newFiler.toString())
+        if (newFiler != filter) {
             newFiler.request = filter.request
             filter = newFiler
             refreshSearch()
