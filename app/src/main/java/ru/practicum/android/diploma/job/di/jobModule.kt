@@ -28,7 +28,7 @@ val jobModule = module {
     }
 
     single<JobFavoriteRepository> {
-        JobFavoriteRepositoryImpl(get())
+        JobFavoriteRepositoryImpl(get(),get())
     }
 
     single<JobFavoriteInteractor> {

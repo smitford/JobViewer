@@ -9,6 +9,10 @@ class JobFavoriteInteractorImpl(private val jobFavoriteRepository: JobFavoriteRe
         jobFavoriteRepository.add(job)
     }
 
+    override suspend fun getFromBase(id: String): JobForScreen {
+        return jobFavoriteRepository.getFromBase(id)
+    }
+
     override suspend fun delete(id: String) {
         jobFavoriteRepository.delete(id)
     }

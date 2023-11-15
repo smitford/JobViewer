@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.favorite.data.db.entity.FavoriteEntity
 @Dao
 interface FavoriteDAO {
 
-    // Получить треки
+    // Получить вакансии
     @Query("SELECT * FROM Favorite")
     suspend fun get(): List<FavoriteEntity>
 
@@ -24,5 +24,8 @@ interface FavoriteDAO {
     // Узнать есть ли в избранном
     @Query("SELECT EXISTS (SELECT 1 FROM Favorite WHERE id LIKE :id)")
     suspend fun included(id: String): Boolean
+
+    @Query("SELECT * FROM Favorite WHERE id LIKE :id")
+    suspend fun getVacancy(id: String) : List<FavoriteEntity>
 
 }

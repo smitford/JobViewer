@@ -1,6 +1,10 @@
 package ru.practicum.android.diploma.favorite.data.db.mapper
 
 import ru.practicum.android.diploma.favorite.data.db.entity.FavoriteEntity
+import ru.practicum.android.diploma.favorite.data.db.entity.KeySkillsEntity
+import ru.practicum.android.diploma.favorite.data.db.entity.PhonesEntity
+import ru.practicum.android.diploma.job.data.secondarymodels.Phones
+import ru.practicum.android.diploma.job.data.secondarymodels.Skills
 import ru.practicum.android.diploma.job.domain.models.JobForScreen
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 
@@ -26,7 +30,7 @@ class JobMapper {
 
     }
 
-    fun map(job: FavoriteEntity): JobForScreen {
+    fun map(job: FavoriteEntity,skills : Array<Skills?>,phones: Array<Phones?>): JobForScreen {
 
         return JobForScreen(
             job.id,
@@ -40,10 +44,10 @@ class JobMapper {
             job.experience,
             job.employment,
             job.description,
-            emptyArray(),
+            skills,
             job.contactsName,
             job.email,
-            emptyArray()
+            phones
         )
 
     }
@@ -60,6 +64,22 @@ class JobMapper {
             job.name ?: ""
         )
 
+    }
+
+    fun mapSkills(skill:Skills,idVacancy: String) : KeySkillsEntity{
+        return KeySkillsEntity(idVacancy = idVacancy, name = skill.name)
+    }
+
+    fun mapSkills(keySkillsEntity: KeySkillsEntity) : Skills{
+        return Skills(keySkillsEntity.name)
+    }
+
+    fun mapPhones(phones: Phones,idVacancy: String): PhonesEntity{
+        return PhonesEntity(idVacancy=idVacancy, comment = phones.comment, formatted = phones.formatted)
+    }
+
+    fun mapPhones(phonesEntity: PhonesEntity): Phones{
+        return Phones(phonesEntity.comment,phonesEntity.formatted)
     }
 
 }
