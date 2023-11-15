@@ -12,7 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentJobBinding
-import ru.practicum.android.diploma.job.data.impl.mapper.TypeForMapper
+import ru.practicum.android.diploma.job.data.impl.mapper.TypeForTextUtils
 import ru.practicum.android.diploma.job.domain.models.JobForScreen
 import ru.practicum.android.diploma.job.presentation.states.JobScreenState
 import ru.practicum.android.diploma.job.presentation.viewmodel.JobFragmentViewModel
@@ -142,7 +142,7 @@ class JobFragment : Fragment() {
             with(binding) {
                 llKeySkills.visibility = View.VISIBLE
                 tvMainSkills.text =
-                    TextUtils.arrayToStrInJob(job.keySkills as Array<Any>, TypeForMapper.Skills)
+                    TextUtils.arrayToStrInJob(job.keySkills as Array<Any>, TypeForTextUtils.Skills)
             }
         }
     }
@@ -156,11 +156,11 @@ class JobFragment : Fragment() {
                 tvPhoneContacts.text =
                     TextUtils.arrayToStrInJob(
                         job.phones as Array<Any>,
-                        TypeForMapper.Phones
+                        TypeForTextUtils.Phones
                     )
                 tvComments.text = TextUtils.arrayToStrInJob(
                     job.phones as Array<Any>,
-                    TypeForMapper.Comment
+                    TypeForTextUtils.Comment
                 )
             }
         }

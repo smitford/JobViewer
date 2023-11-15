@@ -4,7 +4,7 @@ import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.job.data.impl.mapper.TypeForMapper
+import ru.practicum.android.diploma.job.data.impl.mapper.TypeForTextUtils
 import ru.practicum.android.diploma.job.data.secondarymodels.Address
 import ru.practicum.android.diploma.job.data.secondarymodels.Phones
 import ru.practicum.android.diploma.job.data.secondarymodels.Skills
@@ -48,25 +48,25 @@ object TextUtils {
         }
     }
 
-    fun arrayToStrInJob(array: Array<Any>?, itemType: TypeForMapper): String {
+    fun arrayToStrInJob(array: Array<Any>?, itemType: TypeForTextUtils): String {
         var formattedString = ""
         if (!array.isNullOrEmpty()) {
             for (i in array.indices) {
                 val item: Any
                 when (itemType) {
-                    is TypeForMapper.Skills ->
+                    is TypeForTextUtils.Skills ->
                         if (array.isArrayOf<Skills>()) {
                             item = array[i] as Skills
                             item.name?.let { formattedString += ("• " + item.name + "\n") }
                         }
 
-                    is TypeForMapper.Phones ->
+                    is TypeForTextUtils.Phones ->
                         if (array.isArrayOf<Phones>()) {
                             item = array[i] as Phones
                             item.formatted?.let { formattedString += (item.formatted + "\n") }
                         }
 
-                    is TypeForMapper.Comment ->
+                    is TypeForTextUtils.Comment ->
                         if (array.isArrayOf<Phones>()) {
                             item = array[i] as Phones
                             item.comment?.let { formattedString += (item.comment + "\n") }
