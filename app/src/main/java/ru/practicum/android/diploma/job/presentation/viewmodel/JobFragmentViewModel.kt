@@ -1,19 +1,17 @@
 package ru.practicum.android.diploma.job.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.favorite.presentation.api.JobFavoriteInteractor
-import ru.practicum.android.diploma.job.domain.models.JobForScreenInfo
 import ru.practicum.android.diploma.job.domain.interactor.LoadJobInteractor
 import ru.practicum.android.diploma.job.domain.models.JobForScreen
+import ru.practicum.android.diploma.job.domain.models.JobForScreenInfo
 import ru.practicum.android.diploma.job.presentation.states.JobScreenState
-import ru.practicum.android.diploma.sharing.domain.interactor.SharingInteractor
 import ru.practicum.android.diploma.search.domain.models.Codes
-import ru.practicum.android.diploma.search.presentation.models.SearchStates
+import ru.practicum.android.diploma.sharing.domain.interactor.SharingInteractor
 
 class JobFragmentViewModel(
     private val sharingInteractor: SharingInteractor,
@@ -52,21 +50,17 @@ class JobFragmentViewModel(
         when (jobForScreenInfo.responseCodes) {
             Codes.ERROR -> {
                 _state.postValue(JobScreenState.ServerError)
-                Log.d("requestHandlerJob", jobForScreenInfo.responseCodes.name)
             }
 
             Codes.SUCCESS -> {
                 _state.postValue(jobForScreenInfo.job?.let { JobScreenState.Success(it) }
                     ?: JobScreenState.InvalidRequest)
-                Log.d("requestHandlerJob", jobForScreenInfo.responseCodes.name)
             }
 
             Codes.NO_NET_CONNECTION -> {
                 _state.postValue(JobScreenState.ConnectionError)
-                Log.d("requestHandlerJob", jobForScreenInfo.responseCodes.name)
             }
             Codes.NO_RESULTS->{
-                Log.d("requestHandlerJob", jobForScreenInfo.responseCodes.name)
             }
         }
 
@@ -88,8 +82,5 @@ class JobFragmentViewModel(
             jobFavoriteInteractor.delete(id)
             _favorite.value = false
         }
-
-
     }
-
 }
