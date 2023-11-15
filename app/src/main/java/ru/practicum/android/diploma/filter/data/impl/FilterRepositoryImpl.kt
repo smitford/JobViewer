@@ -60,4 +60,12 @@ class FilterRepositoryImpl(
             }
         }
     }
+
+    suspend fun getAreasById(id: String): Flow<DtoConsumer<Area>> = flow {
+        filterNetwork.getAreasById(id).collect {
+            if (it is DtoConsumer.Success) {
+                AreasConvertor.convertAreasDtoToAreaList(it.data, it.data.name)
+            }
+        }
+    }
 }

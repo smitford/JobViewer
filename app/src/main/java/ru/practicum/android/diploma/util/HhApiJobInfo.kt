@@ -40,15 +40,21 @@ interface HhApiJobInfo {
     @GET("areas")
     suspend fun getAllAreas(): List<AreaDto>
 
+    //Получение регионов по айди страны
+    @Headers(USER)
+    @GET("areas/{area_id}")
+    suspend fun getAreasById(@Path("area_id") id: String): AreaDto
+
+
     @Headers(
         HEADER_AUTH,
         USER
     )
     @GET("vacancies/{vacancy_id}/similar_vacancies")
-    suspend fun getSimilarVacancies(@Path("vacancy_id")vacancyId: String) :
+    suspend fun getSimilarVacancies(@Path("vacancy_id") vacancyId: String):
             JobSearchSimilarResponseDto
 
-    companion object{
+    companion object {
         const val HEADER_AUTH = "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}"
         const val USER = "HH-User-Agent: Diplom_Yandex_HH (alk68@yandex.ru)"
     }

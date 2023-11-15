@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.filter.data.models.AllAreasResponse
+import ru.practicum.android.diploma.filter.data.models.AreasByIdResponse
 import ru.practicum.android.diploma.filter.data.models.CountriesResponse
 import ru.practicum.android.diploma.filter.data.models.FilterRequest
 import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenRequest
@@ -65,6 +66,17 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
             is FilterRequest.Areas -> try {
                 val data = hhService.getAllAreas()
                 val response = AllAreasResponse(data)
+                response.apply { responseCode = ResultCodes.SUCCESS }
+            } catch (e: Exception) {
+                ResponseDto().apply { responseCode = ResultCodes.ERROR }
+            }
+
+            //Список регеонов по Id
+            is FilterRequest.AreasById -> try {
+                val data = hhService.getAreasById(
+                    id = dto.idArea
+                )
+                val response = AreasByIdResponse(data)
                 response.apply { responseCode = ResultCodes.SUCCESS }
             } catch (e: Exception) {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }

@@ -8,6 +8,7 @@ import ru.practicum.android.diploma.filter.data.FilterNetwork
 import ru.practicum.android.diploma.filter.data.convertors.CountryConvertor
 import ru.practicum.android.diploma.filter.data.models.AreaDto
 import ru.practicum.android.diploma.filter.data.models.AllAreasResponse
+import ru.practicum.android.diploma.filter.data.models.AreasByIdResponse
 import ru.practicum.android.diploma.filter.data.models.CountriesResponse
 import ru.practicum.android.diploma.filter.data.models.FilterRequest
 import ru.practicum.android.diploma.filter.domain.models.Country
@@ -54,8 +55,25 @@ class FilterNetworkImpl(private val networkClient: NetworkClient) : FilterNetwor
 
             ResultCodes.SUCCESS -> {
                 val areas = response as AllAreasResponse
-                val data = areas.results
-                emit(DtoConsumer.Success(data))
+                emit(DtoConsumer.Success(areas.results))
+            }
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun getAreasById(id: String): Flow<DtoConsumer<AreaDto>> = flow {
+        val response = networkClient.doRequest(FilterRequest.AreasById(id))
+        when (response.responseCode) {
+            ResultCodes.NO_NET_CONNECTION -> {
+                emit(DtoConsumer.NoInternet(response.responseCode.code))
+            }
+
+            ResultCodes.ERROR -> {
+                emit(DtoConsumer.Error(response.responseCode.code))
+            }
+
+            ResultCodes.SUCCESS -> {
+                val areas = response as AreasByIdResponse
+                emit(DtoConsumer.Success(areas.results))
             }
         }
     }.flowOn(Dispatchers.IO)
