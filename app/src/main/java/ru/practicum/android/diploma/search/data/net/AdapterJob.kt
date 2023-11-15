@@ -71,8 +71,8 @@ class AdapterJob(private val resourceProvider: ResourceProvider) {
         val request = HashMap<String, String>()
         request["text"] = filter.request
         request["page"] = filter.page.toString()
-        if (filter.area != null) request["areaId"] = filter.area
-        if (filter.industry != null) request["industryId"] = filter.industry
+        if (filter.area != null) request["area"] = filter.area
+        if (filter.industry != null) request["industry"] = filter.industry
         if (filter.salary != null) request["salary"] = filter.salary.toString()
 
         return request
