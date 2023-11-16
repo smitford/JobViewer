@@ -29,7 +29,7 @@ class SearchViewModel(
         Log.d("filterInit", filter.toString())
     }
 
-    private var state: SearchStates = SearchStates.Start
+    private var state: SearchStates = SearchStates.Start(checkFilterState())
     private val stateLiveData = MutableLiveData(state)
     private val vacancyList = mutableListOf<Vacancy>()
     private var searchJob: Job? = null
@@ -70,7 +70,25 @@ class SearchViewModel(
 
     fun refreshFilter() {
         val newFiler = getFilter()
-        Log.d("filterNew", newFiler.toString())
+        when (stateLiveData.value) {
+            is SearchStates.Success -> (stateLiveData.value as SearchStates.Success).filterStates =
+                checkFilterState()
+
+            is SearchStates.Start -> (stateLiveData.value as SearchStates.Start).filterStates =
+                checkFilterState()
+
+            is SearchStates.ServerError -> (stateLiveData.value as SearchStates.ServerError).filterStates =
+                checkFilterState()
+
+            is SearchStates.InvalidRequest -> (stateLiveData.value as SearchStates.InvalidRequest).filterStates =
+                checkFilterState()
+
+            is SearchStates.ConnectionError -> (stateLiveData.value as SearchStates.ConnectionError).filterStates =
+                checkFilterState()
+
+            else -> Unit
+        }
+
         if (newFiler != filter) {
             newFiler.request = filter.request
             filter = newFiler
@@ -86,36 +104,40 @@ class SearchViewModel(
     }
 
     private fun requestHandler(jobsInfo: JobsInfo) {
-
         when (jobsInfo.responseCodes) {
             Codes.ERROR -> {
-                stateLiveData.value = SearchStates.ServerError
+                stateLiveData.value = SearchStates.ServerError(checkFilterState())
             }
 
             Codes.SUCCESS -> {
                 vacancyList.addAll(jobsInfo.jobs!!)
-                Log.d("Valuse", jobsInfo.jobs.toString())
                 page = jobsInfo.page
                 maxPage = jobsInfo.pages
                 stateLiveData.value = jobsInfo.let {
                     SearchStates.Success(
-                        jobList = vacancyList, page = it.page, found = it.found
+                        jobList = vacancyList,
+                        page = it.page,
+                        found = it.found,
+                        filterStates = checkFilterState()
                     )
                 }
             }
 
             Codes.NO_NET_CONNECTION -> {
-                stateLiveData.value = SearchStates.ConnectionError
+                stateLiveData.value = SearchStates.ConnectionError(checkFilterState())
             }
 
             Codes.NO_RESULTS -> {
-                stateLiveData.value = SearchStates.InvalidRequest
+                stateLiveData.value = SearchStates.InvalidRequest(checkFilterState())
             }
         }
     }
 
+    private fun checkFilterState(): Boolean =
+        filter.salary != null || filter.area != null || filter.industry != null || filter.onlyWithSalary
+
     fun clearAll() {
-        stateLiveData.value = SearchStates.Start
+        stateLiveData.value = SearchStates.Start(checkFilterState())
         vacancyList.clear()
         filter.request = ""
         searchJob?.cancel()
