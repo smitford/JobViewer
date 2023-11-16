@@ -102,6 +102,7 @@
         android:layout_width="@dimen/zero_0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16dp"
+        app:flow_verticalBias="0"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@id/paging_prBar"
         app:layout_constraintEnd_toEndOf="@id/gl_end"

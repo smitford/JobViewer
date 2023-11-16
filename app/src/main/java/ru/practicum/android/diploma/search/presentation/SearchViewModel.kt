@@ -40,6 +40,10 @@ class SearchViewModel(
             filter.request = it
             search()
         }
+    private val pageLoaderDebounce =
+        debounce<Unit>(PAGE_LOAD_DEBOUNCE_DELAY_MILS, viewModelScope, true) {
+            search()
+        }
 
     fun loadJobs(text: String) {
         if (text.isBlank()) return
@@ -77,7 +81,7 @@ class SearchViewModel(
     fun getNewPage() {
         if (page < maxPage - 1) {
             filter.page = page + 1
-            search()
+            pageLoaderDebounce(Unit)
         }
     }
 
@@ -90,6 +94,7 @@ class SearchViewModel(
 
             Codes.SUCCESS -> {
                 vacancyList.addAll(jobsInfo.jobs!!)
+                Log.d("Valuse", jobsInfo.jobs.toString())
                 page = jobsInfo.page
                 maxPage = jobsInfo.pages
                 stateLiveData.value = jobsInfo.let {
@@ -123,7 +128,7 @@ class SearchViewModel(
 
     companion object {
         const val SEARCH_DEBOUNCE_DELAY_MILS = 2000L
-        const val STATUS_DEBOUNCE_DELAY_MILS = 100L
+        const val PAGE_LOAD_DEBOUNCE_DELAY_MILS = 100L
     }
 
 }
