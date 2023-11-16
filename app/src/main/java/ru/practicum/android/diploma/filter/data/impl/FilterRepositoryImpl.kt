@@ -53,19 +53,28 @@ class FilterRepositoryImpl(
         filterStorage.clearCountryInFilter()
     }
 
-    override suspend fun getAllArea(): Flow<DtoConsumer<List<Region>>> = flow {
-        filterNetwork.getAllArea().collect {
-            if (it is DtoConsumer.Success) {
-                AreasConvertor.convertAreasDtoListToAreaList(it.data)
-            }
+    private suspend fun getAllArea(): Flow<DtoConsumer<List<Region>>> = flow {
+        filterNetwork.getAllArea().collect { consumer ->
+            if (consumer is DtoConsumer.Success) {
+                emit(DtoConsumer.Success(AreasConvertor.convertAreasDtoListToAreaList(consumer.data)))
+            } else emit(consumer as DtoConsumer<List<Region>>)
         }
     }
 
-    suspend fun getAreasById(id: String): Flow<DtoConsumer<Region>> = flow {
-        filterNetwork.getAreasById(id).collect {
-            if (it is DtoConsumer.Success) {
-                AreasConvertor.convertAreasDtoToAreaList(it.data)
-            }
+    private suspend fun getAreasById(id: String): Flow<DtoConsumer<List<Region>>> = flow {
+        filterNetwork.getAreasById(id).collect { consumer ->
+            if (consumer is DtoConsumer.Success) {
+                emit(DtoConsumer.Success(AreasConvertor.convertAreasDtoToAreaList(consumer.data)))
+            } else emit(consumer as DtoConsumer<List<Region>>)
+        }
+    }
+
+    override suspend fun getRegions(): Flow<DtoConsumer<List<Region>>> {
+        val country = filterStorage.getCountry()
+        return if (country != null) {
+            getAreasById(country.id)
+        } else {
+            getAllArea()
         }
     }
 }
