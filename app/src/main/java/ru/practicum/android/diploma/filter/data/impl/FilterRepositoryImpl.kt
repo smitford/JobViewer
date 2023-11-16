@@ -8,7 +8,7 @@ import ru.practicum.android.diploma.filter.data.convertors.AreasConvertor
 import ru.practicum.android.diploma.filter.data.convertors.CountryConvertor
 import ru.practicum.android.diploma.filter.data.convertors.FilterParametersConvertor
 import ru.practicum.android.diploma.filter.domain.FilterRepository
-import ru.practicum.android.diploma.filter.domain.models.Area
+import ru.practicum.android.diploma.filter.domain.models.Region
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
@@ -53,7 +53,7 @@ class FilterRepositoryImpl(
         filterStorage.clearCountryInFilter()
     }
 
-    override suspend fun getAllArea(): Flow<DtoConsumer<List<Area>>> = flow {
+    override suspend fun getAllArea(): Flow<DtoConsumer<List<Region>>> = flow {
         filterNetwork.getAllArea().collect {
             if (it is DtoConsumer.Success) {
                 AreasConvertor.convertAreasDtoListToAreaList(it.data)
@@ -61,7 +61,7 @@ class FilterRepositoryImpl(
         }
     }
 
-    suspend fun getAreasById(id: String): Flow<DtoConsumer<Area>> = flow {
+    suspend fun getAreasById(id: String): Flow<DtoConsumer<Region>> = flow {
         filterNetwork.getAreasById(id).collect {
             if (it is DtoConsumer.Success) {
                 AreasConvertor.convertAreasDtoToAreaList(it.data)

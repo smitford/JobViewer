@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.filter.domain
 
 import kotlinx.coroutines.flow.Flow
-import ru.practicum.android.diploma.filter.domain.models.Area
+import ru.practicum.android.diploma.filter.domain.models.Region
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
@@ -14,5 +14,5 @@ interface FilterRepository {
     suspend fun getCountries(): Flow<DtoConsumer<List<Country>>>
     fun saveCountryToFilter(country: Country)
     fun clearCountryInFilter()
-    suspend fun getAllArea(): Flow<DtoConsumer<List<Area>>>
+    suspend fun getAllArea(): Flow<DtoConsumer<List<Region>>>
 }

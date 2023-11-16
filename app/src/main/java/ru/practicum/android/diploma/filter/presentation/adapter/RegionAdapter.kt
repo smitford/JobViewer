@@ -2,26 +2,26 @@ package ru.practicum.android.diploma.filter.presentation.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.practicum.android.diploma.filter.domain.models.Country
+import ru.practicum.android.diploma.filter.presentation.adapter.model.AreaDataInterface
 
 class RegionAdapter(private val clickListener: ClickListener) :
     RecyclerView.Adapter<RegionViewHolder>() {
 
-    var countries = listOf<Country>()
+    var areas = listOf<AreaDataInterface>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RegionViewHolder {
         return RegionViewHolder(parent)
     }
 
     override fun getItemCount(): Int {
-        return countries.size
+        return areas.size
     }
 
     override fun onBindViewHolder(holder: RegionViewHolder, position: Int) {
-        holder.bind(countries[position])
-        holder.itemView.setOnClickListener { clickListener.click(countries[position]) }
+        holder.bind(areas[position])
+        holder.itemView.setOnClickListener { clickListener.click(areas[position]) }
     }
 
     fun interface ClickListener {
-        fun click(track: Country)
+        fun click(area: AreaDataInterface)
     }
 }

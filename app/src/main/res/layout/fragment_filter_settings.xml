@@ -27,7 +27,7 @@
             android:src="@drawable/ic_arrow_back" />
 
         <TextView
-            style="@style/job22Text"
+            style="@style/textMedium22"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
