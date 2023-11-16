@@ -5,7 +5,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
-import ru.practicum.android.diploma.filter.data.models.CountriesResponse
+import ru.practicum.android.diploma.filter.data.models.AreaDto
 import ru.practicum.android.diploma.filter.data.models.CountryDto
 import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenResponse
 import ru.practicum.android.diploma.search.data.models.JobSearchResponseDto
@@ -31,21 +31,30 @@ interface HhApiJobInfo {
     suspend fun getJobById(@Path("vacancy_id") id: String): JobDtoForScreenResponse
 
     //Получение списка стран
-    @Headers(
-        USER
-    )
+    @Headers(USER)
     @GET("areas/countries")
     suspend fun getCountries(): List<CountryDto>
+
+    //Получение регионов
+    @Headers(USER)
+    @GET("areas")
+    suspend fun getAllAreas(): List<AreaDto>
+
+    //Получение регионов по айди страны
+    @Headers(USER)
+    @GET("areas/{area_id}")
+    suspend fun getAreasById(@Path("area_id") id: String): AreaDto
+
 
     @Headers(
         HEADER_AUTH,
         USER
     )
     @GET("vacancies/{vacancy_id}/similar_vacancies")
-    suspend fun getSimilarVacancies(@Path("vacancy_id")vacancyId: String) :
+    suspend fun getSimilarVacancies(@Path("vacancy_id") vacancyId: String):
             JobSearchSimilarResponseDto
 
-    companion object{
+    companion object {
         const val HEADER_AUTH = "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}"
         const val USER = "HH-User-Agent: Diplom_Yandex_HH (alk68@yandex.ru)"
     }

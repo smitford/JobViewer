@@ -5,5 +5,5 @@ sealed class FilterRequest {
 
     object Areas
 
-    data class AreasOfThisCountry(val idCountry: String)
+    data class AreasById(val idArea: String)
 }
