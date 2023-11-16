@@ -5,7 +5,9 @@ import com.google.gson.Gson
 import ru.practicum.android.diploma.filter.data.FilterStorage
 import ru.practicum.android.diploma.filter.data.models.CountryDto
 import ru.practicum.android.diploma.filter.data.models.FilterParametersDto
+import ru.practicum.android.diploma.filter.data.models.RegionDto
 import ru.practicum.android.diploma.util.DataUtils.Companion.FILTER_COUNTRY
+import ru.practicum.android.diploma.util.DataUtils.Companion.FILTER_REGION
 import ru.practicum.android.diploma.util.DataUtils.Companion.FILTER_SETTINGS
 
 class FilterStorageImpl(
@@ -95,6 +97,66 @@ class FilterStorageImpl(
             )
         )
         clearCountry()
+    }
+
+    private fun saveRegion(areaDto: RegionDto) {
+        val jSON = gson.toJson(areaDto)
+        sharedPreferences
+            .edit()
+            .putString(FILTER_REGION, jSON)
+            .apply()
+    }
+
+    private fun getRegion(): RegionDto? {
+        val jSON = sharedPreferences.getString(FILTER_REGION, null)
+        return if (jSON.isNullOrEmpty()) {
+            null
+        } else {
+            gson.fromJson(jSON, RegionDto::class.java)
+        }
+    }
+
+    private fun clearRegion() {
+        sharedPreferences
+            .edit()
+            .remove(FILTER_REGION)
+            .apply()
+    }
+
+    override fun saveRegionToFilter(region: RegionDto) {
+        val filterParam = getFilterSettings()
+
+        if (filterParam.areaId != region.id) {
+            saveFilterSettings(
+                filterParam.copy(
+                    country = region.countryName,
+                    areaId = region.id,
+                    area = region.name
+                )
+            )
+            saveCountry(
+                CountryDto(
+                    id = region.countryId,
+                    name = region.countryName
+                )
+            )
+            saveRegion(region)
+        }
+    }
+
+    override fun deleteRegionFromFilter(){
+        val filterParam = getFilterSettings()
+        val region = getRegion()
+        if (region != null) {
+            saveFilterSettings(
+                filterParam.copy(
+                    country = region?.countryName,
+                    areaId = region?.countryId,
+                    area = null
+                )
+            )
+            clearRegion()
+        }
     }
 
 

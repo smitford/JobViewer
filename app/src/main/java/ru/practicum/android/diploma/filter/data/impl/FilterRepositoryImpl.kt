@@ -77,4 +77,12 @@ class FilterRepositoryImpl(
             getAllArea()
         }
     }
+
+    override fun saveRegionToFilter(region: Region) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteRegionFromFilter() {
+        TODO("Not yet implemented")
+    }
 }
