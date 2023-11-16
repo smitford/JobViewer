@@ -70,26 +70,26 @@ class SearchViewModel(
 
     fun refreshFilter() {
         val newFiler = getFilter()
-        when (stateLiveData.value) {
-            is SearchStates.Success -> (stateLiveData.value as SearchStates.Success).filterStates =
-                checkFilterState()
-
-            is SearchStates.Start -> (stateLiveData.value as SearchStates.Start).filterStates =
-                checkFilterState()
-
-            is SearchStates.ServerError -> (stateLiveData.value as SearchStates.ServerError).filterStates =
-                checkFilterState()
-
-            is SearchStates.InvalidRequest -> (stateLiveData.value as SearchStates.InvalidRequest).filterStates =
-                checkFilterState()
-
-            is SearchStates.ConnectionError -> (stateLiveData.value as SearchStates.ConnectionError).filterStates =
-                checkFilterState()
-
-            else -> Unit
-        }
-
+        Log.d("", "${checkFilterState()}")
         if (newFiler != filter) {
+            when (stateLiveData.value) {
+                is SearchStates.Success -> (stateLiveData.value as SearchStates.Success).filterStates =
+                    checkFilterState()
+
+                is SearchStates.Start -> (stateLiveData.value as SearchStates.Start).filterStates =
+                    checkFilterState()
+
+                is SearchStates.ServerError -> (stateLiveData.value as SearchStates.ServerError).filterStates =
+                    checkFilterState()
+
+                is SearchStates.InvalidRequest -> (stateLiveData.value as SearchStates.InvalidRequest).filterStates =
+                    checkFilterState()
+
+                is SearchStates.ConnectionError -> (stateLiveData.value as SearchStates.ConnectionError).filterStates =
+                    checkFilterState()
+
+                else -> Unit
+            }
             newFiler.request = filter.request
             filter = newFiler
             refreshSearch()
