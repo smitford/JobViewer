@@ -36,4 +36,18 @@ object UiConvertor {
         return list.map { region -> regionToRegionUi(region) }
     }
 
+    fun regionUiToRegion(region: AreaDataInterface): Region {
+        return when (region) {
+            is AreaDataInterface.RegionUi -> Region(
+                id = region.id,
+                name = region.name,
+                countryName = region.countryName,
+                countryId = region.countryId
+            )
+            else -> throw IllegalArgumentException("Invalid data type")
+        }
+    }
+
 }
+
+

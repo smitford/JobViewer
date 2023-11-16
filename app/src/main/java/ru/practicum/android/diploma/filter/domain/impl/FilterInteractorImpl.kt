@@ -37,5 +37,13 @@ class FilterInteractorImpl(private val filterRepository: FilterRepository) : Fil
         return filterRepository.getRegions()
     }
 
+    override fun saveRegionToFilter(region: Region) {
+        filterRepository.saveRegionToFilter(region)
+    }
+
+    override fun deleteRegionFromFilter() {
+        filterRepository.deleteRegionFromFilter()
+    }
+
 
 }
