@@ -55,7 +55,7 @@ class FilterStorageImpl(
     }
 
     override fun getCountry(): CountryDto? {
-        val jSON = sharedPreferences.getString(FILTER_COUNTRY, "")
+        val jSON = sharedPreferences.getString(FILTER_COUNTRY, null)
         return if (jSON.isNullOrEmpty()) {
             null
         } else {
