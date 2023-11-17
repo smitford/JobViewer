@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.filter.domain.FilterInteractor
 import ru.practicum.android.diploma.filter.domain.models.Region
+import ru.practicum.android.diploma.filter.presentation.adapter.model.AreaDataInterface
 import ru.practicum.android.diploma.filter.presentation.view_model.model.FilterParametersState
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
 import ru.practicum.android.diploma.util.DataUtils
@@ -23,6 +24,10 @@ class ChoosingRegionViewModel(private val filterInteractor: FilterInteractor) : 
                 requestHandler(request)
             }
         }
+    }
+
+    fun saveRegionInFilter(region: AreaDataInterface){
+        filterInteractor.saveRegionToFilter(UiConvertor.regionUiToRegion(region))
     }
 
     private fun requestHandler(request: DtoConsumer<List<Region>>) {

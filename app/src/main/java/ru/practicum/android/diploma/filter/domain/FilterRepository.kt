@@ -15,4 +15,6 @@ interface FilterRepository {
     fun saveCountryToFilter(country: Country)
     fun clearCountryInFilter()
     suspend fun getRegions(): Flow<DtoConsumer<List<Region>>>
+    fun saveRegionToFilter(region: Region)
+    fun deleteRegionFromFilter()
 }

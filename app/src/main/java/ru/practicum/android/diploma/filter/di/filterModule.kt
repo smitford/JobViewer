@@ -16,6 +16,7 @@ import ru.practicum.android.diploma.filter.domain.impl.FilterInteractorImpl
 import ru.practicum.android.diploma.filter.presentation.view_model.ChoosingRegionViewModel
 import ru.practicum.android.diploma.filter.presentation.view_model.CountrySelectionViewModel
 import ru.practicum.android.diploma.filter.presentation.view_model.FilterSettingsViewModel
+import ru.practicum.android.diploma.filter.presentation.view_model.PlaceOfWorkViewModel
 import ru.practicum.android.diploma.util.DataUtils.Companion.APP_SETTINGS
 
 val filterModule = module {
@@ -56,5 +57,9 @@ val filterModule = module {
 
     viewModel {
         ChoosingRegionViewModel(get())
+    }
+
+    viewModel {
+        PlaceOfWorkViewModel(get())
     }
 }

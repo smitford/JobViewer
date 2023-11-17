@@ -1,11 +1,10 @@
 package ru.practicum.android.diploma.filter.data.convertors
 
 import ru.practicum.android.diploma.filter.data.models.AreaDto
-import ru.practicum.android.diploma.filter.data.models.CountryDto
-import ru.practicum.android.diploma.filter.domain.models.Country
+import ru.practicum.android.diploma.filter.data.models.RegionDto
 import ru.practicum.android.diploma.filter.domain.models.Region
 
-object AreasConvertor {
+object RegionConvertor {
 
     private var countryId =""
     private var countryName  = ""
@@ -50,22 +49,14 @@ object AreasConvertor {
         return resultList
     }
 
-    private fun areasDtoToCounty(areaDto: AreaDto) : Country {
-        return Country(
-            id = areaDto.id,
-            name = areaDto.name
+    fun convertRegionToRegionDto(region: Region) : RegionDto {
+        return RegionDto(
+            name = region.name,
+            id = region.id,
+            countryName = region.countryName,
+            countryId = region.countryId
         )
     }
 
-    fun areasDtoListToCountry(areaDtoList: List<AreaDto>): List<Country> {
-        val countryList = areaDtoList.map { areaDto -> areasDtoToCounty(areaDto) }
-        val convertedList = countryList.toMutableList()
-        val countryToMove = convertedList.find { it.id == "1001" }
-        convertedList.remove(countryToMove)
-        if (countryToMove != null) {
-            convertedList.add(countryToMove)
-        }
-        return convertedList
-    }
 
 }

@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.filter.data.FilterNetwork
 import ru.practicum.android.diploma.filter.data.FilterStorage
-import ru.practicum.android.diploma.filter.data.convertors.AreasConvertor
+import ru.practicum.android.diploma.filter.data.convertors.RegionConvertor
 import ru.practicum.android.diploma.filter.data.convertors.CountryConvertor
 import ru.practicum.android.diploma.filter.data.convertors.FilterParametersConvertor
 import ru.practicum.android.diploma.filter.domain.FilterRepository
@@ -56,7 +56,7 @@ class FilterRepositoryImpl(
     private suspend fun getAllArea(): Flow<DtoConsumer<List<Region>>> = flow {
         filterNetwork.getAllArea().collect { consumer ->
             if (consumer is DtoConsumer.Success) {
-                emit(DtoConsumer.Success(AreasConvertor.convertAreasDtoListToAreaList(consumer.data)))
+                emit(DtoConsumer.Success(RegionConvertor.convertAreasDtoListToAreaList(consumer.data)))
             } else emit(consumer as DtoConsumer<List<Region>>)
         }
     }
@@ -64,7 +64,7 @@ class FilterRepositoryImpl(
     private suspend fun getAreasById(id: String): Flow<DtoConsumer<List<Region>>> = flow {
         filterNetwork.getAreasById(id).collect { consumer ->
             if (consumer is DtoConsumer.Success) {
-                emit(DtoConsumer.Success(AreasConvertor.convertAreasDtoToAreaList(consumer.data)))
+                emit(DtoConsumer.Success(RegionConvertor.convertAreasDtoToAreaList(consumer.data)))
             } else emit(consumer as DtoConsumer<List<Region>>)
         }
     }
@@ -76,5 +76,13 @@ class FilterRepositoryImpl(
         } else {
             getAllArea()
         }
+    }
+
+    override fun saveRegionToFilter(region: Region) {
+        filterStorage.saveRegionToFilter(RegionConvertor.convertRegionToRegionDto(region))
+    }
+
+    override fun deleteRegionFromFilter() {
+        filterStorage.deleteRegionFromFilter()
     }
 }

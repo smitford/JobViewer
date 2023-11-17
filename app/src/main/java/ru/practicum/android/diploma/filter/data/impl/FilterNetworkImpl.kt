@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import ru.practicum.android.diploma.filter.data.FilterNetwork
-import ru.practicum.android.diploma.filter.data.convertors.AreasConvertor
+import ru.practicum.android.diploma.filter.data.convertors.CountryConvertor
 import ru.practicum.android.diploma.filter.data.models.AreaDto
 import ru.practicum.android.diploma.filter.data.models.AllAreasResponse
 import ru.practicum.android.diploma.filter.data.models.AreasByIdResponse
@@ -22,7 +22,7 @@ class FilterNetworkImpl(private val networkClient: NetworkClient) : FilterNetwor
 
         getAllArea().collect { consumer ->
             if (consumer is DtoConsumer.Success) {
-                val list = AreasConvertor.areasDtoListToCountry(consumer.data)
+                val list = CountryConvertor.areasDtoListToCountry(consumer.data)
                 emit(DtoConsumer.Success(list))
             } else emit(consumer as DtoConsumer<List<Country>>)
         }

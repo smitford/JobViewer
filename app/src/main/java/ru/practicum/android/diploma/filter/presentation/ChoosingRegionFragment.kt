@@ -23,7 +23,7 @@ class ChoosingRegionFragment : Fragment() {
     private var _binding: FragmentChoosingRegionBinding? = null
     private val binding get() = _binding!!
 
-    private val adapter = RegionAdapter {}
+    private val adapter = RegionAdapter {clickOnRegion(it)}
     private var recyclerView: RecyclerView? = null
 
     private val vM: ChoosingRegionViewModel by viewModel()
@@ -108,6 +108,11 @@ class ChoosingRegionFragment : Fragment() {
         binding.ivError.visibility = View.GONE
         adapter.areas = list
         adapter.notifyDataSetChanged()
+    }
+
+    private fun clickOnRegion(regionUi: AreaDataInterface){
+        vM.saveRegionInFilter(regionUi)
+        findNavController().popBackStack()
     }
 
     companion object {
