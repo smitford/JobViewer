@@ -97,6 +97,7 @@ class FilterStorageImpl(
             )
         )
         clearCountry()
+        clearRegion()
     }
 
     private fun saveRegion(areaDto: RegionDto) {
@@ -150,8 +151,8 @@ class FilterStorageImpl(
         if (region != null) {
             saveFilterSettings(
                 filterParam.copy(
-                    country = region?.countryName,
-                    areaId = region?.countryId,
+                    country = region.countryName,
+                    areaId = region.countryId,
                     area = null
                 )
             )
