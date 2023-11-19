@@ -16,8 +16,6 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavoriteBinding
 import ru.practicum.android.diploma.favorite.domain.FavoriteState
 import ru.practicum.android.diploma.search.presentation.JobAdapter
-import ru.practicum.android.diploma.search.presentation.SearchFragmentDirections
-
 
 class FavoriteFragment : Fragment() {
 
@@ -30,7 +28,7 @@ class FavoriteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFavoriteBinding.inflate(inflater,container,false)
+        binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -45,17 +43,18 @@ class FavoriteFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
-        viewModel.getFavoriteLiveData().observe(viewLifecycleOwner){
+        viewModel.getFavoriteLiveData().observe(viewLifecycleOwner) { pairDataFavorite ->
 
-            when (it.first) {
-                FavoriteState.FULL -> {
+            when (pairDataFavorite.first) {
+                FavoriteState.DATA -> {
                     // есть избранные
                     binding.rvSearch.isGone = false
                     binding.tvMessage.isGone = true
                     binding.ivPlaceholderPng.isGone = true
-                    adapter.jobsList = it.second
+                    adapter.jobsList = pairDataFavorite.second
                     adapter.notifyDataSetChanged()
                 }
+
                 FavoriteState.EMPTY -> {
                     // Пустой список
                     binding.ivPlaceholderPng.setImageResource(R.drawable.empty_list_favorite)
@@ -64,6 +63,7 @@ class FavoriteFragment : Fragment() {
                     binding.tvMessage.isGone = false
                     binding.ivPlaceholderPng.isGone = false
                 }
+
                 else -> {
                     // Ошибка
                     binding.ivPlaceholderPng.setImageResource(R.drawable.error_list_favorite)

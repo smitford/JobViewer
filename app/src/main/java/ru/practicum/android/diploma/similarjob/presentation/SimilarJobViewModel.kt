@@ -9,15 +9,18 @@ import ru.practicum.android.diploma.search.domain.api.DtoConsumer
 import ru.practicum.android.diploma.search.domain.models.JobsInfo
 import ru.practicum.android.diploma.similarjob.presentation.api.SimilarJobInteractor
 
-class SimilarJobViewModel(private val similarJobInteractor: SimilarJobInteractor,private val id:String): ViewModel() {
+class SimilarJobViewModel(
+    private val similarJobInteractor: SimilarJobInteractor,
+    private val id: String
+) : ViewModel() {
 
     private val similar = MutableLiveData<DtoConsumer<JobsInfo>>()
 
     fun getSimilarLiveData(): LiveData<DtoConsumer<JobsInfo>> = similar
 
-    fun getSimilar(){
+    fun getSimilar() {
         viewModelScope.launch {
-            similarJobInteractor.getSimilarJobs(id).collect{
+            similarJobInteractor.getSimilarJobs(id).collect {
                 similar.value = it
             }
         }
