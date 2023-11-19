@@ -25,4 +25,5 @@
     <dimen name="heightPoints_60dp">60dp</dimen>
     <dimen name="jobCardTextLength">240dp</dimen>
     <dimen name="progressBarSize">44dp</dimen>
+    <dimen name="icon_16dp">16dp</dimen>
 </resources>
