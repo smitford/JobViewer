@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class KeySkillsEntity(
     @PrimaryKey(true)
     val id: Int = 0,
-    val idVacancy:String?,
+    val idVacancy: String?,
     val name: String
 )

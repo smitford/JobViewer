@@ -7,12 +7,13 @@ import ru.practicum.android.diploma.job.data.secondarymodels.Phones
 import ru.practicum.android.diploma.job.data.secondarymodels.Skills
 import ru.practicum.android.diploma.job.domain.models.JobForScreen
 
-class JobFavoriteRepositoryImpl(private val appDataBase: AppDataBase,private val mapper: JobMapper) : JobFavoriteRepository {
+class JobFavoriteRepositoryImpl(
+    private val appDataBase: AppDataBase,
+    private val mapper: JobMapper
+) : JobFavoriteRepository {
 
     override suspend fun add(job: JobForScreen) {
-
         appDataBase.favoriteDAO().add(mapper.map(job))
-
         // сохранить навыки
         job.keySkills.forEach {
             appDataBase.keySkillsDAO().add(mapper.mapSkills(it!!, job.id!!))
@@ -22,7 +23,6 @@ class JobFavoriteRepositoryImpl(private val appDataBase: AppDataBase,private val
         job.phones?.forEach {
             appDataBase.phonesDAO().add(mapper.mapPhones(it!!, job.id!!))
         }
-
     }
 
     override suspend fun delete(id: String) {
@@ -32,18 +32,15 @@ class JobFavoriteRepositoryImpl(private val appDataBase: AppDataBase,private val
     }
 
     override suspend fun included(id: String): Boolean {
-
         return try {
             appDataBase.favoriteDAO().included(id)
         } catch (e: Exception) {
             false
         }
-
     }
 
     override suspend fun getFromBase(id: String): JobForScreen {
         val favoriteEntity = appDataBase.favoriteDAO().getVacancy(id)[0]
-
         val skills = ArrayList<Skills?>()
         appDataBase.keySkillsDAO().getSkills(id).forEach {
             skills.add(mapper.mapSkills(it))
@@ -53,9 +50,6 @@ class JobFavoriteRepositoryImpl(private val appDataBase: AppDataBase,private val
         appDataBase.phonesDAO().getPhones(id).forEach {
             phones.add(mapper.mapPhones(it))
         }
-
-        return mapper.map(favoriteEntity,skills.toTypedArray(),phones.toTypedArray())
-
+        return mapper.map(favoriteEntity, skills.toTypedArray(), phones.toTypedArray())
     }
-
 }

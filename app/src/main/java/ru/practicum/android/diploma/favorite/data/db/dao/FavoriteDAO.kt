@@ -26,6 +26,6 @@ interface FavoriteDAO {
     suspend fun included(id: String): Boolean
 
     @Query("SELECT * FROM Favorite WHERE id LIKE :id")
-    suspend fun getVacancy(id: String) : List<FavoriteEntity>
+    suspend fun getVacancy(id: String): List<FavoriteEntity>
 
 }
