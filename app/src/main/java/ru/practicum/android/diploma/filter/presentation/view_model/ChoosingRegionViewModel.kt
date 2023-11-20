@@ -44,7 +44,7 @@ class ChoosingRegionViewModel(private val filterInteractor: FilterInteractor) : 
         }
     }
 
-    fun searchRegion(name: String) {
+    private fun searchRegion(name: String) {
         _stateLiveData.postValue(FilterParametersState.Loading)
         viewModelScope.launch {
             filterInteractor.getAreasByName(name).collect { request ->

@@ -10,6 +10,8 @@ import ru.practicum.android.diploma.filter.data.models.AreaDto
 import ru.practicum.android.diploma.filter.data.models.AllAreasResponse
 import ru.practicum.android.diploma.filter.data.models.AreasByIdResponse
 import ru.practicum.android.diploma.filter.data.models.FilterRequest
+import ru.practicum.android.diploma.filter.data.models.IndustriesResponse
+import ru.practicum.android.diploma.filter.data.models.IndustryDto
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.search.data.models.ResultCodes
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
@@ -60,6 +62,24 @@ class FilterNetworkImpl(private val networkClient: NetworkClient) : FilterNetwor
             ResultCodes.SUCCESS -> {
                 val areas = response as AreasByIdResponse
                 emit(DtoConsumer.Success(areas.results))
+            }
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun getIndustries(): Flow<DtoConsumer<List<IndustryDto>>> = flow {
+        val response = networkClient.doRequest(FilterRequest.Industries)
+        when (response.responseCode) {
+            ResultCodes.NO_NET_CONNECTION -> {
+                emit(DtoConsumer.NoInternet(response.responseCode.code))
+            }
+
+            ResultCodes.ERROR -> {
+                emit(DtoConsumer.Error(response.responseCode.code))
+            }
+
+            ResultCodes.SUCCESS -> {
+                val industries = response as IndustriesResponse
+                emit(DtoConsumer.Success(industries.result))
             }
         }
     }.flowOn(Dispatchers.IO)

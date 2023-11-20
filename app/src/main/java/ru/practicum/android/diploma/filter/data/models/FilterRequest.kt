@@ -6,4 +6,6 @@ sealed class FilterRequest {
     object Areas
 
     data class AreasById(val idArea: String)
+
+    object Industries
 }

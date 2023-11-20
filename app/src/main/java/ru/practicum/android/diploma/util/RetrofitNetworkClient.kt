@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.filter.data.models.AllAreasResponse
 import ru.practicum.android.diploma.filter.data.models.AreasByIdResponse
 import ru.practicum.android.diploma.filter.data.models.CountriesResponse
 import ru.practicum.android.diploma.filter.data.models.FilterRequest
+import ru.practicum.android.diploma.filter.data.models.IndustriesResponse
 import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenRequest
 import ru.practicum.android.diploma.search.data.models.JobSearchRequest
 import ru.practicum.android.diploma.search.data.models.ResponseDto
@@ -77,6 +78,14 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
                     id = dto.idArea
                 )
                 val response = AreasByIdResponse(data)
+                response.apply { responseCode = ResultCodes.SUCCESS }
+            } catch (e: Exception) {
+                ResponseDto().apply { responseCode = ResultCodes.ERROR }
+            }
+            //Список Отрослей
+            is FilterRequest.Industries -> try {
+                val data = hhService.getIndustries()
+                val response = IndustriesResponse(data)
                 response.apply { responseCode = ResultCodes.SUCCESS }
             } catch (e: Exception) {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }
