@@ -6,9 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.RecyclerVacancyItemBinding
-import ru.practicum.android.diploma.filter.di.filterModule
 import ru.practicum.android.diploma.search.domain.models.Vacancy
-
 
 class JobAdapter(val onJobClickedCB: (String) -> Unit) : RecyclerView.Adapter<JobViewHolder>() {
     var jobsList = listOf<Vacancy>()
