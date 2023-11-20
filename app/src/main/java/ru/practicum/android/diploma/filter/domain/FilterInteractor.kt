@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.filter.domain
 import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
+import ru.practicum.android.diploma.filter.domain.models.Industry
 import ru.practicum.android.diploma.filter.domain.models.Region
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
 
@@ -18,5 +19,5 @@ interface FilterInteractor {
     fun saveRegionToFilter(region: Region)
     fun deleteRegionFromFilter()
     fun getAreasByName(name: String): Flow<DtoConsumer<List<Region>>>
-
+    fun getIndustries(): Flow<DtoConsumer<List<Industry>>>
 }

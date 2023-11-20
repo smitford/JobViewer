@@ -6,26 +6,17 @@ import ru.practicum.android.diploma.filter.domain.models.Region
 
 object RegionConvertor {
 
-    private var countryId =""
-    private var countryName  = ""
-
-//    fun areasResponseToAreaDto(allAreasResponse: AllAreasResponse): AreaDto {
-//        return AreaDto(
-//            name = allAreasResponse.name,
-//            id = allAreasResponse.id.toString(),
-//            parentId = allAreasResponse.parentId.toString(),
-//            areas = allAreasResponse.areas
-//        )
-//    }
+    private var countryId = ""
+    private var countryName = ""
 
     fun convertAreasDtoToAreaList(areaDto: AreaDto): List<Region> {
         val regions = mutableListOf<Region>()
 
-        if (areaDto.parentId == null){
+        if (areaDto.parentId == null) {
             countryName = areaDto.name
             countryId = areaDto.id
         }
-        if (areaDto.parentId != null){
+        if (areaDto.parentId != null) {
             regions.add(
                 Region(
                     name = areaDto.name,
@@ -49,7 +40,7 @@ object RegionConvertor {
         return resultList
     }
 
-    fun convertRegionToRegionDto(region: Region) : RegionDto {
+    fun convertRegionToRegionDto(region: Region): RegionDto {
         return RegionDto(
             name = region.name,
             id = region.id,

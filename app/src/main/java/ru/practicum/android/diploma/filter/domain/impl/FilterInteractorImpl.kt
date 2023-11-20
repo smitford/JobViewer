@@ -5,6 +5,7 @@ import ru.practicum.android.diploma.filter.domain.FilterInteractor
 import ru.practicum.android.diploma.filter.domain.FilterRepository
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
+import ru.practicum.android.diploma.filter.domain.models.Industry
 import ru.practicum.android.diploma.filter.domain.models.Region
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
 
@@ -47,6 +48,10 @@ class FilterInteractorImpl(private val filterRepository: FilterRepository) : Fil
 
     override fun getAreasByName(name: String): Flow<DtoConsumer<List<Region>>> {
         return filterRepository.getAreasByName(name)
+    }
+
+    override fun getIndustries(): Flow<DtoConsumer<List<Industry>>> {
+        return filterRepository.getIndustries()
     }
 
 
