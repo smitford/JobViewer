@@ -12,6 +12,7 @@ import ru.practicum.android.diploma.filter.domain.models.Region
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
+import ru.practicum.android.diploma.util.DataUtils.Companion.NO_RESULTS_CODE
 
 class FilterRepositoryImpl(
     private val filterStorage: FilterStorage,
@@ -84,5 +85,26 @@ class FilterRepositoryImpl(
 
     override fun deleteRegionFromFilter() {
         filterStorage.deleteRegionFromFilter()
+    }
+
+    private fun searchRegionInListByName(list: List<Region>, name: String): List<Region> {
+        return list.filter { it.name.contains(name, ignoreCase = true) }
+    }
+
+    override fun getAreasByName(name: String): Flow<DtoConsumer<List<Region>>> = flow {
+        getRegions().collect { consumer ->
+            when (consumer) {
+                is DtoConsumer.Success -> {
+                    val list = searchRegionInListByName(consumer.data, name)
+                    if (list.isEmpty()) {
+                        emit(DtoConsumer.Error(NO_RESULTS_CODE))
+                    } else {
+                        emit(DtoConsumer.Success(list))
+                    }
+                }
+
+                else -> emit(consumer)
+            }
+        }
     }
 }
