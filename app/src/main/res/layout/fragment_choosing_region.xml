@@ -36,7 +36,7 @@
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_search"
+        android:id="@+id/tilSearch"
         style="@style/TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/editTextSize_56dp"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons">
 
         <EditText
-            android:id="@+id/et_search"
+            android:id="@+id/etSearch"
             style="@style/textRegular16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,10 +73,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_search" />
+        app:layout_constraintTop_toBottomOf="@+id/tilSearch" />
 
     <ImageView
-        android:id="@+id/iv_error"
+        android:id="@+id/ivError"
         android:layout_width="@dimen/zero_0dp"
         android:layout_height="@dimen/zero_0dp"
         android:scaleType="centerInside"
@@ -85,19 +85,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_max="223dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_search"
+        app:layout_constraintTop_toBottomOf="@+id/tilSearch"
         android:contentDescription="@string/error"
         tools:src="@drawable/error_list_favorite" />
 
     <TextView
-        android:id="@+id/tv_error"
+        android:id="@+id/tvError"
         style="@style/textMedium22"
         android:layout_marginTop="@dimen/margin_16dp"
         android:gravity="center"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_error"
+        app:layout_constraintTop_toBottomOf="@id/ivError"
         tools:text="@string/there_is_no_such_region" />
 
     <ProgressBar
@@ -109,6 +109,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_search" />
+        app:layout_constraintTop_toBottomOf="@+id/tilSearch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
