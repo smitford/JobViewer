@@ -18,42 +18,47 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--TopBtns-->
+            <!--MainContent-->
             <LinearLayout
                 android:id="@+id/ll_top_buttons"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/minHeightToolBar_64dp"
                 android:orientation="horizontal">
 
+                <!--TopBtns-->
                 <ImageButton
                     android:id="@+id/ib_arrow_back"
                     style="@style/imageBtnJobStyle"
+                    android:layout_width="@dimen/icon_16dp"
+                    android:layout_height="@dimen/icon_16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/margin_20dp"
                     android:src="@drawable/ic_arrow_back" />
 
                 <TextView
                     style="@style/job22Text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/margin_4dp"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/job" />
 
                 <ImageButton
                     android:id="@+id/ib_share"
                     style="@style/imageBtnJobStyle"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginStart="@dimen/margin_4dp"
                     android:src="@drawable/ic_share" />
 
                 <ImageButton
                     android:id="@+id/ib_favourite"
                     style="@style/imageBtnJobStyle"
-                    android:layout_gravity="end"
+                    android:layout_gravity="center_vertical|end"
                     android:layout_marginStart="@dimen/margin_4dp"
                     android:layout_marginEnd="@dimen/margin_8dp"
                     android:src="@drawable/ic_favorites_off" />
             </LinearLayout>
 
-            <!--MainContent-->
             <LinearLayout
                 android:id="@+id/ll_main_content"
                 android:layout_width="match_parent"
