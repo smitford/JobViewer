@@ -180,6 +180,7 @@
         android:layout_marginHorizontal="@dimen/margin_16dp"
         android:layout_marginTop="@dimen/margin_24dp"
         android:background="@drawable/background_job_name"
+        android:gravity="center"
         android:hint="@string/et_expected_salary"
         android:paddingHorizontal="@dimen/margin_16dp"
         android:paddingVertical="@dimen/margin_8dp"

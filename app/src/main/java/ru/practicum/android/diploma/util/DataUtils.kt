@@ -10,5 +10,6 @@ class DataUtils {
         const val CONNECTION_ERROR = "CONNECTION_ERROR"
         const val ERROR = "ERROR"
         const val NO_RESULTS_CODE = 403
+        const val SEARCH_DEBOUNCE_DELAY_MILS = 2000L
     }
 }
