@@ -9,7 +9,6 @@ import ru.practicum.android.diploma.job.domain.models.JobForScreen
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 class JobMapper {
-
     fun map(job: JobForScreen): FavoriteEntity {
 
         return FavoriteEntity(
@@ -27,11 +26,9 @@ class JobMapper {
             job.contactsName,
             job.email
         )
-
     }
 
-    fun map(job: FavoriteEntity,skills : Array<Skills?>,phones: Array<Phones?>): JobForScreen {
-
+    fun map(job: FavoriteEntity, skills: Array<Skills?>, phones: Array<Phones?>): JobForScreen {
         return JobForScreen(
             job.id,
             job.name,
@@ -49,37 +46,38 @@ class JobMapper {
             job.email,
             phones
         )
-
     }
 
     fun mapJob(job: FavoriteEntity): Vacancy {
         return Vacancy(
             job.id,
-            job.area?: "",
-            job.employment?: "",
-            job.employerLogoUrl?: "",
-            job.employerName?: "",
-            job.name?: "",
-            job.salaryFrom?: "",
+            job.area ?: "",
+            job.employment ?: "",
+            job.employerLogoUrl ?: "",
+            job.employerName ?: "",
+            job.name ?: "",
+            job.salaryFrom ?: "",
             job.name ?: ""
         )
-
     }
 
-    fun mapSkills(skill:Skills,idVacancy: String) : KeySkillsEntity{
+    fun mapSkills(skill: Skills, idVacancy: String): KeySkillsEntity {
         return KeySkillsEntity(idVacancy = idVacancy, name = skill.name)
     }
 
-    fun mapSkills(keySkillsEntity: KeySkillsEntity) : Skills{
+    fun mapSkills(keySkillsEntity: KeySkillsEntity): Skills {
         return Skills(keySkillsEntity.name)
     }
 
-    fun mapPhones(phones: Phones,idVacancy: String): PhonesEntity{
-        return PhonesEntity(idVacancy=idVacancy, comment = phones.comment, formatted = phones.formatted)
+    fun mapPhones(phones: Phones, idVacancy: String): PhonesEntity {
+        return PhonesEntity(
+            idVacancy = idVacancy,
+            comment = phones.comment,
+            formatted = phones.formatted
+        )
     }
 
-    fun mapPhones(phonesEntity: PhonesEntity): Phones{
-        return Phones(phonesEntity.comment,phonesEntity.formatted)
+    fun mapPhones(phonesEntity: PhonesEntity): Phones {
+        return Phones(phonesEntity.comment, phonesEntity.formatted)
     }
-
 }

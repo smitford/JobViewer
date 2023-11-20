@@ -9,7 +9,6 @@ import ru.practicum.android.diploma.filter.data.convertors.CountryConvertor
 import ru.practicum.android.diploma.filter.data.models.AreaDto
 import ru.practicum.android.diploma.filter.data.models.AllAreasResponse
 import ru.practicum.android.diploma.filter.data.models.AreasByIdResponse
-import ru.practicum.android.diploma.filter.data.models.CountriesResponse
 import ru.practicum.android.diploma.filter.data.models.FilterRequest
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.search.data.models.ResultCodes
@@ -21,24 +20,11 @@ class FilterNetworkImpl(private val networkClient: NetworkClient) : FilterNetwor
 
     override suspend fun getCountries(): Flow<DtoConsumer<List<Country>>> = flow {
 
-        val response = networkClient.doRequest(FilterRequest.Countries)
-
-        when (response.responseCode) {
-            ResultCodes.NO_NET_CONNECTION -> {
-                emit(DtoConsumer.NoInternet(response.responseCode.code))
-            }
-
-            ResultCodes.ERROR -> {
-                emit(DtoConsumer.Error(response.responseCode.code))
-            }
-
-            ResultCodes.SUCCESS -> {
-                val listResponse = response as CountriesResponse
-                val data = listResponse.results.map {
-                    CountryConvertor.countryDtoToCountry(it)
-                }
-                emit(DtoConsumer.Success(data))
-            }
+        getAllArea().collect { consumer ->
+            if (consumer is DtoConsumer.Success) {
+                val list = CountryConvertor.areasDtoListToCountry(consumer.data)
+                emit(DtoConsumer.Success(list))
+            } else emit(consumer as DtoConsumer<List<Country>>)
         }
     }.flowOn(Dispatchers.IO)
 

@@ -23,7 +23,6 @@ import ru.practicum.android.diploma.search.presentation.JobAdapter
 
 class SimilarJobFragment : Fragment() {
 
-
     companion object {
         private const val IDJOB = "id_job"
 
@@ -35,7 +34,7 @@ class SimilarJobFragment : Fragment() {
     private lateinit var binding: FragmentSimilarJobBinding
     private lateinit var jobClickCb: (String) -> Unit
 
-    private val viewModel: SimilarJobViewModel by viewModel{
+    private val viewModel: SimilarJobViewModel by viewModel {
         parametersOf(requireArguments().getString(IDJOB))
     }
 
@@ -45,7 +44,7 @@ class SimilarJobFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSimilarJobBinding.inflate(inflater,container,false)
+        binding = FragmentSimilarJobBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -61,9 +60,9 @@ class SimilarJobFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
-        viewModel.getSimilarLiveData().observe(viewLifecycleOwner){
+        viewModel.getSimilarLiveData().observe(viewLifecycleOwner) {
 
-            when(it){
+            when (it) {
                 is DtoConsumer.Success<JobsInfo> -> {
                     binding.rvSearch.isGone = false
                     binding.tvMessage.isGone = true
@@ -72,7 +71,6 @@ class SimilarJobFragment : Fragment() {
                     // Заполнение списка вакансии
                     adapter.jobsList = it.data.jobs as MutableList<Vacancy>
                     adapter.notifyDataSetChanged()
-
                 }
 
                 is DtoConsumer.NoInternet<JobsInfo> -> {
@@ -85,7 +83,7 @@ class SimilarJobFragment : Fragment() {
                     binding.tvMessage.text = getText(R.string.no_internet)
                 }
 
-                else ->{
+                else -> {
                     // error
                     binding.rvSearch.isGone = true
                     binding.tvMessage.isGone = false

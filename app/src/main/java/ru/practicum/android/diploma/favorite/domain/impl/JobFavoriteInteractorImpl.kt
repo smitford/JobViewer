@@ -4,7 +4,8 @@ import ru.practicum.android.diploma.favorite.domain.api.JobFavoriteRepository
 import ru.practicum.android.diploma.favorite.presentation.api.JobFavoriteInteractor
 import ru.practicum.android.diploma.job.domain.models.JobForScreen
 
-class JobFavoriteInteractorImpl(private val jobFavoriteRepository: JobFavoriteRepository):JobFavoriteInteractor {
+class JobFavoriteInteractorImpl(private val jobFavoriteRepository: JobFavoriteRepository) :
+    JobFavoriteInteractor {
     override suspend fun add(job: JobForScreen) {
         jobFavoriteRepository.add(job)
     }

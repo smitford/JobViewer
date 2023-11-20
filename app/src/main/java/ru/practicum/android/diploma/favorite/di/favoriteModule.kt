@@ -27,7 +27,7 @@ val favoriteModule = module {
     }
 
     single<FavoriteRepository> {
-        FavoriteRepositoryImpl(get(),get())
+        FavoriteRepositoryImpl(get(), get())
     }
 
     single {
@@ -41,7 +41,7 @@ val favoriteModule = module {
     }
 
     single<JobFavoriteRepository> {
-        JobFavoriteRepositoryImpl(get(),get())
+        JobFavoriteRepositoryImpl(get(), get())
     }
 
     single {

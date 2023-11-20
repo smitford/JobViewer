@@ -9,15 +9,15 @@ import ru.practicum.android.diploma.favorite.domain.FavoriteState
 import ru.practicum.android.diploma.favorite.presentation.api.FavoriteInteractor
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 
-class FavoriteViewModel(private val favoriteInteractor: FavoriteInteractor): ViewModel() {
+class FavoriteViewModel(private val favoriteInteractor: FavoriteInteractor) : ViewModel() {
 
-    private val favorite = MutableLiveData<Pair<FavoriteState,ArrayList<Vacancy>>>()
+    private val favorite = MutableLiveData<Pair<FavoriteState, ArrayList<Vacancy>>>()
 
-    fun getFavoriteLiveData(): LiveData<Pair<FavoriteState,ArrayList<Vacancy>>> = favorite
+    fun getFavoriteLiveData(): LiveData<Pair<FavoriteState, ArrayList<Vacancy>>> = favorite
 
-    fun getFavorite(){
+    fun getFavorite() {
         viewModelScope.launch {
-            favoriteInteractor.get().collect{
+            favoriteInteractor.get().collect {
                 favorite.value = it
             }
         }

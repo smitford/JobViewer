@@ -5,6 +5,7 @@ import ru.practicum.android.diploma.filter.domain.FilterInteractor
 import ru.practicum.android.diploma.filter.domain.FilterRepository
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
+import ru.practicum.android.diploma.filter.domain.models.Region
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
 
 class FilterInteractorImpl(private val filterRepository: FilterRepository) : FilterInteractor {
@@ -24,12 +25,25 @@ class FilterInteractorImpl(private val filterRepository: FilterRepository) : Fil
         return filterRepository.getCountries()
     }
 
-    override fun saveCountryToFilter(country: Country){
+    override fun saveCountryToFilter(country: Country) {
         filterRepository.saveCountryToFilter(country)
     }
 
-    override fun clearCountryInFilter(){
+    override fun clearCountryInFilter() {
         filterRepository.clearCountryInFilter()
     }
+
+    override suspend fun getRegions(): Flow<DtoConsumer<List<Region>>> {
+        return filterRepository.getRegions()
+    }
+
+    override fun saveRegionToFilter(region: Region) {
+        filterRepository.saveRegionToFilter(region)
+    }
+
+    override fun deleteRegionFromFilter() {
+        filterRepository.deleteRegionFromFilter()
+    }
+
 
 }

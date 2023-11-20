@@ -1,9 +1,10 @@
 package ru.practicum.android.diploma.filter.data.convertors
 
 import ru.practicum.android.diploma.filter.data.models.AreaDto
-import ru.practicum.android.diploma.filter.domain.models.Area
+import ru.practicum.android.diploma.filter.data.models.RegionDto
+import ru.practicum.android.diploma.filter.domain.models.Region
 
-object AreasConvertor {
+object RegionConvertor {
 
     private var countryId =""
     private var countryName  = ""
@@ -17,16 +18,16 @@ object AreasConvertor {
 //        )
 //    }
 
-    fun convertAreasDtoToAreaList(areaDto: AreaDto): List<Area> {
-        val areas = mutableListOf<Area>()
+    fun convertAreasDtoToAreaList(areaDto: AreaDto): List<Region> {
+        val regions = mutableListOf<Region>()
 
         if (areaDto.parentId == null){
             countryName = areaDto.name
             countryId = areaDto.id
         }
         if (areaDto.parentId != null){
-            areas.add(
-                Area(
+            regions.add(
+                Region(
                     name = areaDto.name,
                     id = areaDto.id,
                     countryName = countryName,
@@ -35,17 +36,27 @@ object AreasConvertor {
             )
         }
         areaDto.areas.forEach { childArea ->
-            areas.addAll(convertAreasDtoToAreaList(childArea))
+            regions.addAll(convertAreasDtoToAreaList(childArea))
         }
-        return areas
+        return regions
     }
 
-    fun convertAreasDtoListToAreaList(areaDtoList: List<AreaDto>): List<Area> {
-        val resultList = mutableListOf<Area>()
+    fun convertAreasDtoListToAreaList(areaDtoList: List<AreaDto>): List<Region> {
+        val resultList = mutableListOf<Region>()
         areaDtoList.forEach { areaDto ->
             resultList.addAll(convertAreasDtoToAreaList(areaDto))
         }
         return resultList
     }
+
+    fun convertRegionToRegionDto(region: Region) : RegionDto {
+        return RegionDto(
+            name = region.name,
+            id = region.id,
+            countryName = region.countryName,
+            countryId = region.countryId
+        )
+    }
+
 
 }
