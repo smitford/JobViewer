@@ -17,4 +17,6 @@ interface FilterInteractor {
     suspend fun getRegions(): Flow<DtoConsumer<List<Region>>>
     fun saveRegionToFilter(region: Region)
     fun deleteRegionFromFilter()
+    fun getAreasByName(name: String): Flow<DtoConsumer<List<Region>>>
+
 }
