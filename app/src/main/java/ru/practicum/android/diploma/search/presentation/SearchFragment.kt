@@ -52,10 +52,8 @@ class SearchFragment : Fragment() {
         jobClickCb = initClickCb()
         val recyclerView = binding.rvSearch
         adapter = JobAdapter(jobClickCb)
-
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
-
         viewModel.getState().observe(viewLifecycleOwner) { state ->
             when (state) {
                 is SearchStates.Start -> setDefaultScreen(state.filterStates)

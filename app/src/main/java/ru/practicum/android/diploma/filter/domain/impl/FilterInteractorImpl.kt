@@ -45,5 +45,9 @@ class FilterInteractorImpl(private val filterRepository: FilterRepository) : Fil
         filterRepository.deleteRegionFromFilter()
     }
 
+    override fun getAreasByName(name: String): Flow<DtoConsumer<List<Region>>> {
+        return filterRepository.getAreasByName(name)
+    }
+
 
 }

@@ -26,7 +26,6 @@ class SearchViewModel(
 
     init {
         filter = getFilter()
-        Log.d("filterInit", filter.toString())
     }
 
     private var state: SearchStates = SearchStates.Start(checkFilterState())
@@ -46,7 +45,7 @@ class SearchViewModel(
         }
 
     fun loadJobs(text: String) {
-        if (text.isBlank()) return
+        if (text.isBlank() || text == filter.request) return
         searchDebounce(text)
     }
 
@@ -70,7 +69,7 @@ class SearchViewModel(
 
     fun refreshFilter() {
         val newFiler = getFilter()
-        Log.d("", "${checkFilterState()}")
+        newFiler.request = filter.request
         if (newFiler != filter) {
             when (stateLiveData.value) {
                 is SearchStates.Success -> (stateLiveData.value as SearchStates.Success).filterStates =
@@ -90,7 +89,6 @@ class SearchViewModel(
 
                 else -> Unit
             }
-            newFiler.request = filter.request
             filter = newFiler
             refreshSearch()
         }

@@ -9,5 +9,6 @@ class DataUtils {
         const val NOT_FOUND = "NOT_FOUND"
         const val CONNECTION_ERROR = "CONNECTION_ERROR"
         const val ERROR = "ERROR"
+        const val NO_RESULTS_CODE = 403
     }
 }
