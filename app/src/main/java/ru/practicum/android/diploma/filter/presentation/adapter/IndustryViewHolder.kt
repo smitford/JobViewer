@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.filter.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CheckBox
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
@@ -14,14 +14,15 @@ class IndustryViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
     )
 ) {
     private val name: TextView = itemView.findViewById(R.id.tv_industry_name)
-    private val isSelect: CheckBox = itemView.findViewById(R.id.cb_select)
+    val rbSelect: RadioButton = itemView.findViewById(R.id.cb_select)
 
     fun bind(model: AreaDataInterface) {
         when (model) {
             is AreaDataInterface.IndustryUi -> {
                 name.text = model.name
-                isSelect.isSelected = model.isSelected
+                rbSelect.isChecked = model.isSelected
             }
+
             else -> {}
         }
     }

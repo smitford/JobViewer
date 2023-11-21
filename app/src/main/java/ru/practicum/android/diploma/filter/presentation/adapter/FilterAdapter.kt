@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.filter.presentation.adapter
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.filter.presentation.adapter.model.AreaDataInterface
@@ -23,11 +24,29 @@ class FilterAdapter(private val clickListener: ClickListener) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when (holder) {
-            is RegionViewHolder -> holder.bind(list[position])
-            is IndustryViewHolder -> holder.bind(list[position])
-        }
+            is RegionViewHolder -> {
+                holder.bind(list[position])
+                holder.itemView.setOnClickListener { clickListener.click(list[position]) }
+            }
 
-        holder.itemView.setOnClickListener { clickListener.click(list[position]) }
+            is IndustryViewHolder -> {
+
+                val switchClickListener = View.OnClickListener() {
+                    (list[position] as AreaDataInterface.IndustryUi).isSelected =
+                        !holder.rbSelect.isChecked
+
+                    for (c in list) {
+                        (c as AreaDataInterface.IndustryUi).isSelected = (c == list[position])
+                    }
+                    notifyDataSetChanged()
+                    clickListener.click(list[position])
+
+                }
+                holder.bind(list[position])
+                holder.itemView.setOnClickListener(switchClickListener)
+                holder.rbSelect.setOnClickListener(switchClickListener)
+            }
+        }
     }
 
     fun interface ClickListener {

@@ -140,8 +140,6 @@ class ChoosingIndustryFragment : Fragment() {
     }
 
     private fun clickOnIndustry(industryUi: AreaDataInterface) {
-        //vM.saveRegionInFilter(regionUi)
-        findNavController().popBackStack()
     }
 
     private fun tWCreator() = object : TextWatcher {
