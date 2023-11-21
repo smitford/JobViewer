@@ -13,6 +13,7 @@ import ru.practicum.android.diploma.filter.data.impl.FilterStorageImpl
 import ru.practicum.android.diploma.filter.domain.FilterInteractor
 import ru.practicum.android.diploma.filter.domain.FilterRepository
 import ru.practicum.android.diploma.filter.domain.impl.FilterInteractorImpl
+import ru.practicum.android.diploma.filter.presentation.view_model.ChoosingIndustryViewModel
 import ru.practicum.android.diploma.filter.presentation.view_model.ChoosingRegionViewModel
 import ru.practicum.android.diploma.filter.presentation.view_model.CountrySelectionViewModel
 import ru.practicum.android.diploma.filter.presentation.view_model.FilterSettingsViewModel
@@ -61,5 +62,9 @@ val filterModule = module {
 
     viewModel {
         PlaceOfWorkViewModel(get())
+    }
+
+    viewModel {
+        ChoosingIndustryViewModel(get())
     }
 }

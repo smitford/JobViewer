@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.filter.presentation.view_model
 
 import ru.practicum.android.diploma.filter.domain.models.Country
+import ru.practicum.android.diploma.filter.domain.models.Industry
 import ru.practicum.android.diploma.filter.domain.models.Region
 import ru.practicum.android.diploma.filter.presentation.adapter.model.AreaDataInterface
 
@@ -46,6 +47,17 @@ object UiConvertor {
             )
             else -> throw IllegalArgumentException("Invalid data type")
         }
+    }
+
+    private fun industryToIndustryUi(industry: Industry) : AreaDataInterface.IndustryUi {
+        return AreaDataInterface.IndustryUi(
+            id = industry.id,
+            name = industry.name
+        )
+    }
+
+    fun industriesToIndustriesUi(list: List<Industry>) : List<AreaDataInterface> {
+        return list.map { industry -> industryToIndustryUi(industry) }
     }
 
 }

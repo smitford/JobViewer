@@ -14,4 +14,9 @@ sealed class AreaDataInterface(
         val countryName: String,
         val countryId: String
     ) : AreaDataInterface(id, name)
+
+    class IndustryUi(
+        id: String, name: String,
+        var isSelected : Boolean = false
+    ) : AreaDataInterface(id, name)
 }
