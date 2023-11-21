@@ -8,6 +8,7 @@ import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.filter.data.models.AreaDto
 import ru.practicum.android.diploma.filter.data.models.CountryDto
+import ru.practicum.android.diploma.filter.data.models.IndustryDto
 import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenResponse
 import ru.practicum.android.diploma.search.data.models.JobSearchResponseDto
 import ru.practicum.android.diploma.similarjob.data.dto.JobSearchSimilarResponseDto
@@ -46,15 +47,19 @@ interface HhApiJobInfo {
     @GET("areas/{area_id}")
     suspend fun getAreasById(@Path("area_id") id: String): AreaDto
 
+    //Получение отрослей по айди страны
+    @Headers(USER)
+    @GET("salary_statistics/dictionaries/salary_industries")
+    suspend fun getIndustries(): List<IndustryDto>
+
+
     @Headers(
         HEADER_AUTH,
         USER
     )
     @GET("vacancies/{vacancy_id}/similar_vacancies")
-    suspend fun getSimilarVacancies(
-        @Path("vacancy_id") vacancyId: String,
-        @Query("page") page: Int
-    ): JobSearchSimilarResponseDto
+    suspend fun getSimilarVacancies(@Path("vacancy_id") vacancyId: String):
+            JobSearchSimilarResponseDto
 
     companion object {
         const val HEADER_AUTH = "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}"
