@@ -64,4 +64,9 @@ class FilterSettingsViewModel(private val filterInteractor: FilterInteractor) : 
         setFiltersInFragment()
     }
 
+    fun clearIndustry() {
+        filterInteractor.deleteIndustryFromFilter()
+        setFiltersInFragment()
+    }
+
 }

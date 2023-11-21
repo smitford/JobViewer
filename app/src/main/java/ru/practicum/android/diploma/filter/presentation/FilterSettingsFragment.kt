@@ -58,6 +58,10 @@ class FilterSettingsFragment : Fragment() {
             vM.clearPlaceOfWork()
         }
 
+        binding.ivClearIndustry.setOnClickListener {
+            vM.clearIndustry()
+        }
+
         vM.placeOfWork.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 binding.tvPlaceOfWorkClear.visibility = View.VISIBLE
