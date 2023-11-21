@@ -33,7 +33,6 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
     private val binding get() = _binding!!
     private lateinit var jobData: JobForScreen
     private val args: JobFragmentArgs by navArgs()
-    private var isFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,26 +48,15 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
 
         jobFragmentViewModel.getJob(args.jobId)
 
+        jobFragmentViewModel.includedToFavorite(args.jobId)
+
         jobFragmentViewModel.observeJobScreenLiveData()
             .observe(viewLifecycleOwner) { status ->
                 showContentBasedOnState(status)
             }
 
-        jobFragmentViewModel.observeFavoriteLifeData().observe(viewLifecycleOwner) {
-            isFavorite = it
-            if (isFavorite) {
-                binding.ibFavourite.setImageResource(R.drawable.ic_favorites_on)
-            } else {
-                binding.ibFavourite.setImageResource(R.drawable.ic_favorites_off)
-            }
-        }
-
         binding.ibFavourite.setOnClickListener {
-            if (isFavorite) {
-                jobData.id?.let { id -> jobFragmentViewModel.deleteFromFavorite(id) }
-            } else {
-                jobFragmentViewModel.addToFavorite(jobData)
-            }
+            checkIsFavourite(jobFragmentViewModel.getFavouriteState())
         }
 
         binding.btnSimilarJobs.setOnClickListener {
@@ -101,6 +89,7 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
             is JobScreenState.ServerError -> showError()
             is JobScreenState.ConnectionError -> showError()
             is JobScreenState.InvalidRequest -> showError()
+            is JobScreenState.FavouriteIcon -> checkFavouriteIcon(status.isFavourite)
         }
     }
 
@@ -109,6 +98,23 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
             llMainContent.visibility = View.GONE
             pbJob.visibility = View.GONE
             llServerError.visibility = View.VISIBLE
+        }
+    }
+
+
+    private fun checkIsFavourite(isFavorite: Boolean) {
+        if (isFavorite) {
+            jobData.id?.let { id -> jobFragmentViewModel.deleteFromFavorite(id) }
+        } else {
+            jobFragmentViewModel.addToFavorite(jobData)
+        }
+    }
+
+    private fun checkFavouriteIcon(isFavorite: Boolean) {
+        if (isFavorite) {
+            binding.ibFavourite.setImageResource(R.drawable.ic_favorites_on)
+        } else {
+            binding.ibFavourite.setImageResource(R.drawable.ic_favorites_off)
         }
     }
 
@@ -155,7 +161,8 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
             with(binding) {
                 llKeySkills.visibility = View.VISIBLE
                 tvMainSkills.text =
-                    TextUtils.arrayToStrInJob(job.keySkills as Array<Any>, TypeForTextUtils.Skills).trim()
+                    TextUtils.arrayToStrInJob(job.keySkills as Array<Any>, TypeForTextUtils.Skills)
+                        .trim()
             }
         }
     }
@@ -167,7 +174,7 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
                 llContacts.visibility = View.VISIBLE
                 tvEmailStatic.visibility = View.VISIBLE
                 tvEmailContacts.visibility = View.VISIBLE
-                tvEmailContacts.text = job.email
+                tvEmailContacts.text = job.email.trim()
             }
         }
 
@@ -178,7 +185,7 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
                 job.contactsName?.let {
                     tvContactNameStatic.visibility = View.VISIBLE
                     tvContactName.visibility = View.VISIBLE
-                    tvContactName.text = job.contactsName
+                    tvContactName.text = job.contactsName.trim()
                 }
 
                 TextUtils.arrayToStrInJob(
@@ -203,7 +210,7 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
                     if (it.isNotEmpty()) {
                         tvCommentStatic.visibility = View.VISIBLE
                         tvComments.visibility = View.VISIBLE
-                        tvComments.text = it
+                        tvComments.text = it.trim()
                     }
                 }
             }
