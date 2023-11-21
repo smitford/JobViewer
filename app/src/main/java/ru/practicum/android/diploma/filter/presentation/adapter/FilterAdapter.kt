@@ -12,6 +12,7 @@ class FilterAdapter(private val clickListener: ClickListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_REGION -> RegionViewHolder(parent)
+            VIEW_TYPE_COUNTRY -> RegionViewHolder(parent)
             VIEW_TYPE_INDUSTRY -> IndustryViewHolder(parent)
             else -> throw IllegalArgumentException("Invalid view type")
         }
@@ -57,12 +58,13 @@ class FilterAdapter(private val clickListener: ClickListener) :
         return when (list[position]) {
             is AreaDataInterface.RegionUi -> VIEW_TYPE_REGION
             is AreaDataInterface.IndustryUi -> VIEW_TYPE_INDUSTRY
-            else -> throw IllegalArgumentException("Invalid view type")
+            is AreaDataInterface.CountryUi -> VIEW_TYPE_COUNTRY
         }
     }
 
     companion object {
         const val VIEW_TYPE_REGION = 1
         const val VIEW_TYPE_INDUSTRY = 2
+        const val VIEW_TYPE_COUNTRY = 3
     }
 }
