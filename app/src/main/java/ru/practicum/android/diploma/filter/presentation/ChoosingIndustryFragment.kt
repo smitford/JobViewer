@@ -19,7 +19,7 @@ import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentChoosingIndustryBinding
-import ru.practicum.android.diploma.filter.presentation.adapter.RegionAdapter
+import ru.practicum.android.diploma.filter.presentation.adapter.FilterAdapter
 import ru.practicum.android.diploma.filter.presentation.adapter.model.AreaDataInterface
 import ru.practicum.android.diploma.filter.presentation.view_model.ChoosingIndustryViewModel
 import ru.practicum.android.diploma.filter.presentation.view_model.model.FilterParametersState
@@ -30,7 +30,7 @@ class ChoosingIndustryFragment : Fragment() {
     private var _binding: FragmentChoosingIndustryBinding? = null
     private val binding get() = _binding!!
 
-    private val adapter = RegionAdapter { clickOnIndustry(it) }
+    private val adapter = FilterAdapter { clickOnIndustry(it) }
     private var recyclerView: RecyclerView? = null
     private var inputEditText: EditText? = null
 
@@ -135,7 +135,7 @@ class ChoosingIndustryFragment : Fragment() {
         binding.tvError.visibility = View.GONE
         binding.ivError.visibility = View.GONE
         binding.btnChoose.visibility = View.GONE
-        adapter.areas = list
+        adapter.list = list
         adapter.notifyDataSetChanged()
     }
 
