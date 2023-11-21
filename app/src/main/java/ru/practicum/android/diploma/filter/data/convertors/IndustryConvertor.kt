@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.filter.data.convertors
 
 import ru.practicum.android.diploma.filter.data.models.IndustryDto
+import ru.practicum.android.diploma.filter.data.models.IndustrySp
 import ru.practicum.android.diploma.filter.domain.models.Industry
 
 object IndustryConvertor {
@@ -21,5 +22,12 @@ object IndustryConvertor {
         }
         industries.sortBy { it.name }
         return industries
+    }
+
+    fun industryToIndustrySp(industry: Industry): IndustrySp {
+        return IndustrySp(
+            id = industry.id,
+            name = industry.name
+        )
     }
 }

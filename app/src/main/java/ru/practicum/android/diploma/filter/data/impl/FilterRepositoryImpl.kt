@@ -110,6 +110,14 @@ class FilterRepositoryImpl(
         }
     }
 
+    override fun deleteIndustryFromFilter() {
+        filterStorage.deleteIndustryFromFilter()
+    }
+
+    override fun saveIndustryToFilter(industry: Industry) {
+        filterStorage.saveIndustryToFilter(IndustryConvertor.industryToIndustrySp(industry))
+    }
+
     override fun getIndustries(): Flow<DtoConsumer<List<Industry>>> = flow {
         filterNetwork.getIndustries().collect { consumer ->
             if (consumer is DtoConsumer.Success) {

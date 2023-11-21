@@ -20,4 +20,6 @@ interface FilterInteractor {
     fun deleteRegionFromFilter()
     fun getAreasByName(name: String): Flow<DtoConsumer<List<Region>>>
     fun getIndustries(): Flow<DtoConsumer<List<Industry>>>
+    fun deleteIndustryFromFilter()
+    fun saveIndustryToFilter(industry: Industry)
 }

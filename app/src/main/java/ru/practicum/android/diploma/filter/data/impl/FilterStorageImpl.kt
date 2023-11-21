@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import ru.practicum.android.diploma.filter.data.FilterStorage
 import ru.practicum.android.diploma.filter.data.models.CountryDto
 import ru.practicum.android.diploma.filter.data.models.FilterParametersDto
+import ru.practicum.android.diploma.filter.data.models.IndustrySp
 import ru.practicum.android.diploma.filter.data.models.RegionDto
 import ru.practicum.android.diploma.util.DataUtils.Companion.FILTER_COUNTRY
 import ru.practicum.android.diploma.util.DataUtils.Companion.FILTER_REGION
@@ -145,7 +146,7 @@ class FilterStorageImpl(
         }
     }
 
-    override fun deleteRegionFromFilter(){
+    override fun deleteRegionFromFilter() {
         val filterParam = getFilterSettings()
         val region = getRegion()
         if (region != null) {
@@ -160,5 +161,24 @@ class FilterStorageImpl(
         }
     }
 
+    override fun deleteIndustryFromFilter() {
+        val filterParam = getFilterSettings()
+        saveFilterSettings(
+            filterParam.copy(
+                industryId = null,
+                industry = null,
+            )
+        )
+    }
+
+    override fun saveIndustryToFilter(industrySp: IndustrySp) {
+        val filterParam = getFilterSettings()
+        saveFilterSettings(
+            filterParam.copy(
+                industryId = industrySp.id,
+                industry = industrySp.name,
+            )
+        )
+    }
 
 }

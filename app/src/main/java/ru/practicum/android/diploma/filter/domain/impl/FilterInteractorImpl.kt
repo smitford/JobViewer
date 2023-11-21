@@ -54,5 +54,13 @@ class FilterInteractorImpl(private val filterRepository: FilterRepository) : Fil
         return filterRepository.getIndustries()
     }
 
+    override fun deleteIndustryFromFilter() {
+        filterRepository.deleteIndustryFromFilter()
+    }
+
+    override fun saveIndustryToFilter(industry: Industry) {
+        filterRepository.saveIndustryToFilter(industry)
+    }
+
 
 }
