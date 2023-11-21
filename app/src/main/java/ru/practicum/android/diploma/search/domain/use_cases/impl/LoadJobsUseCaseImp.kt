@@ -10,7 +10,7 @@ import ru.practicum.android.diploma.search.domain.models.JobsInfo
 import ru.practicum.android.diploma.search.domain.use_cases.AdapterDomain
 import ru.practicum.android.diploma.search.domain.use_cases.LoadJobsUseCase
 
-class LoadJobsUseCaseImp(val repository: JobNetworkRepository) : LoadJobsUseCase {
+class LoadJobsUseCaseImp(private val repository: JobNetworkRepository) : LoadJobsUseCase {
     override suspend fun execute(filter: Filter): Flow<JobsInfo> =
         repository.getJobs(filter = filter).map { result ->
             when (result) {

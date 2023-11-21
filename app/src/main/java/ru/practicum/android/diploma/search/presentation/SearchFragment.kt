@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -65,8 +66,8 @@ class SearchFragment : Fragment() {
                     adapter.jobsList = state.jobList.toMutableList()
                 }
 
-                is SearchStates.Loading -> setLoadingPaggScreen()
-                else -> setLoadingPaggScreen()
+                is SearchStates.Loading -> setLoadingPaggScreen(state.isPageRefresher)
+                else -> setLoadingPaggScreen(false)
             }
         }
 
@@ -143,8 +144,8 @@ class SearchFragment : Fragment() {
         changeFilterTint(hasFilter)
     }
 
-    private fun setLoadingPaggScreen() {
-        binding.rvSearch.visibility = VISIBLE
+    private fun setLoadingPaggScreen(pageRefresher: Boolean) {
+        binding.rvSearch.isGone = !pageRefresher
         binding.ivError.visibility = GONE
         binding.tvError.visibility = GONE
         binding.pagingPrBar.visibility = VISIBLE

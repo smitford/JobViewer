@@ -1,12 +1,10 @@
 package ru.practicum.android.diploma.search.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.search.domain.models.Codes
 import ru.practicum.android.diploma.search.domain.models.Filter
@@ -37,11 +35,11 @@ class SearchViewModel(
     private val searchDebounce =
         debounce<String>(SEARCH_DEBOUNCE_DELAY_MILS, viewModelScope, true) {
             filter.request = it
-            search()
+            search(false)
         }
     private val pageLoaderDebounce =
         debounce<Unit>(PAGE_LOAD_DEBOUNCE_DELAY_MILS, viewModelScope, true) {
-            search()
+            search(true)
         }
 
     fun loadJobs(text: String) {
@@ -49,8 +47,8 @@ class SearchViewModel(
         searchDebounce(text)
     }
 
-    private fun search() {
-        stateLiveData.value = SearchStates.Loading
+    private fun search(pageRefresher: Boolean) {
+        stateLiveData.value = SearchStates.Loading(pageRefresher)
         viewModelScope.launch {
             loadJobsUseCase.execute(filter = filter).collect { jobsInfo ->
                 requestHandler(jobsInfo)
@@ -60,7 +58,7 @@ class SearchViewModel(
 
     private fun refreshSearch() {
         vacancyList.clear()
-        if (filter.request.isNotBlank()) search()
+        if (filter.request.isNotBlank()) search(false)
     }
 
     fun getState(): LiveData<SearchStates> = stateLiveData
@@ -70,7 +68,9 @@ class SearchViewModel(
     fun refreshFilter() {
         val newFiler = getFilter()
         newFiler.request = filter.request
+        newFiler.page = filter.page
         if (newFiler != filter) {
+            newFiler.page = 0
             when (stateLiveData.value) {
                 is SearchStates.Success -> (stateLiveData.value as SearchStates.Success).filterStates =
                     checkFilterState()
