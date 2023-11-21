@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,8 +58,16 @@ class ChoosingIndustryFragment : Fragment() {
         vM.stateLiveData.observe(viewLifecycleOwner) {
             showState(it)
         }
-
         vM.getIndustries()
+
+        vM.buttonIsVisibleLiveData.observe(viewLifecycleOwner){
+            binding.btnChoose.isVisible = it
+        }
+
+        binding.btnChoose.setOnClickListener{
+            vM.saveIndustryToFilter()
+            findNavController().popBackStack()
+        }
 
         inputEditText = binding.etSearch
         inputEditText?.addTextChangedListener(tWCreator())
@@ -140,6 +149,7 @@ class ChoosingIndustryFragment : Fragment() {
     }
 
     private fun clickOnIndustry(industryUi: AreaDataInterface) {
+        vM.saveToVm(industryUi)
     }
 
     private fun tWCreator() = object : TextWatcher {

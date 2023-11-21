@@ -60,6 +60,12 @@ object UiConvertor {
         return list.map { industry -> industryToIndustryUi(industry) }
     }
 
+    fun industryUiToIndustry(industryUi: AreaDataInterface.IndustryUi) : Industry {
+        return Industry(
+            id = industryUi.id,
+            name = industryUi.name
+        )
+    }
 }
 
 
