@@ -75,4 +75,5 @@
     <string name="salary_to">до %s</string>
     <string name="from">от</string>
     <string name="to">до</string>
+    <string name="there_is_no_such_industry">Такой отрасли нет</string>
 </resources>

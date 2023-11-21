@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentCountrySelectionBinding
-import ru.practicum.android.diploma.filter.presentation.adapter.RegionAdapter
+import ru.practicum.android.diploma.filter.presentation.adapter.FilterAdapter
 import ru.practicum.android.diploma.filter.presentation.adapter.model.AreaDataInterface
 import ru.practicum.android.diploma.filter.presentation.view_model.CountrySelectionViewModel
 import ru.practicum.android.diploma.filter.presentation.view_model.model.FilterParametersState
@@ -24,7 +24,7 @@ class CountrySelectionFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val vM: CountrySelectionViewModel by viewModel()
-    private val adapter = RegionAdapter { clickOnCountry(it) }
+    private val adapter = FilterAdapter { clickOnCountry(it) }
     private var recyclerView: RecyclerView? = null
 
 
@@ -108,7 +108,7 @@ class CountrySelectionFragment : Fragment() {
         binding.pbLoading.visibility = View.GONE
         binding.tvError.visibility = View.GONE
         binding.ivError.visibility = View.GONE
-        adapter.areas = list
+        adapter.list = list
         adapter.notifyDataSetChanged()
     }
 

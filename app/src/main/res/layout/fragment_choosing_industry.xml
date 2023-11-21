@@ -37,47 +37,53 @@
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilSearch"
+        android:id="@+id/til_search"
         style="@style/TextInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/editTextSize_56dp"
+        android:layout_width="@dimen/zero_0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_16dp"
         android:layout_marginTop="@dimen/margin_8dp"
         android:background="@drawable/bg_et_search"
-        android:hint="@string/enter_industry"
+        android:gravity="center"
         android:imeOptions="actionDone"
-        android:padding="@dimen/margin_4dp"
-        app:layout_constraintEnd_toEndOf="@+id/rv_region"
-        app:layout_constraintStart_toStartOf="@+id/rv_region"
+        android:minHeight="@dimen/editTextSize_56dp"
+        android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:endIconDrawable="@drawable/search"
+        app:endIconMode="custom"
+        app:endIconTint="@color/black_universal"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons">
 
-        <EditText
-            android:id="@+id/etSearch"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_search"
             style="@style/textRegular16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="?attr/colorPrimaryContainer"
-            android:drawableEnd="@drawable/search"
-            android:drawablePadding="@dimen/margin_16dp"
-            android:inputType="text"
+            android:backgroundTint="@color/black"
+            android:hint="@string/enter_industry"
+            android:imeOptions="actionDone"
             android:lines="1"
-            android:paddingStart="@dimen/margin_12dp" />
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_region"
+        android:id="@+id/rv_industry"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/margin_8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_choose"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilSearch" />
+        app:layout_constraintTop_toBottomOf="@+id/til_search" />
 
     <ImageView
-        android:id="@+id/ivError"
+        android:id="@+id/iv_error"
         android:layout_width="@dimen/zero_0dp"
         android:layout_height="@dimen/zero_0dp"
         android:contentDescription="@string/error"
@@ -87,29 +93,43 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_max="223dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilSearch"
+        app:layout_constraintTop_toBottomOf="@id/til_search"
         tools:src="@drawable/error_list_favorite" />
 
     <TextView
-        android:id="@+id/tvError"
+        android:id="@+id/tv_error"
         style="@style/textMedium22"
         android:layout_marginTop="@dimen/margin_16dp"
         android:gravity="center"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivError"
-        tools:text="@string/there_is_no_such_region" />
+        app:layout_constraintTop_toBottomOf="@id/iv_error"
+        tools:text="@string/there_is_no_such_industry" />
 
     <ProgressBar
-        android:id="@+id/search_progressBar"
+        android:id="@+id/pb_loading"
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:indeterminateTint="@color/blue"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilSearch" />
+        app:layout_constraintTop_toBottomOf="@id/til_search" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_choose"
+        style="@style/ButtonAccept"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16dp"
+        android:layout_marginBottom="@dimen/margin_24dp"
+        android:paddingHorizontal="@dimen/margin_8dp"
+        android:paddingVertical="@dimen/margin_20dp"
+        android:text="@string/choose"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
