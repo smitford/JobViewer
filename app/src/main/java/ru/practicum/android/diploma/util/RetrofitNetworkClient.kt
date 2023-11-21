@@ -18,9 +18,6 @@ import ru.practicum.android.diploma.similarjob.data.dto.JobDtoSimilarRequest
 
 class RetrofitNetworkClient(val context: Context) : NetworkClient {
 
-    override var lock = Any()
-    val requestOptions: HashMap<String, String> = HashMap()
-
     private val retrofitHh =
         Retrofit.Builder()
             .baseUrl(BASE_HH_API)
@@ -83,7 +80,7 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
             }
 
             is JobDtoSimilarRequest -> try {
-                val resp = hhService.getSimilarVacancies(dto.id)
+                val resp = hhService.getSimilarVacancies(dto.id, dto.page)
                 resp.apply { responseCode = ResultCodes.SUCCESS }
 
             } catch (e: Exception) {

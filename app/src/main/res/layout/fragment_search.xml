@@ -86,7 +86,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearch"
         android:layout_width="@dimen/zero_0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/zero_0dp"
         android:layout_marginTop="@dimen/margin_10dp"
         android:clipToPadding="false"
         android:paddingTop="@dimen/margin_24dp"

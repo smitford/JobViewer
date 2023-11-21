@@ -5,5 +5,5 @@ import ru.practicum.android.diploma.search.domain.api.DtoConsumer
 import ru.practicum.android.diploma.search.domain.models.JobsInfo
 
 interface SimilarJobRepository {
-    fun getSimilarJobs(vacancyId: String): Flow<DtoConsumer<JobsInfo>>
+    fun getSimilarJobs(vacancyId: String, page: Int): Flow<DtoConsumer<JobsInfo>>
 }
