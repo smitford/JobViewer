@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/margin_24dp"
     tools:context=".job.presentation.fragment.JobFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -86,6 +86,7 @@
                         style="@style/job22Text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_16dp"
                         tools:text="[от 100 000 ₽]" />
                 </LinearLayout>
 
@@ -94,7 +95,6 @@
                     android:id="@+id/cl_job"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16dp"
                     android:background="@drawable/background_job_name">
 
                     <ImageView
@@ -163,22 +163,22 @@
                     <TextView
                         android:id="@+id/tv_job_discription"
                         style="@style/job16TextRegular"
+                        android:layout_marginBottom="@dimen/margin_24dp"
                         tools:layout_marginStart="@dimen/margin_16dp"
                         tools:text="[• Sample Text\n• Sample Text\n• Sample Text\n• Sample Text\n• Sample Text]" />
 
-                    <!--JobDescription-->
-
+                    <!--KeySkills-->
                     <LinearLayout
                         android:id="@+id/ll_key_skills"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_24dp"
                         android:orientation="vertical"
                         android:visibility="gone"
                         tools:visibility="visible">
 
                         <TextView
                             style="@style/job22Text"
-                            android:layout_marginTop="@dimen/margin_24dp"
                             android:layout_marginBottom="@dimen/margin_16dp"
                             android:text="@string/main_skills" />
 
@@ -188,8 +188,8 @@
                             tools:layout_marginStart="@dimen/margin_16dp"
                             tools:text="[• Sample Text\n• Sample Text\n• Sample Text\n• Sample Text\n• Sample Text]" />
                     </LinearLayout>
-                    <!--Contacts-->
 
+                    <!--Contacts-->
                     <LinearLayout
                         android:id="@+id/ll_contacts"
                         android:layout_width="match_parent"
@@ -200,25 +200,33 @@
 
                         <TextView
                             style="@style/job22Text"
-                            android:layout_marginTop="@dimen/margin_24dp"
                             android:layout_marginBottom="@dimen/margin_16dp"
                             android:text="@string/contacts" />
 
                         <!--EmployerContacts-->
                         <TextView
+                            android:id="@+id/tv_contact_name_static"
                             style="@style/job16TextMedium"
-                            android:text="@string/employer_contacts" />
+                            android:text="@string/employer_contacts"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
 
                         <TextView
+                            android:id="@+id/tv_contact_name"
                             style="@style/job16TextRegular"
                             android:layout_marginTop="@dimen/margin_4dp"
                             android:layout_marginBottom="@dimen/margin_16dp"
-                            tools:text="[Amogus]" />
+                            android:visibility="gone"
+                            tools:text="[Amogus]"
+                            tools:visibility="visible" />
 
                         <!--Email-->
                         <TextView
+                            android:id="@+id/tv_email_static"
                             style="@style/job16TextMedium"
-                            android:text="@string/email" />
+                            android:text="@string/email"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
 
                         <TextView
                             android:id="@+id/tv_email_contacts"
@@ -226,37 +234,47 @@
                             android:layout_marginTop="@dimen/margin_4dp"
                             android:layout_marginBottom="@dimen/margin_16dp"
                             android:textColor="@color/blue"
-                            tools:text="[aboba@bread.com]" />
+                            android:visibility="gone"
+                            tools:text="[aboba@bread.com]"
+                            tools:visibility="visible" />
 
-                        <!--PhoneNumber-->
+                        <!--PhoneNumbers-->
                         <TextView
+                            android:id="@+id/tv_phone_static"
                             style="@style/job16TextMedium"
-                            android:text="@string/phone_number" />
+                            android:text="@string/phone_number"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
 
-                        <TextView
-                            android:id="@+id/tv_phone_contacts"
-                            style="@style/job16TextRegular"
-                            android:layout_marginTop="@dimen/margin_4dp"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_phones_numbers"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/margin_16dp"
-                            android:textColor="@color/blue"
-                            tools:text="[+7 999 228 13 37]" />
+                            tools:itemCount="3"
+                            tools:listitem="@layout/recycler_phone_item" />
 
                         <!--Comment-->
                         <TextView
+                            android:id="@+id/tv_comment_static"
                             style="@style/job16TextMedium"
-                            android:text="@string/comment" />
+                            android:text="@string/comment"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
 
                         <TextView
                             android:id="@+id/tv_comments"
                             style="@style/job16TextRegular"
                             android:layout_marginTop="@dimen/margin_4dp"
-                            android:layout_marginBottom="@dimen/margin_24dp"
-                            tools:text="[Заполнить анкету по форме можно на нашем сайте]" />
+                            android:visibility="gone"
+                            tools:text="[Заполнить анкету по форме можно на нашем сайте]"
+                            tools:visibility="visible" />
                     </LinearLayout>
 
                     <Button
                         android:id="@+id/btn_similar_jobs"
                         style="@style/ButtonLong"
+                        android:layout_marginTop="@dimen/margin_24dp"
                         android:backgroundTint="@color/blue"
                         android:text="@string/similar_jobs" />
                 </LinearLayout>
@@ -284,9 +302,8 @@
                     android:gravity="center_horizontal"
                     android:text="@string/server_error" />
             </LinearLayout>
-
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <ProgressBar
         android:id="@+id/pb_job"

@@ -8,4 +8,5 @@ sealed class JobScreenState {
     data object ConnectionError : JobScreenState()
     data object InvalidRequest : JobScreenState()
     data class Success(val jobForScreen: JobForScreen) : JobScreenState()
+    data class FavouriteIcon(val isFavourite: Boolean) : JobScreenState()
 }

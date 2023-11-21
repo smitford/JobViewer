@@ -1,32 +1,38 @@
 package ru.practicum.android.diploma.job.presentation.fragment
 
 import android.os.Bundle
+import android.telephony.PhoneNumberUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentJobBinding
 import ru.practicum.android.diploma.job.data.impl.mapper.TypeForTextUtils
+import ru.practicum.android.diploma.job.data.secondarymodels.Phones
 import ru.practicum.android.diploma.job.domain.models.JobForScreen
+import ru.practicum.android.diploma.job.presentation.fragment.adapter.PhonesAdapter
+import ru.practicum.android.diploma.job.presentation.fragment.adapter.viewholder.PhonesViewHolder
 import ru.practicum.android.diploma.job.presentation.states.JobScreenState
 import ru.practicum.android.diploma.job.presentation.viewmodel.JobFragmentViewModel
 import ru.practicum.android.diploma.similarjob.presentation.SimilarJobFragment
 import ru.practicum.android.diploma.util.ImgFunctions
 import ru.practicum.android.diploma.util.TextUtils
+import java.util.Locale
 
-class JobFragment : Fragment() {
+
+class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
     private val jobFragmentViewModel: JobFragmentViewModel by viewModel()
     private var _binding: FragmentJobBinding? = null
     private val binding get() = _binding!!
     private lateinit var jobData: JobForScreen
     private val args: JobFragmentArgs by navArgs()
-    private var isFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,26 +48,15 @@ class JobFragment : Fragment() {
 
         jobFragmentViewModel.getJob(args.jobId)
 
+        jobFragmentViewModel.includedToFavorite(args.jobId)
+
         jobFragmentViewModel.observeJobScreenLiveData()
             .observe(viewLifecycleOwner) { status ->
                 showContentBasedOnState(status)
             }
 
-        jobFragmentViewModel.observeFavoriteLifeData().observe(viewLifecycleOwner) {
-            isFavorite = it
-            if (isFavorite) {
-                binding.ibFavourite.setImageResource(R.drawable.ic_favorites_on)
-            } else {
-                binding.ibFavourite.setImageResource(R.drawable.ic_favorites_off)
-            }
-        }
-
         binding.ibFavourite.setOnClickListener {
-            if (isFavorite) {
-                jobData.id?.let { id -> jobFragmentViewModel.deleteFromFavorite(id) }
-            } else {
-                jobFragmentViewModel.addToFavorite(jobData)
-            }
+            checkIsFavourite(jobFragmentViewModel.getFavouriteState())
         }
 
         binding.btnSimilarJobs.setOnClickListener {
@@ -94,6 +89,7 @@ class JobFragment : Fragment() {
             is JobScreenState.ServerError -> showError()
             is JobScreenState.ConnectionError -> showError()
             is JobScreenState.InvalidRequest -> showError()
+            is JobScreenState.FavouriteIcon -> checkFavouriteIcon(status.isFavourite)
         }
     }
 
@@ -105,10 +101,33 @@ class JobFragment : Fragment() {
         }
     }
 
+
+    private fun checkIsFavourite(isFavorite: Boolean) {
+        if (isFavorite) {
+            jobData.id?.let { id -> jobFragmentViewModel.deleteFromFavorite(id) }
+        } else {
+            jobFragmentViewModel.addToFavorite(jobData)
+        }
+    }
+
+    private fun checkFavouriteIcon(isFavorite: Boolean) {
+        if (isFavorite) {
+            binding.ibFavourite.setImageResource(R.drawable.ic_favorites_on)
+        } else {
+            binding.ibFavourite.setImageResource(R.drawable.ic_favorites_off)
+        }
+    }
+
     private fun fillContent(job: JobForScreen) {
         with(binding) {
             tvJobName.text = job.name
-            tvSalary.text = job.salaryFrom
+
+            if (!job.salary?.replace("\\s".toRegex(), "").isNullOrEmpty()) {
+                tvSalary.text = job.salary
+            } else {
+                tvSalary.text = getString(R.string.empty_salary)
+            }
+
             Glide.with(binding.ivJob)
                 .load(job.employerLogoUrl)
                 .placeholder(R.drawable.placeholder_32px)
@@ -126,7 +145,7 @@ class JobFragment : Fragment() {
             tvEmployerCity.text = job.address
             tvRequiredExperience.text = job.experience
             tvEmployment.text = job.employment
-            tvJobDiscription.text = TextUtils.fromHtml(job.description)
+            tvJobDiscription.text = TextUtils.fromHtml(job.description)?.trim()
         }
 
         checkAndShowSkills(job)
@@ -143,27 +162,77 @@ class JobFragment : Fragment() {
                 llKeySkills.visibility = View.VISIBLE
                 tvMainSkills.text =
                     TextUtils.arrayToStrInJob(job.keySkills as Array<Any>, TypeForTextUtils.Skills)
+                        .trim()
             }
         }
     }
 
     @Suppress("UNCHECKED_CAST")
     private fun checkAndShowContacts(job: JobForScreen) {
-        if (job.email != null && job.phones != null) {
+        job.email?.let {
             with(binding) {
                 llContacts.visibility = View.VISIBLE
-                tvEmailContacts.text = job.email
-                tvPhoneContacts.text =
-                    TextUtils.arrayToStrInJob(
-                        job.phones as Array<Any>,
-                        TypeForTextUtils.Phones
-                    )
-                tvComments.text = TextUtils.arrayToStrInJob(
-                    job.phones as Array<Any>,
-                    TypeForTextUtils.Comment
-                )
+                tvEmailStatic.visibility = View.VISIBLE
+                tvEmailContacts.visibility = View.VISIBLE
+                tvEmailContacts.text = job.email.trim()
             }
         }
+
+        job.phones?.let {
+            with(binding) {
+                llContacts.visibility = View.VISIBLE
+
+                job.contactsName?.let {
+                    tvContactNameStatic.visibility = View.VISIBLE
+                    tvContactName.visibility = View.VISIBLE
+                    tvContactName.text = job.contactsName.trim()
+                }
+
+                TextUtils.arrayToStrInJob(
+                    job.phones as Array<Any>,
+                    TypeForTextUtils.Phones
+                ).let {
+                    if (it.isNotEmpty()) {
+                        tvPhoneStatic.visibility = View.VISIBLE
+                        val adapterRv = PhonesAdapter(
+                            formatPhones(job.phones),
+                            this@JobFragment
+                        )
+                        rvPhonesNumbers.layoutManager = LinearLayoutManager(requireContext())
+                        rvPhonesNumbers.adapter = adapterRv
+                    }
+                }
+
+                TextUtils.arrayToStrInJob(
+                    job.phones as Array<Any>,
+                    TypeForTextUtils.Comment
+                ).let {
+                    if (it.isNotEmpty()) {
+                        tvCommentStatic.visibility = View.VISIBLE
+                        tvComments.visibility = View.VISIBLE
+                        tvComments.text = it.trim()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun formatPhones(phonesArray: Array<Phones?>?): List<String> {
+        val formattedArray = mutableListOf<String>()
+
+        phonesArray?.let {
+            for (phone in phonesArray) {
+                phone?.formatted?.let {
+                    formattedArray.add(
+                        PhoneNumberUtils.formatNumber(
+                            phone.formatted,
+                            Locale.getDefault().country
+                        )
+                    )
+                }
+            }
+        }
+        return formattedArray
     }
 
     private fun initListeners() {
@@ -173,17 +242,17 @@ class JobFragment : Fragment() {
             }
 
             ibShare.setOnClickListener {
-                jobData.employerUrl?.let { jobFragmentViewModel.shareJobLink(it) }
+                jobData.vacancyUrl?.let { jobFragmentViewModel.shareJobLink(it) }
             }
 
             tvEmailContacts.setOnClickListener {
                 jobFragmentViewModel.shareEmail(tvEmailContacts.text.toString())
             }
-
-            tvPhoneContacts.setOnClickListener {
-                jobFragmentViewModel.sharePhoneNumber(tvPhoneContacts.text.toString())
-            }
         }
+    }
+
+    override fun setPhoneClickListener(phone: String) {
+        jobFragmentViewModel.sharePhoneNumber(phone)
     }
 
     companion object {
