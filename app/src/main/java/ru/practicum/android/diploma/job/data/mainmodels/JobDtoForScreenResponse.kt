@@ -21,5 +21,6 @@ data class JobDtoForScreenResponse(
     val employment: Employment?,
     val description: String?,
     val key_skills: List<Skills?>,
-    val contacts: Contacts?
+    val contacts: Contacts?,
+    val alternate_url: String?
 ) : ResponseDto()

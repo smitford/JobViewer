@@ -10,11 +10,10 @@ import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 class JobMapper {
     fun map(job: JobForScreen): FavoriteEntity {
-
         return FavoriteEntity(
             job.id.toString(),
             job.name,
-            job.salaryFrom,
+            job.salary,
             job.employerLogoUrl,
             job.employerUrl,
             job.employerName,
@@ -24,7 +23,8 @@ class JobMapper {
             job.employment,
             job.description,
             job.contactsName,
-            job.email
+            job.email,
+            job.vacancyUrl
         )
     }
 
@@ -44,7 +44,8 @@ class JobMapper {
             skills,
             job.contactsName,
             job.email,
-            phones
+            phones,
+            job.vacancyUrl
         )
     }
 

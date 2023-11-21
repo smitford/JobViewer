@@ -86,6 +86,7 @@
                         style="@style/job22Text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_16dp"
                         tools:text="[от 100 000 ₽]" />
                 </LinearLayout>
 
@@ -94,7 +95,6 @@
                     android:id="@+id/cl_job"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16dp"
                     android:background="@drawable/background_job_name">
 
                     <ImageView

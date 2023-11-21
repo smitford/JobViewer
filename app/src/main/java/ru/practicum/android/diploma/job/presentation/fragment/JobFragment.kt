@@ -115,7 +115,13 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
     private fun fillContent(job: JobForScreen) {
         with(binding) {
             tvJobName.text = job.name
-            tvSalary.text = job.salaryFrom
+
+            if (!job.salary?.replace("\\s".toRegex(), "").isNullOrEmpty()) {
+                tvSalary.text = job.salary
+            } else {
+                tvSalary.text = getString(R.string.empty_salary)
+            }
+
             Glide.with(binding.ivJob)
                 .load(job.employerLogoUrl)
                 .placeholder(R.drawable.placeholder_32px)
@@ -133,7 +139,7 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
             tvEmployerCity.text = job.address
             tvRequiredExperience.text = job.experience
             tvEmployment.text = job.employment
-            tvJobDiscription.text = TextUtils.fromHtml(job.description)
+            tvJobDiscription.text = TextUtils.fromHtml(job.description)?.trim()
         }
 
         checkAndShowSkills(job)
@@ -149,7 +155,7 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
             with(binding) {
                 llKeySkills.visibility = View.VISIBLE
                 tvMainSkills.text =
-                    TextUtils.arrayToStrInJob(job.keySkills as Array<Any>, TypeForTextUtils.Skills)
+                    TextUtils.arrayToStrInJob(job.keySkills as Array<Any>, TypeForTextUtils.Skills).trim()
             }
         }
     }
@@ -229,7 +235,7 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
             }
 
             ibShare.setOnClickListener {
-                jobData.employerUrl?.let { jobFragmentViewModel.shareJobLink(it) }
+                jobData.vacancyUrl?.let { jobFragmentViewModel.shareJobLink(it) }
             }
 
             tvEmailContacts.setOnClickListener {
@@ -238,11 +244,11 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
         }
     }
 
-    companion object {
-        private const val ROUNDING_OF_CORNERS_PX = 12
-    }
-
     override fun setPhoneClickListener(phone: String) {
         jobFragmentViewModel.sharePhoneNumber(phone)
+    }
+
+    companion object {
+        private const val ROUNDING_OF_CORNERS_PX = 12
     }
 }
