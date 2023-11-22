@@ -144,7 +144,4 @@ class FilterSettingsFragment : Fragment() {
         }
     }
 
-    companion object {
-        fun newInstance() = FilterSettingsFragment()
-    }
 }

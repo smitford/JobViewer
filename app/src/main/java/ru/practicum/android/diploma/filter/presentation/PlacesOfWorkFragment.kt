@@ -104,7 +104,4 @@ class PlacesOfWorkFragment : Fragment() {
         }
     }
 
-    companion object {
-        fun newInstance() = PlacesOfWorkFragment()
-    }
 }

@@ -13,18 +13,18 @@ class PlaceOfWorkViewModel(private val filterInteractor: FilterInteractor) : Vie
     private val _region = MutableLiveData<String>()
     val region: LiveData<String> get() = _region
 
-    fun updateInfoFragment(){
+    fun updateInfoFragment() {
         val filterParameters = filterInteractor.getFilterSettings()
-        _country.value = filterParameters.country?:""
-        _region.value = filterParameters.area?:""
+        _country.value = filterParameters.country ?: ""
+        _region.value = filterParameters.area ?: ""
     }
 
-    fun clearCountry(){
+    fun clearCountry() {
         filterInteractor.clearCountryInFilter()
         updateInfoFragment()
     }
 
-    fun clearRegion(){
+    fun clearRegion() {
         filterInteractor.deleteRegionFromFilter()
         updateInfoFragment()
     }

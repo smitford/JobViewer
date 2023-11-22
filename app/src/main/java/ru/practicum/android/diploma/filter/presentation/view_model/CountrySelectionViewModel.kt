@@ -37,9 +37,11 @@ class CountrySelectionViewModel(private val filterInteractor: FilterInteractor) 
             }
 
             is DtoConsumer.Success -> {
-                _stateLiveData.postValue(FilterParametersState.ParametersResult(
-                    UiConvertor.convertCountryListToCountryUiList(request.data)
-                ))
+                _stateLiveData.postValue(
+                    FilterParametersState.ParametersResult(
+                        UiConvertor.convertCountryListToCountryUiList(request.data)
+                    )
+                )
             }
 
             is DtoConsumer.NoInternet -> {
