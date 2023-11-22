@@ -10,7 +10,7 @@ class JobFavoriteInteractorImpl(private val jobFavoriteRepository: JobFavoriteRe
         jobFavoriteRepository.add(job)
     }
 
-    override suspend fun getFromBase(id: String): JobForScreen {
+    override suspend fun getFromBase(id: String): JobForScreen? {
         return jobFavoriteRepository.getFromBase(id)
     }
 
