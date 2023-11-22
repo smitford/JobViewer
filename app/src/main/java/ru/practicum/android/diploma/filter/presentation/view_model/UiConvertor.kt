@@ -45,22 +45,23 @@ object UiConvertor {
                 countryName = region.countryName,
                 countryId = region.countryId
             )
+
             else -> throw IllegalArgumentException("Invalid data type")
         }
     }
 
-    private fun industryToIndustryUi(industry: Industry) : AreaDataInterface.IndustryUi {
+    private fun industryToIndustryUi(industry: Industry): AreaDataInterface.IndustryUi {
         return AreaDataInterface.IndustryUi(
             id = industry.id,
             name = industry.name
         )
     }
 
-    fun industriesToIndustriesUi(list: List<Industry>) : List<AreaDataInterface> {
+    fun industriesToIndustriesUi(list: List<Industry>): List<AreaDataInterface> {
         return list.map { industry -> industryToIndustryUi(industry) }
     }
 
-    fun industryUiToIndustry(industryUi: AreaDataInterface.IndustryUi) : Industry {
+    fun industryUiToIndustry(industryUi: AreaDataInterface.IndustryUi): Industry {
         return Industry(
             id = industryUi.id,
             name = industryUi.name

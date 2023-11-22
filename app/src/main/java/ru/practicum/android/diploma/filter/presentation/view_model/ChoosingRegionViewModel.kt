@@ -28,10 +28,10 @@ class ChoosingRegionViewModel(private val filterInteractor: FilterInteractor) : 
         }
 
     fun loadJobs(text: String) {
-        if (text.isBlank()) return
-        if (lastSearchText != text) {
-            searchDebounce(text)
+        if (lastSearchText == text || text.isEmpty()) {
+            return
         }
+        searchDebounce(text)
         lastSearchText = text
     }
 

@@ -123,7 +123,6 @@ class FilterSettingsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         buttonVisibility()
-        vM.setFiltersInFragment()
     }
 
     override fun onDestroyView() {
@@ -145,7 +144,4 @@ class FilterSettingsFragment : Fragment() {
         }
     }
 
-    companion object {
-        fun newInstance() = FilterSettingsFragment()
-    }
 }

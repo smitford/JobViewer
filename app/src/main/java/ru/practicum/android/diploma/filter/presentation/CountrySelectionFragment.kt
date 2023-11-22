@@ -117,7 +117,4 @@ class CountrySelectionFragment : Fragment() {
         findNavController().popBackStack()
     }
 
-    companion object {
-        fun newInstance() = CountrySelectionFragment()
-    }
 }

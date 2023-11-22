@@ -17,7 +17,6 @@ import ru.practicum.android.diploma.search.data.models.ResultCodes
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
 import ru.practicum.android.diploma.util.NetworkClient
 
-
 class FilterNetworkImpl(private val networkClient: NetworkClient) : FilterNetwork {
 
     override suspend fun getCountries(): Flow<DtoConsumer<List<Country>>> = flow {

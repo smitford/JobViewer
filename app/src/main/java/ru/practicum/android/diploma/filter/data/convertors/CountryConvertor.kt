@@ -5,14 +5,14 @@ import ru.practicum.android.diploma.filter.data.models.CountryDto
 import ru.practicum.android.diploma.filter.domain.models.Country
 
 object CountryConvertor {
-    fun countryToCountryDto(country: Country) : CountryDto {
+    fun countryToCountryDto(country: Country): CountryDto {
         return CountryDto(
             id = country.id,
             name = country.name
         )
     }
 
-    private fun areasDtoToCounty(areaDto: AreaDto) : Country {
+    private fun areasDtoToCounty(areaDto: AreaDto): Country {
         return Country(
             id = areaDto.id,
             name = areaDto.name

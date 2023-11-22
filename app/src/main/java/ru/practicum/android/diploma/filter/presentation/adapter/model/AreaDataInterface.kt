@@ -17,6 +17,6 @@ sealed class AreaDataInterface(
 
     class IndustryUi(
         id: String, name: String,
-        var isSelected : Boolean = false
+        var isSelected: Boolean = false
     ) : AreaDataInterface(id, name)
 }
