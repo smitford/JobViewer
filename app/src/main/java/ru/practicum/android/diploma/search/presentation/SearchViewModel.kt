@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.search.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,6 +33,7 @@ class SearchViewModel(
     private var searchJob: Job? = null
     private var page = 0
     private var maxPage = 0
+    private var founded =0
     private val searchDebounce =
         debounce<String>(SEARCH_DEBOUNCE_DELAY_MILS, viewModelScope, true) {
             filter.request = it
@@ -92,7 +94,15 @@ class SearchViewModel(
             }
             filter = newFiler
             refreshSearch()
+            return
         }
+        if(stateLiveData.value is SearchStates.ConnectionError&& vacancyList.isNotEmpty())
+            stateLiveData.value = SearchStates.Success(
+                jobList = vacancyList,
+                page = page,
+                found = founded,
+                filterStates = checkFilterState()
+            )
     }
 
     fun getNewPage() {
@@ -112,6 +122,7 @@ class SearchViewModel(
                 vacancyList.addAll(jobsInfo.jobs!!)
                 page = jobsInfo.page
                 maxPage = jobsInfo.pages
+                founded = jobsInfo.found
                 stateLiveData.value = jobsInfo.let {
                     SearchStates.Success(
                         jobList = vacancyList,
