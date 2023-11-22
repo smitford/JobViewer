@@ -18,17 +18,14 @@ import ru.practicum.android.diploma.search.data.models.ResultCodes
 import ru.practicum.android.diploma.similarjob.data.dto.JobDtoSimilarRequest
 
 class RetrofitNetworkClient(val context: Context) : NetworkClient {
-
     private val retrofitHh =
         Retrofit.Builder()
             .baseUrl(BASE_HH_API)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
     private val hhService = retrofitHh.create(HhApiJobInfo::class.java)
 
     override suspend fun doRequest(dto: Any): ResponseDto {
-
         if (!isConnected()) return ResponseDto()
 
         return when (dto) {
@@ -41,7 +38,6 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
             } catch (e: Exception) {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }
             }
-
             //Просмотр вакансии
             is JobDtoForScreenRequest -> try {
                 val resp = hhService.getJobById(
@@ -51,7 +47,6 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
             } catch (e: Exception) {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }
             }
-
             //Список стран
             is FilterRequest.Countries -> try {
                 val data = hhService.getCountries()
@@ -68,7 +63,6 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
             } catch (e: Exception) {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }
             }
-
             //Список регеонов по Id
             is FilterRequest.AreasById -> try {
                 val data = hhService.getAreasById(

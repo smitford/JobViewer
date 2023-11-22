@@ -12,7 +12,6 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentTeamBinding
 
 class TeamFragment : Fragment() {
-
     private lateinit var binding: FragmentTeamBinding
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -21,7 +20,7 @@ class TeamFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTeamBinding.inflate(inflater,container,false)
+        binding = FragmentTeamBinding.inflate(inflater, container, false)
         return binding.root
     }
 
