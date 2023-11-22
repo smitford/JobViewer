@@ -31,7 +31,7 @@ class SearchViewModel(
     private val vacancyList = mutableListOf<Vacancy>()
     private var searchJob: Job? = null
     private var page = 0
-    private var maxPage = 1
+    private var maxPage = 0
     private val searchDebounce =
         debounce<String>(SEARCH_DEBOUNCE_DELAY_MILS, viewModelScope, true) {
             filter.request = it
@@ -71,6 +71,7 @@ class SearchViewModel(
         newFiler.page = filter.page
         if (newFiler != filter) {
             newFiler.page = 0
+            maxPage = 0
             when (stateLiveData.value) {
                 is SearchStates.Success -> (stateLiveData.value as SearchStates.Success).filterStates =
                     checkFilterState()
@@ -104,7 +105,7 @@ class SearchViewModel(
     private fun requestHandler(jobsInfo: JobsInfo) {
         when (jobsInfo.responseCodes) {
             Codes.ERROR -> {
-                stateLiveData.value = SearchStates.ServerError(checkFilterState())
+                stateLiveData.value = SearchStates.ServerError(checkFilterState(), maxPage > 0)
             }
 
             Codes.SUCCESS -> {
@@ -122,11 +123,13 @@ class SearchViewModel(
             }
 
             Codes.NO_NET_CONNECTION -> {
-                stateLiveData.value = SearchStates.ConnectionError(checkFilterState())
+                stateLiveData.value = SearchStates.ConnectionError(checkFilterState(), maxPage > 0)
             }
 
             Codes.NO_RESULTS -> {
-                stateLiveData.value = SearchStates.InvalidRequest(checkFilterState())
+                stateLiveData.value = SearchStates.InvalidRequest(
+                    checkFilterState(), maxPage > 0
+                )
             }
         }
     }
@@ -139,6 +142,8 @@ class SearchViewModel(
         vacancyList.clear()
         filter.request = ""
         searchJob?.cancel()
+        maxPage = 0
+        page = 0
     }
 
     override fun onCleared() {
