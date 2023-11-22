@@ -22,4 +22,5 @@ interface FilterInteractor {
     fun getIndustries(): Flow<DtoConsumer<List<Industry>>>
     fun deleteIndustryFromFilter()
     fun saveIndustryToFilter(industry: Industry)
+    fun getIndustriesByName(name: String): Flow<DtoConsumer<List<Industry>>>
 }

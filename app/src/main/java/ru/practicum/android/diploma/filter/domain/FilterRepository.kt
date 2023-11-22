@@ -22,4 +22,5 @@ interface FilterRepository {
     fun deleteIndustryFromFilter()
     fun saveIndustryToFilter(industry: Industry)
     fun getIndustries(): Flow<DtoConsumer<List<Industry>>>
+    fun getIndustriesByName(name: String): Flow<DtoConsumer<List<Industry>>>
 }

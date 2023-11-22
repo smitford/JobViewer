@@ -17,7 +17,7 @@ class ChoosingIndustryViewModel(private val filterInteractor: FilterInteractor) 
     private val _stateLiveData = MutableLiveData<FilterParametersState>()
     val stateLiveData: LiveData<FilterParametersState> get() = _stateLiveData
 
-    private var industryForSave : Industry? = null
+    private var industryForSave: Industry? = null
     private val _buttonIsVisibleLiveData = MutableLiveData<Boolean>()
     val buttonIsVisibleLiveData: LiveData<Boolean> get() = _buttonIsVisibleLiveData
 
@@ -25,18 +25,18 @@ class ChoosingIndustryViewModel(private val filterInteractor: FilterInteractor) 
 
     private val searchDebounce =
         debounce<String>(DataUtils.SEARCH_DEBOUNCE_DELAY_MILS, viewModelScope, true) {
-
+            getIndustryByName(it)
         }
 
     fun saveToVm(industryUi: AreaDataInterface) {
-        industryForSave = UiConvertor.industryUiToIndustry(industryUi as AreaDataInterface.IndustryUi)
+        industryForSave =
+            UiConvertor.industryUiToIndustry(industryUi as AreaDataInterface.IndustryUi)
         _buttonIsVisibleLiveData.postValue(true)
     }
 
-    fun saveIndustryToFilter(){
+    fun saveIndustryToFilter() {
         industryForSave?.let { filterInteractor.saveIndustryToFilter(it) }
     }
-
 
     fun loadJobs(text: String) {
         if (text.isBlank()) return
@@ -44,6 +44,15 @@ class ChoosingIndustryViewModel(private val filterInteractor: FilterInteractor) 
             searchDebounce(text)
         }
         lastSearchText = text
+    }
+
+    private fun getIndustryByName(name: String) {
+        _stateLiveData.postValue(FilterParametersState.Loading)
+        viewModelScope.launch {
+            filterInteractor.getIndustriesByName(name).collect { request ->
+                requestHandler(request)
+            }
+        }
     }
 
     fun getIndustries() {
@@ -54,8 +63,6 @@ class ChoosingIndustryViewModel(private val filterInteractor: FilterInteractor) 
             }
         }
     }
-
-
 
     private fun requestHandler(request: DtoConsumer<List<Industry>>) {
         when (request) {

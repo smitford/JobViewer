@@ -60,11 +60,11 @@ class ChoosingIndustryFragment : Fragment() {
         }
         vM.getIndustries()
 
-        vM.buttonIsVisibleLiveData.observe(viewLifecycleOwner){
+        vM.buttonIsVisibleLiveData.observe(viewLifecycleOwner) {
             binding.btnChoose.isVisible = it
         }
 
-        binding.btnChoose.setOnClickListener{
+        binding.btnChoose.setOnClickListener {
             vM.saveIndustryToFilter()
             findNavController().popBackStack()
         }
@@ -119,7 +119,6 @@ class ChoosingIndustryFragment : Fragment() {
         binding.ivError.visibility = View.VISIBLE
         binding.btnChoose.visibility = View.GONE
 
-
         when (errorMassage) {
             DataUtils.ERROR -> {
                 binding.tvError.setText(R.string.failed_to_get_the_list)
@@ -132,7 +131,7 @@ class ChoosingIndustryFragment : Fragment() {
             }
 
             DataUtils.NOT_FOUND -> {
-                binding.tvError.setText(R.string.there_is_no_such_region)
+                binding.tvError.setText(R.string.there_is_no_such_industry)
                 binding.ivError.setImageResource(R.drawable.error_list_favorite)
             }
         }
