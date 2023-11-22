@@ -28,4 +28,5 @@
     <dimen name="jobCardTextLength">240dp</dimen>
     <dimen name="progressBarSize">44dp</dimen>
     <dimen name="icon_16dp">16dp</dimen>
+    <dimen name="similar_jobs_btn_size">60dp</dimen>
 </resources>
