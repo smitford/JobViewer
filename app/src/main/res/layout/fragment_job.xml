@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="@dimen/margin_16dp"
-    android:paddingTop="@dimen/margin_24dp"
     tools:context=".job.presentation.fragment.JobFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -18,14 +17,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--MainContent-->
+            <!--TopBtns-->
             <LinearLayout
                 android:id="@+id/ll_top_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/minHeightToolBar_64dp"
                 android:orientation="horizontal">
 
-                <!--TopBtns-->
                 <ImageButton
                     android:id="@+id/ib_arrow_back"
                     style="@style/imageBtnJobStyle"
