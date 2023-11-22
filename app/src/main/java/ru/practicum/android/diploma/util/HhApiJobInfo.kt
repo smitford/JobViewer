@@ -52,14 +52,15 @@ interface HhApiJobInfo {
     @GET("salary_statistics/dictionaries/salary_industries")
     suspend fun getIndustries(): List<IndustryDto>
 
-
     @Headers(
         HEADER_AUTH,
         USER
     )
     @GET("vacancies/{vacancy_id}/similar_vacancies")
-    suspend fun getSimilarVacancies(@Path("vacancy_id") vacancyId: String):
-            JobSearchSimilarResponseDto
+    suspend fun getSimilarVacancies(
+        @Path("vacancy_id") vacancyId: String,
+        @Query("page") page: Int
+    ): JobSearchSimilarResponseDto
 
     companion object {
         const val HEADER_AUTH = "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}"
