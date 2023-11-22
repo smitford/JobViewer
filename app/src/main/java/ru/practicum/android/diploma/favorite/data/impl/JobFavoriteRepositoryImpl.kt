@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.favorite.data.impl
 
 import ru.practicum.android.diploma.favorite.data.db.AppDataBase
+import ru.practicum.android.diploma.favorite.data.db.entity.FavoriteEntity
 import ru.practicum.android.diploma.favorite.data.db.mapper.JobMapper
 import ru.practicum.android.diploma.favorite.domain.api.JobFavoriteRepository
 import ru.practicum.android.diploma.job.data.secondarymodels.Phones
@@ -37,8 +38,17 @@ class JobFavoriteRepositoryImpl(
         }
     }
 
-    override suspend fun getFromBase(id: String): JobForScreen {
-        val favoriteEntity = appDataBase.favoriteDAO().getVacancy(id)[0]
+    override suspend fun getFromBase(id: String): JobForScreen? {
+
+        var favoriteEntity:FavoriteEntity
+        val favoriteEntityResponse = appDataBase.favoriteDAO().getVacancy(id)
+
+        if (favoriteEntityResponse.isEmpty()){
+            return null
+        }else{
+            favoriteEntity = favoriteEntityResponse[0]
+        }
+
         val skills = ArrayList<Skills?>()
         appDataBase.keySkillsDAO().getSkills(id).forEach {
             skills.add(mapper.mapSkills(it))

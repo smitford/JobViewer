@@ -47,6 +47,7 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
         initListeners()
 
         jobFragmentViewModel.getJob(args.jobId)
+        jobFragmentViewModel.includedToFavorite(args.jobId)
 
         jobFragmentViewModel.observeJobScreenLiveData()
             .observe(viewLifecycleOwner) { status ->
