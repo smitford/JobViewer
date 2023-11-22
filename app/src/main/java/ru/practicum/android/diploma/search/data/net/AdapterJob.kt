@@ -77,6 +77,5 @@ class AdapterJob(private val resourceProvider: ResourceProvider) {
         if (filter.salary != null) request["salary"] = filter.salary.toString()
         return request
     }
-
 }
 

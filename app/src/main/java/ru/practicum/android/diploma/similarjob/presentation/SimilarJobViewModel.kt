@@ -23,7 +23,7 @@ class SimilarJobViewModel(
     private val vacancyList = mutableListOf<Vacancy>()
     private val pageLoaderDebounce =
         debounce<Unit>(SearchViewModel.PAGE_LOAD_DEBOUNCE_DELAY_MILS, viewModelScope, true) {
-            similar.value=SimilarState.Loading(true)
+            similar.value = SimilarState.Loading(true)
             getSimilar()
         }
 
@@ -47,21 +47,18 @@ class SimilarJobViewModel(
     private fun requestHandler(jobsInfo: JobsInfo) {
         when (jobsInfo.responseCodes) {
             Codes.ERROR -> {
-                similar.value=SimilarState.ServerError
+                similar.value = SimilarState.ServerError
             }
-
             Codes.SUCCESS -> {
                 vacancyList.addAll(jobsInfo.jobs!!)
                 maxPage = jobsInfo.pages
-                similar.value=SimilarState.Success(
+                similar.value = SimilarState.Success(
                     jobList = vacancyList
                 )
             }
-
             Codes.NO_NET_CONNECTION -> {
-                similar.value=SimilarState.ConnectionError
+                similar.value = SimilarState.ConnectionError
             }
-
             Codes.NO_RESULTS -> {
                 similar.value = SimilarState.InvalidRequest
             }

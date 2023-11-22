@@ -82,7 +82,6 @@ class SearchFragment : Fragment() {
         }
 
         binding.rvSearch.addOnScrollListener(initScrlLsnr())
-
     }
 
     override fun onDestroyView() {
@@ -97,7 +96,6 @@ class SearchFragment : Fragment() {
         binding.tvRvHeader.visibility = GONE
         binding.pagingPrBar.visibility = GONE
         changeFilterTint(hasFilter)
-
     }
 
     private fun setErrorScreen(hasFilter: Boolean) {
@@ -224,6 +222,5 @@ class SearchFragment : Fragment() {
     companion object {
         const val VISIBLE = View.VISIBLE
         const val GONE = View.GONE
-
     }
 }
