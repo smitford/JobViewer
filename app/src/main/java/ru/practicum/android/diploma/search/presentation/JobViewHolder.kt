@@ -28,7 +28,6 @@ class JobViewHolder(private val binding: RecyclerVacancyItemBinding) :
                 )
             )
             .into(binding.ivCompany)
-
     }
 
     companion object {
