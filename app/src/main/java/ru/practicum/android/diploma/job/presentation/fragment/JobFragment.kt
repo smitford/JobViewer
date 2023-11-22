@@ -108,6 +108,8 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
             llMainContent.visibility = View.GONE
             pbJob.visibility = View.GONE
             llServerError.visibility = View.VISIBLE
+            ibFavourite.isClickable = false
+            ibShare.isClickable = false
         }
     }
 
