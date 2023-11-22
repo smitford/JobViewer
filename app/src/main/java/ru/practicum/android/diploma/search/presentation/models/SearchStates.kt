@@ -5,9 +5,9 @@ import ru.practicum.android.diploma.search.domain.models.Vacancy
 sealed interface SearchStates {
     data class Start(var filterStates: Boolean) : SearchStates
     data class Loading(var isPageRefresher: Boolean) : SearchStates
-    data class ServerError(var filterStates: Boolean) : SearchStates
-    data class ConnectionError(var filterStates: Boolean) : SearchStates
-    data class InvalidRequest(var filterStates: Boolean) : SearchStates
+    data class ServerError(var filterStates: Boolean, var pagesLoaded: Boolean) : SearchStates
+    data class ConnectionError(var filterStates: Boolean, var pagesLoaded: Boolean) : SearchStates
+    data class InvalidRequest(var filterStates: Boolean, var pagesLoaded: Boolean) : SearchStates
     data class Success(
         val jobList: List<Vacancy>,
         val page: Int,
