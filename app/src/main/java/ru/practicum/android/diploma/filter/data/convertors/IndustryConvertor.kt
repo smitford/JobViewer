@@ -21,6 +21,7 @@ object IndustryConvertor {
             industryDto.industries?.forEach { industries.add(industryDtoToIndustry(it)) }
         }
         industries.sortBy { it.name }
+        industries.distinct()
         return industries
     }
 

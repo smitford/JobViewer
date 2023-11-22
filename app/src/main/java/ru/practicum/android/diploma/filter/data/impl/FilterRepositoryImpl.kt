@@ -125,4 +125,25 @@ class FilterRepositoryImpl(
             } else emit(consumer as DtoConsumer<List<Industry>>)
         }
     }
+
+    override fun getIndustriesByName(name: String): Flow<DtoConsumer<List<Industry>>> = flow {
+        getIndustries().collect { consumer ->
+            when (consumer) {
+                is DtoConsumer.Success -> {
+                    val list = searchIndustryInListByName(consumer.data, name)
+                    if (list.isEmpty()) {
+                        emit(DtoConsumer.Error(NO_RESULTS_CODE))
+                    } else {
+                        emit(DtoConsumer.Success(list))
+                    }
+                }
+
+                else -> emit(consumer)
+            }
+        }
+    }
+
+    private fun searchIndustryInListByName(list: List<Industry>, name: String): List<Industry> {
+        return list.filter { it.name.contains(name, ignoreCase = true) }
+    }
 }

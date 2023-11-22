@@ -62,5 +62,8 @@ class FilterInteractorImpl(private val filterRepository: FilterRepository) : Fil
         filterRepository.saveIndustryToFilter(industry)
     }
 
+    override fun getIndustriesByName(name: String): Flow<DtoConsumer<List<Industry>>> {
+        return filterRepository.getIndustriesByName(name)
+    }
 
 }
