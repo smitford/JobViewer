@@ -71,7 +71,7 @@
         android:layout_marginBottom="159dp"
         android:fontFamily="@font/ys_display_medium"
         android:gravity="center"
-        android:textColor="?attr/blackWhiteColor"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="@dimen/textSize_22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
