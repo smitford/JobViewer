@@ -134,7 +134,7 @@ class FilterSettingsFragment : Fragment() {
         if (!salaryIsChange
             && binding.tvPlaceOfWorkText.text.isNullOrEmpty()
             && binding.tvIndustryText.text.isNullOrEmpty()
-            && !binding.cbShowWithSalary.isChecked
+            && binding.cbShowWithSalary.isChecked == vM.showWithSalary.value
         ) {
             binding.btnAccept.isVisible = false
             binding.btnReset.isVisible = false
