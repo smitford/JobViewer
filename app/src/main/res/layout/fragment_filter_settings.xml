@@ -184,7 +184,7 @@
         android:paddingTop="@dimen/margin_8dp"
         android:paddingEnd="@dimen/zero_0dp"
         android:paddingBottom="@dimen/margin_8dp"
-        android:theme="@style/SalaryTextInputStyle"
+        android:theme="@style/SalaryTheme"
         app:layout_constraintBottom_toTopOf="@id/ll_with_salary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
