@@ -127,7 +127,6 @@ class SearchFragment : Fragment() {
             binding.pagingPrBar.visibility = GONE
             changeFilterTint(hasFilter)
         }
-
     }
 
     private fun setConnectionLostScreen(hasFilter: Boolean, pagesLoaded: Boolean) {
@@ -171,7 +170,6 @@ class SearchFragment : Fragment() {
             binding.pagingPrBar.visibility = GONE
             changeFilterTint(hasFilter)
         }
-
     }
 
     private fun setLoadingPaggScreen(pageRefresher: Boolean) {
