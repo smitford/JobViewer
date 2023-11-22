@@ -11,14 +11,12 @@ class JobFavoriteRepositoryImpl(
     private val appDataBase: AppDataBase,
     private val mapper: JobMapper
 ) : JobFavoriteRepository {
-
     override suspend fun add(job: JobForScreen) {
         appDataBase.favoriteDAO().add(mapper.map(job))
         // сохранить навыки
         job.keySkills.forEach {
             appDataBase.keySkillsDAO().add(mapper.mapSkills(it!!, job.id!!))
         }
-
         // сохранить контакты
         job.phones?.forEach {
             appDataBase.phonesDAO().add(mapper.mapPhones(it!!, job.id!!))
@@ -45,11 +43,11 @@ class JobFavoriteRepositoryImpl(
         appDataBase.keySkillsDAO().getSkills(id).forEach {
             skills.add(mapper.mapSkills(it))
         }
-
         val phones = ArrayList<Phones?>()
         appDataBase.phonesDAO().getPhones(id).forEach {
             phones.add(mapper.mapPhones(it))
         }
+
         return mapper.map(favoriteEntity, skills.toTypedArray(), phones.toTypedArray())
     }
 }

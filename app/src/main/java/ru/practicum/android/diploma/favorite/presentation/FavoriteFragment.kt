@@ -18,7 +18,6 @@ import ru.practicum.android.diploma.favorite.domain.FavoriteState
 import ru.practicum.android.diploma.search.presentation.JobAdapter
 
 class FavoriteFragment : Fragment() {
-
     private lateinit var binding: FragmentFavoriteBinding
     private val viewModel: FavoriteViewModel by viewModel()
 
@@ -36,7 +35,6 @@ class FavoriteFragment : Fragment() {
     @SuppressLint("UseSwitchCompatOrMaterialCode", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val recyclerView = binding.rvSearch
         val adapter = JobAdapter(initClickCb())
 
@@ -44,7 +42,6 @@ class FavoriteFragment : Fragment() {
         recyclerView.adapter = adapter
 
         viewModel.getFavoriteLiveData().observe(viewLifecycleOwner) { pairDataFavorite ->
-
             when (pairDataFavorite.first) {
                 FavoriteState.DATA -> {
                     // есть избранные

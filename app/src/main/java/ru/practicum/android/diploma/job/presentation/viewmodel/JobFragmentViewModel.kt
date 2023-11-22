@@ -40,12 +40,21 @@ class JobFragmentViewModel(
         _state.postValue(JobScreenState.Loading)
         viewModelScope.launch {
             loadJobInteractor.getJob(id = id).collect { jobForScreenInfo ->
+                includedToFavorite(id)
                 requestHandler(jobForScreenInfo, id)
             }
         }
     }
 
-    private fun requestHandler(jobForScreenInfo: JobForScreenInfo, id: String) =
+    fun getJobFromDb(id: String) {
+        _state.postValue(JobScreenState.Loading)
+        viewModelScope.launch {
+            _state.postValue(JobScreenState.JobFromDb(jobFavoriteInteractor.getFromBase(id)))
+        }
+
+    }
+
+    private fun requestHandler(jobForScreenInfo: JobForScreenInfo, id: String) {
         when (jobForScreenInfo.responseCodes) {
             Codes.ERROR -> {
                 _state.postValue(JobScreenState.ServerError)
@@ -57,12 +66,17 @@ class JobFragmentViewModel(
             }
 
             Codes.NO_NET_CONNECTION -> {
-                _state.postValue(JobScreenState.ConnectionError)
+                if (isFavourite) {
+                    getJobFromDb(id)
+                } else {
+                    _state.postValue(JobScreenState.ServerError)
+                }
             }
 
             Codes.NO_RESULTS -> {
             }
         }
+    }
 
     fun addToFavorite(job: JobForScreen) {
         viewModelScope.launch {

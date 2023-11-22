@@ -48,8 +48,6 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
 
         jobFragmentViewModel.getJob(args.jobId)
 
-        jobFragmentViewModel.includedToFavorite(args.jobId)
-
         jobFragmentViewModel.observeJobScreenLiveData()
             .observe(viewLifecycleOwner) { status ->
                 showContentBasedOnState(status)
@@ -70,12 +68,7 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
     private fun showContentBasedOnState(status: JobScreenState) {
         when (status) {
             is JobScreenState.Success -> {
-                fillContent(status.jobForScreen)
-                with(binding) {
-                    llMainContent.visibility = View.VISIBLE
-                    pbJob.visibility = View.GONE
-                    llServerError.visibility = View.GONE
-                }
+                showMainContent(status.jobForScreen)
             }
 
             is JobScreenState.Loading -> {
@@ -86,10 +79,26 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
                 }
             }
 
+            is JobScreenState.ConnectionError -> {
+
+            }
+
+            is JobScreenState.JobFromDb -> {
+                showMainContent(status.jobForScreenDb)
+            }
+
             is JobScreenState.ServerError -> showError()
-            is JobScreenState.ConnectionError -> showError()
             is JobScreenState.InvalidRequest -> showError()
             is JobScreenState.FavouriteIcon -> checkFavouriteIcon(status.isFavourite)
+        }
+    }
+
+    private fun showMainContent(job: JobForScreen) {
+        fillContent(job)
+        with(binding) {
+            llMainContent.visibility = View.VISIBLE
+            pbJob.visibility = View.GONE
+            llServerError.visibility = View.GONE
         }
     }
 
@@ -178,39 +187,42 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
             }
         }
 
+
         job.phones?.let {
-            with(binding) {
-                llContacts.visibility = View.VISIBLE
+            if (job.phones.isNotEmpty()) {
+                with(binding) {
+                    llContacts.visibility = View.VISIBLE
 
-                job.contactsName?.let {
-                    tvContactNameStatic.visibility = View.VISIBLE
-                    tvContactName.visibility = View.VISIBLE
-                    tvContactName.text = job.contactsName.trim()
-                }
-
-                TextUtils.arrayToStrInJob(
-                    job.phones as Array<Any>,
-                    TypeForTextUtils.Phones
-                ).let {
-                    if (it.isNotEmpty()) {
-                        tvPhoneStatic.visibility = View.VISIBLE
-                        val adapterRv = PhonesAdapter(
-                            formatPhones(job.phones),
-                            this@JobFragment
-                        )
-                        rvPhonesNumbers.layoutManager = LinearLayoutManager(requireContext())
-                        rvPhonesNumbers.adapter = adapterRv
+                    job.contactsName?.let {
+                        tvContactNameStatic.visibility = View.VISIBLE
+                        tvContactName.visibility = View.VISIBLE
+                        tvContactName.text = job.contactsName.trim()
                     }
-                }
 
-                TextUtils.arrayToStrInJob(
-                    job.phones as Array<Any>,
-                    TypeForTextUtils.Comment
-                ).let {
-                    if (it.isNotEmpty()) {
-                        tvCommentStatic.visibility = View.VISIBLE
-                        tvComments.visibility = View.VISIBLE
-                        tvComments.text = it.trim()
+                    TextUtils.arrayToStrInJob(
+                        job.phones as Array<Any>,
+                        TypeForTextUtils.Phones
+                    ).let {
+                        if (it.isNotEmpty()) {
+                            tvPhoneStatic.visibility = View.VISIBLE
+                            val adapterRv = PhonesAdapter(
+                                formatPhones(job.phones),
+                                this@JobFragment
+                            )
+                            rvPhonesNumbers.layoutManager = LinearLayoutManager(requireContext())
+                            rvPhonesNumbers.adapter = adapterRv
+                        }
+                    }
+
+                    TextUtils.arrayToStrInJob(
+                        job.phones as Array<Any>,
+                        TypeForTextUtils.Comment
+                    ).let {
+                        if (it.isNotEmpty()) {
+                            tvCommentStatic.visibility = View.VISIBLE
+                            tvComments.visibility = View.VISIBLE
+                            tvComments.text = it.trim()
+                        }
                     }
                 }
             }

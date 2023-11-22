@@ -9,4 +9,5 @@ sealed class JobScreenState {
     data object InvalidRequest : JobScreenState()
     data class Success(val jobForScreen: JobForScreen) : JobScreenState()
     data class FavouriteIcon(val isFavourite: Boolean) : JobScreenState()
+    data class JobFromDb(val jobForScreenDb: JobForScreen) : JobScreenState()
 }
