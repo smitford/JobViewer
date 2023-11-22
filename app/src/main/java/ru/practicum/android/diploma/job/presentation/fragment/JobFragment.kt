@@ -70,6 +70,7 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
         when (status) {
             is JobScreenState.Success -> {
                 showMainContent(status.jobForScreen)
+                topBtnsOn()
             }
 
             is JobScreenState.Loading -> {
@@ -78,19 +79,31 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
                     pbJob.visibility = View.VISIBLE
                     llServerError.visibility = View.GONE
                 }
-            }
-
-            is JobScreenState.ConnectionError -> {
-
+                topBtnsOff()
             }
 
             is JobScreenState.JobFromDb -> {
                 showMainContent(status.jobForScreenDb)
+                topBtnsOn()
             }
 
             is JobScreenState.ServerError -> showError()
             is JobScreenState.InvalidRequest -> showError()
             is JobScreenState.FavouriteIcon -> checkFavouriteIcon(status.isFavourite)
+        }
+    }
+
+    private fun topBtnsOn() {
+        with(binding) {
+            ibFavourite.isClickable = true
+            ibShare.isClickable = true
+        }
+    }
+
+    private fun topBtnsOff() {
+        with(binding) {
+            ibFavourite.isClickable = false
+            ibShare.isClickable = false
         }
     }
 
@@ -108,8 +121,7 @@ class JobFragment : Fragment(), PhonesViewHolder.PhoneClickListener {
             llMainContent.visibility = View.GONE
             pbJob.visibility = View.GONE
             llServerError.visibility = View.VISIBLE
-            ibFavourite.isClickable = false
-            ibShare.isClickable = false
+            topBtnsOff()
         }
     }
 
