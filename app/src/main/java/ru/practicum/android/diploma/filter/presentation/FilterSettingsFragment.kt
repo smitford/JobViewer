@@ -123,7 +123,6 @@ class FilterSettingsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         buttonVisibility()
-        vM.setFiltersInFragment()
     }
 
     override fun onDestroyView() {
