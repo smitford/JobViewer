@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_max="223dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons"
+        app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/error_list_favorite" />
 
     <TextView
