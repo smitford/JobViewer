@@ -1,6 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_start"
+        android:layout_width="@dimen/zero_0dp"
+        android:layout_height="@dimen/zero_0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_end"
+        android:layout_width="@dimen/zero_0dp"
+        android:layout_height="@dimen/zero_0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_16dp" />
+
+    <Toolbar
+        android:id="@+id/tb_search"
+        style="@style/textMedium22"
+        android:layout_width="@dimen/zero_0dp"
+        android:layout_height="64dp"
+        android:title="@string/search_vacancies"
+        app:layout_constraintEnd_toStartOf="@id/iv_filter"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:layout_marginEnd="@dimen/margin_4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/filter"
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_search"
+        style="@style/TextInputLayout"
+        android:layout_width="@dimen/zero_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8dp"
+        android:background="@drawable/bg_et_search"
+        android:imeOptions="actionDone"
+        android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintTop_toBottomOf="@+id/tb_search">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_search"
+            style="@style/textRegular16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+
+            android:drawableEnd="@drawable/search"
+            android:drawablePadding="@dimen/margin_16dp"
+            android:hint="@string/search_vacancies"
+            android:imeOptions="actionDone"
+            android:lines="1"
+            android:paddingStart="@dimen/margin_12dp"
+            android:singleLine="true"
+            tools:text="@string/developer_1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/b_clear_text"
+        android:layout_width="@dimen/iconSize_48dp"
+        android:layout_height="@dimen/iconSize_48dp"
+        android:layout_marginEnd="4dp"
+        android:alpha="0"
+        android:enabled="true"
+        app:layout_constraintBottom_toBottomOf="@id/til_search"
+        app:layout_constraintEnd_toEndOf="@+id/til_search"
+        app:layout_constraintTop_toTopOf="@+id/til_search" />
+
+    <TextView
+        android:id="@+id/tv_rv_header"
+        style="@style/textRegular16"
+        android:layout_marginTop="@dimen/margin_12dp"
+        android:background="@drawable/bg_tv_rounded"
+        android:padding="@dimen/margin_4dp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintTop_toBottomOf="@id/til_search"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="@string/vacancy_mismatch" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search"
+        android:layout_width="@dimen/zero_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@id/search_progressBar"
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_rv_header"
+        tools:itemCount="3"
+        tools:listitem="@layout/recycler_vacancy_item" />
+
+    <ImageView
+        android:id="@+id/iv_error"
+        android:layout_width="@dimen/zero_0dp"
+        android:layout_height="@dimen/zero_0dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/error_list_favorite"
+        app:layout_constraintBottom_toTopOf="@id/tv_error"
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintHeight_max="223dp"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tv_error"
+        style="@style/textMedium22"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintTop_toBottomOf="@id/iv_error"
+        tools:text="@string/error_list_favorite" />
+
+    <ProgressBar
+        android:id="@+id/search_progressBar"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="248dp"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_search"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
