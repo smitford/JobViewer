@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -54,10 +55,19 @@ class SearchFragment : Fragment() {
         adapter = JobAdapter(jobClickCb)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+
+
         viewModel.getState().observe(viewLifecycleOwner) { state ->
+            Log.d("stateScreen", state.toString())
             when (state) {
-                is SearchStates.StartNoFilter -> setDefaultScreen(false)
-                is SearchStates.StartFilter -> setDefaultScreen(true)
+                is SearchStates.FilterIconStatus -> {
+                    if (state.isOn) {
+                        setDefaultScreen(true)
+                    } else {
+                        setDefaultScreen(false)
+                    }
+                }
+
                 is SearchStates.ServerError -> setErrorScreen(
                     state.filterStates
                 )
@@ -216,7 +226,7 @@ class SearchFragment : Fragment() {
 
     private fun clearText() {
         binding.etSearch.setText("")
-        viewModel.clearAll()
+       // viewModel.clearAll()
         val endDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.search)
         binding.etSearch.setCompoundDrawablesRelativeWithIntrinsicBounds(
             null,

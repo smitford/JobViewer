@@ -3,8 +3,7 @@ package ru.practicum.android.diploma.search.presentation.models
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 sealed interface SearchStates {
-    data object StartFilter : SearchStates
-    data object StartNoFilter : SearchStates
+    data class FilterIconStatus(val isOn: Boolean) : SearchStates
     data object Loading : SearchStates
     data class ServerError(var filterStates: Boolean) : SearchStates
     data class ConnectionError(var filterStates: Boolean) : SearchStates

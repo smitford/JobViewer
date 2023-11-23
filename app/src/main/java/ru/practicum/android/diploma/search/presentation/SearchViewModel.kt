@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.job.presentation.states.JobScreenState
 import ru.practicum.android.diploma.search.domain.models.Codes
 import ru.practicum.android.diploma.search.domain.models.Filter
 import ru.practicum.android.diploma.search.domain.models.Vacancy
@@ -20,9 +21,11 @@ class SearchViewModel(
     private val getSearchFilterUseCase: GetSearchFilterUseCase
 ) : ViewModel() {
     private var filter: Filter = getFilter()
-    private var state: SearchStates =
-        if (checkFilterState()) SearchStates.StartFilter else SearchStates.StartNoFilter
-    private val stateLiveData = MutableLiveData(state)
+
+    private var state: SearchStates = SearchStates.ServerError(false)
+    private val stateLiveData = MutableLiveData<SearchStates>()
+    fun getState(): LiveData<SearchStates> = stateLiveData
+
     private val vacancyList = mutableListOf<Vacancy>()
     private var searchJob: Job? = null
     private var page = 0
@@ -58,7 +61,6 @@ class SearchViewModel(
         if (filter.request.isNotBlank()) search()
     }
 
-    fun getState(): LiveData<SearchStates> = stateLiveData
 
     private fun getFilter() = getSearchFilterUseCase.execute()
 
@@ -75,21 +77,12 @@ class SearchViewModel(
                     stateLiveData.value = state
                 }
 
-                is SearchStates.StartFilter -> {
+                is SearchStates.FilterIconStatus -> {
                     state =
                         if (checkFilterState())
-                            SearchStates.StartFilter
+                            SearchStates.FilterIconStatus(true)
                         else
-                            SearchStates.StartNoFilter
-                    stateLiveData.value = state
-                }
-
-                is SearchStates.StartNoFilter -> {
-                    state =
-                        if (checkFilterState())
-                            SearchStates.StartFilter
-                        else
-                            SearchStates.StartNoFilter
+                            SearchStates.FilterIconStatus(false)
                     stateLiveData.value = state
                 }
 
@@ -166,15 +159,19 @@ class SearchViewModel(
         }
     }
 
-    private fun checkFilterState(): Boolean =
-        filter.salary != null || filter.area != null || filter.industry != null || filter.onlyWithSalary
+    private fun checkFilterState(): Boolean {
+        if (filter.salary != null || filter.area != null || filter.industry != null || filter.onlyWithSalary) {
+            return true
+        }
+        return false
+    }
 
     fun clearAll() {
         state =
             if (checkFilterState())
-                SearchStates.StartFilter
+                SearchStates.FilterIconStatus(true)
             else
-                SearchStates.StartNoFilter
+                SearchStates.FilterIconStatus(false)
         stateLiveData.value = state
         vacancyList.clear()
         filter.request = ""
