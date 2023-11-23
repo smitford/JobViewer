@@ -54,6 +54,10 @@ class FilterSettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_filterSettingsFragment_to_placesOfWorkFragment2)
         }
 
+        binding.ivClearPlaceOfWork.setOnClickListener {
+            vM.clearPlaceOfWork()
+        }
+
         vM.placeOfWork.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 binding.tvPlaceOfWorkClear.visibility = View.VISIBLE

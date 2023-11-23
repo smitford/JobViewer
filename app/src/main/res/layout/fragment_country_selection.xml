@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,10 +11,12 @@
         android:id="@+id/ll_top_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_16dp"
         android:gravity="center_vertical"
         android:minHeight="@dimen/minHeightToolBar_64dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/ib_arrow_back"
@@ -34,84 +36,51 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_russia"
-        style="@style/MenuPointsStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightPoints_60dp"
-        android:paddingHorizontal="@dimen/margin_16dp"
-        android:text="@string/russia"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_region"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons" />
+
+    <ImageView
+        android:id="@+id/iv_error"
+        android:layout_width="@dimen/zero_0dp"
+        android:layout_height="@dimen/zero_0dp"
+        android:contentDescription="@string/error"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="223dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons"
+        tools:src="@drawable/error_list_favorite" />
 
     <TextView
-        android:id="@+id/tv_ukraina"
-        style="@style/MenuPointsStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightPoints_60dp"
-        android:paddingHorizontal="@dimen/margin_16dp"
-        android:text="@string/ukraina"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
+        android:id="@+id/tv_error"
+        style="@style/textMedium22"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_error"
+        tools:text="@string/there_is_no_such_region" />
 
-    <TextView
-        android:id="@+id/tv_kazakstan"
-        style="@style/MenuPointsStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightPoints_60dp"
-        android:paddingHorizontal="@dimen/margin_16dp"
-        android:text="@string/kazakstan"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_top_buttons" />
 
-    <TextView
-        android:id="@+id/tv_azerbaijan"
-        style="@style/MenuPointsStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightPoints_60dp"
-        android:paddingHorizontal="@dimen/margin_16dp"
-        android:text="@string/azerbaijan"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
 
-    <TextView
-        android:id="@+id/tv_belarus"
-        style="@style/MenuPointsStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightPoints_60dp"
-        android:paddingHorizontal="@dimen/margin_16dp"
-        android:text="@string/belarus"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
-
-    <TextView
-        android:id="@+id/tv_georgia"
-        style="@style/MenuPointsStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightPoints_60dp"
-        android:paddingHorizontal="@dimen/margin_16dp"
-        android:text="@string/georgia"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
-
-    <TextView
-        android:id="@+id/tv_kyrgyzstan"
-        style="@style/MenuPointsStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightPoints_60dp"
-        android:paddingHorizontal="@dimen/margin_16dp"
-        android:text="@string/kyrgyzstan"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
-
-    <TextView
-        android:id="@+id/tv_uzbekistan"
-        style="@style/MenuPointsStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightPoints_60dp"
-        android:paddingHorizontal="@dimen/margin_16dp"
-        android:text="@string/uzbekistan"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
-
-    <TextView
-        android:id="@+id/tv_other_country"
-        style="@style/MenuPointsStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightPoints_60dp"
-        android:paddingHorizontal="@dimen/margin_16dp"
-        android:text="@string/other_country"
-        app:drawableEndCompat="@drawable/ic_arrow_forward_24px" />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

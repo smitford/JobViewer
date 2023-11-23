@@ -6,6 +6,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.practicum.android.diploma.favorite.data.impl.FavoriteRepositoryImpl
 import ru.practicum.android.diploma.favorite.data.db.AppDataBase
+import ru.practicum.android.diploma.favorite.data.db.mapper.JobMapper
 import ru.practicum.android.diploma.favorite.data.impl.JobFavoriteRepositoryImpl
 import ru.practicum.android.diploma.favorite.domain.impl.FavoriteInteractorImpl
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteRepository
@@ -26,7 +27,7 @@ val favoriteModule = module {
     }
 
     single<FavoriteRepository> {
-        FavoriteRepositoryImpl(get())
+        FavoriteRepositoryImpl(get(),get())
     }
 
     single {
@@ -40,7 +41,11 @@ val favoriteModule = module {
     }
 
     single<JobFavoriteRepository> {
-        JobFavoriteRepositoryImpl(get())
+        JobFavoriteRepositoryImpl(get(),get())
+    }
+
+    single {
+        JobMapper()
     }
 
 }

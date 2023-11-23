@@ -8,10 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.view.isGone
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavoriteBinding
 import ru.practicum.android.diploma.favorite.domain.FavoriteState
+import ru.practicum.android.diploma.search.presentation.JobAdapter
+import ru.practicum.android.diploma.search.presentation.SearchFragmentDirections
 
 
 class FavoriteFragment : Fragment() {
@@ -30,34 +35,51 @@ class FavoriteFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    @SuppressLint("UseSwitchCompatOrMaterialCode", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.ivPlaceholderPng.setImageResource(R.drawable.error_list_favorite)
-        binding.tvMessage.text = getText(R.string.error_list_favorite)
+        val recyclerView = binding.rvSearch
+        val adapter = JobAdapter(initClickCb())
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
 
         viewModel.getFavoriteLiveData().observe(viewLifecycleOwner){
 
             when (it.first) {
                 FavoriteState.FULL -> {
-                    // есть треки
-                    var f = 0
+                    // есть избранные
+                    binding.rvSearch.isGone = false
+                    binding.tvMessage.isGone = true
+                    binding.ivPlaceholderPng.isGone = true
+                    adapter.jobsList = it.second
+                    adapter.notifyDataSetChanged()
                 }
                 FavoriteState.EMPTY -> {
                     // Пустой список
                     binding.ivPlaceholderPng.setImageResource(R.drawable.empty_list_favorite)
                     binding.tvMessage.text = getText(R.string.empty_list)
+                    binding.rvSearch.isGone = true
+                    binding.tvMessage.isGone = false
+                    binding.ivPlaceholderPng.isGone = false
                 }
                 else -> {
                     // Ошибка
                     binding.ivPlaceholderPng.setImageResource(R.drawable.error_list_favorite)
                     binding.tvMessage.text = getText(R.string.error_list_favorite)
+                    binding.rvSearch.isGone = true
+                    binding.tvMessage.isGone = false
+                    binding.ivPlaceholderPng.isGone = false
                 }
             }
         }
 
         viewModel.getFavorite()
+    }
 
+    private fun initClickCb(): (String) -> Unit = { jobId ->
+        val arg = FavoriteFragmentDirections.actionFavoriteFragmentToJobFragment(jobId)
+        findNavController().navigate(arg)
     }
 }

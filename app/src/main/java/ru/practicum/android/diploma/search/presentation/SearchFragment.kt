@@ -11,44 +11,38 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.search.domain.models.Filter
 import ru.practicum.android.diploma.search.presentation.models.SearchStates
+import ru.practicum.android.diploma.util.TextUtils
 
 class SearchFragment : Fragment() {
-
-    private lateinit var binding: FragmentSearchBinding
-    private var filter: Filter = Filter(
-        page = 0,
-        request = "android",
-        area = null,
-        industry = null,
-        salary = null,
-        onlyWithSalary = false
-    )
-
-    private val viewModel: SearchViewModel by viewModel { parametersOf(filter) }
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel by viewModel<SearchViewModel>()
     private lateinit var jobClickCb: (String) -> Unit
-    private var searchJob: Job? = null
+    private lateinit var adapter: JobAdapter
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshFilter()
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -57,30 +51,28 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         jobClickCb = initClickCb()
         val recyclerView = binding.rvSearch
-        val adapter = JobAdapter(jobClickCb)
+        adapter = JobAdapter(jobClickCb)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
         viewModel.getState().observe(viewLifecycleOwner) { state ->
             when (state) {
-                is SearchStates.Default -> setDefaultScreen()
-                is SearchStates.ServerError -> setErrorScreen()
-                is SearchStates.ConnectionError -> setConnectionLostScreen()
-                is SearchStates.InvalidRequest -> setInvalidRequestScreen()
+                is SearchStates.Start -> setDefaultScreen(state.filterStates)
+                is SearchStates.ServerError -> setErrorScreen(state.filterStates)
+                is SearchStates.ConnectionError -> setConnectionLostScreen(state.filterStates)
+                is SearchStates.InvalidRequest -> setInvalidRequestScreen(state.filterStates)
                 is SearchStates.Success -> {
-                    setSuccessScreen(state.trackList.count()) //Передать общее кол-во найденных вакансий
-                    adapter.jobsList = state.trackList.toMutableList()
-                    adapter.notifyDataSetChanged()
+                    setSuccessScreen(state.found, state.filterStates)
+                    adapter.jobsList = state.jobList.toMutableList()
                 }
-                is SearchStates.Loading -> setLoadingScreen()
+
+                is SearchStates.Loading -> setLoadingPaggScreen()
+                else -> setLoadingPaggScreen()
             }
         }
 
-
         binding.etSearch.addTextChangedListener(tWCreator())
-
-
 
         binding.ivFilter.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filterSettingsFragment)
@@ -90,60 +82,83 @@ class SearchFragment : Fragment() {
             clearText()
         }
 
+        binding.rvSearch.addOnScrollListener(initScrlLsnr())
+
     }
 
-    private fun setDefaultScreen() {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun setDefaultScreen(hasFilter: Boolean) {
         binding.rvSearch.visibility = GONE
         binding.ivError.setImageResource(R.drawable.search_start)
-        binding.searchProgressBar.visibility = GONE
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = GONE
+        binding.pagingPrBar.visibility = GONE
+        changeFilterTint(hasFilter)
+
     }
 
-    private fun setErrorScreen() {
+    private fun setErrorScreen(hasFilter: Boolean) {
         binding.rvSearch.visibility = GONE
+        binding.ivError.visibility = VISIBLE
         binding.ivError.setImageResource(R.drawable.error_server_2)
-        binding.searchProgressBar.visibility = GONE
         binding.tvError.visibility = VISIBLE
         binding.tvError.setText(R.string.server_error)
         binding.tvRvHeader.visibility = GONE
+        binding.pagingPrBar.visibility = GONE
+        changeFilterTint(hasFilter)
     }
 
-    private fun setConnectionLostScreen() {
+    private fun setConnectionLostScreen(hasFilter: Boolean) {
         binding.rvSearch.visibility = GONE
         binding.ivError.visibility = VISIBLE
         binding.ivError.setImageResource(R.drawable.disconnect)
-        binding.searchProgressBar.visibility = GONE
         binding.tvError.visibility = VISIBLE
         binding.tvError.setText(R.string.internet_connection_issue)
         binding.tvRvHeader.visibility = GONE
+        binding.pagingPrBar.visibility = GONE
+        changeFilterTint(hasFilter)
     }
 
-    private fun setSuccessScreen(amount: Int) {
+    private fun setSuccessScreen(amount: Int, hasFilter: Boolean) {
         binding.rvSearch.visibility = VISIBLE
         binding.ivError.visibility = GONE
-        binding.searchProgressBar.visibility = GONE
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = VISIBLE
-        binding.tvRvHeader.text = amount.toString()
+        binding.tvRvHeader.text = getString(R.string.founded, TextUtils.addSeparator(amount))
+        binding.pagingPrBar.visibility = GONE
+        changeFilterTint(hasFilter)
     }
 
-    private fun setInvalidRequestScreen() {
+    private fun setInvalidRequestScreen(hasFilter: Boolean) {
         binding.rvSearch.visibility = GONE
+        binding.ivError.visibility = VISIBLE
         binding.ivError.setImageResource(R.drawable.error_list_favorite)
-        binding.searchProgressBar.visibility = GONE
         binding.tvError.visibility = VISIBLE
-        binding.tvError.setText(R.string.internet_connection_issue)
+        binding.tvError.setText(R.string.error_list_favorite)
         binding.tvRvHeader.visibility = VISIBLE
         binding.tvRvHeader.setText(R.string.vacancy_mismatch)
+        binding.pagingPrBar.visibility = GONE
+        changeFilterTint(hasFilter)
     }
 
-    private fun setLoadingScreen() {
-        binding.rvSearch.visibility = GONE
+    private fun setLoadingPaggScreen() {
+        binding.rvSearch.visibility = VISIBLE
         binding.ivError.visibility = GONE
-        binding.searchProgressBar.visibility = VISIBLE
         binding.tvError.visibility = GONE
-        binding.tvRvHeader.visibility = GONE
+        binding.pagingPrBar.visibility = VISIBLE
+    }
+
+    private fun changeFilterTint(hasFilter: Boolean) {
+        if (hasFilter)
+            binding.ivFilter.imageTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.filter_tint)
+        else
+            binding.ivFilter.imageTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.filter_tint_base)
     }
 
     private fun tWCreator() = object : TextWatcher {
@@ -152,34 +167,41 @@ class SearchFragment : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val endDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.cross)
-            binding.etSearch.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                null,
-                null,
-                endDrawable,
-                null
-            )
+            if (count > 0) {
+                val endDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.cross)
+                binding.etSearch.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    null,
+                    null,
+                    endDrawable,
+                    null
+                )
+            }
 
             if (start != before) {
-                searchJob?.cancel()
-                searchJob = viewLifecycleOwner.lifecycleScope.launch {
-                    delay(SEARCH_DEBOUNCE_DELAY_MILS)
-                    filter.request = s?.toString() ?: ""
-                    viewModel.loadJobs()
-
-                }
+                viewModel.loadJobs(s?.toString() ?: "")
             }
         }
 
         override fun afterTextChanged(s: Editable?) {
             changeVisBottomNav(VISIBLE)
         }
-
     }
 
     private fun initClickCb(): (String) -> Unit = { jobId ->
         val arg = SearchFragmentDirections.actionSearchFragmentToJobFragment(jobId)
         findNavController().navigate(arg)
+    }
+
+    private fun initScrlLsnr() = object : OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val pos =
+                (binding.rvSearch.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+            val itemsCount = adapter.itemCount
+            if (pos >= itemsCount - 1) {
+                viewModel.getNewPage()
+            }
+        }
     }
 
     private fun changeVisBottomNav(state: Int) {
@@ -190,6 +212,7 @@ class SearchFragment : Fragment() {
 
     private fun clearText() {
         binding.etSearch.setText("")
+        viewModel.clearAll()
         val endDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.search)
         binding.etSearch.setCompoundDrawablesRelativeWithIntrinsicBounds(
             null,
@@ -199,10 +222,9 @@ class SearchFragment : Fragment() {
         )
     }
 
-
     companion object {
         const val VISIBLE = View.VISIBLE
         const val GONE = View.GONE
-        const val SEARCH_DEBOUNCE_DELAY_MILS = 2000L
+
     }
 }
