@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.search.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,28 +19,23 @@ class SearchViewModel(
     private val loadJobsUseCase: LoadJobsUseCase,
     private val getSearchFilterUseCase: GetSearchFilterUseCase
 ) : ViewModel() {
-    private var filter: Filter =
-        Filter(area = null, industry = null, salary = null, onlyWithSalary = false)
-
-    init {
-        filter = getFilter()
-    }
-
-    private var state: SearchStates = SearchStates.Start(checkFilterState())
+    private var filter: Filter = getFilter()
+    private var state: SearchStates =
+        if (checkFilterState()) SearchStates.StartFilter else SearchStates.StartNoFilter
     private val stateLiveData = MutableLiveData(state)
     private val vacancyList = mutableListOf<Vacancy>()
     private var searchJob: Job? = null
     private var page = 0
     private var maxPage = 0
-    private var founded =0
+    private var founded = 0
     private val searchDebounce =
         debounce<String>(SEARCH_DEBOUNCE_DELAY_MILS, viewModelScope, true) {
             filter.request = it
-            search(false)
+            search()
         }
     private val pageLoaderDebounce =
         debounce<Unit>(PAGE_LOAD_DEBOUNCE_DELAY_MILS, viewModelScope, true) {
-            search(true)
+            search()
         }
 
     fun loadJobs(text: String) {
@@ -49,8 +43,9 @@ class SearchViewModel(
         searchDebounce(text)
     }
 
-    private fun search(pageRefresher: Boolean) {
-        stateLiveData.value = SearchStates.Loading(pageRefresher)
+    private fun search() {
+        state = SearchStates.Loading
+        stateLiveData.value = state
         viewModelScope.launch {
             loadJobsUseCase.execute(filter = filter).collect { jobsInfo ->
                 requestHandler(jobsInfo)
@@ -60,7 +55,7 @@ class SearchViewModel(
 
     private fun refreshSearch() {
         vacancyList.clear()
-        if (filter.request.isNotBlank()) search(false)
+        if (filter.request.isNotBlank()) search()
     }
 
     fun getState(): LiveData<SearchStates> = stateLiveData
@@ -74,21 +69,47 @@ class SearchViewModel(
         if (newFiler != filter) {
             newFiler.page = 0
             maxPage = 0
-            when (stateLiveData.value) {
-                is SearchStates.Success -> (stateLiveData.value as SearchStates.Success).filterStates =
-                    checkFilterState()
+            when (state) {
+                is SearchStates.Success -> {
+                    (state as SearchStates.Success).filterStates = checkFilterState()
+                    stateLiveData.value = state
+                }
 
-                is SearchStates.Start -> (stateLiveData.value as SearchStates.Start).filterStates =
-                    checkFilterState()
+                is SearchStates.StartFilter -> {
+                    state =
+                        if (checkFilterState())
+                            SearchStates.StartFilter
+                        else
+                            SearchStates.StartNoFilter
+                    stateLiveData.value = state
+                }
 
-                is SearchStates.ServerError -> (stateLiveData.value as SearchStates.ServerError).filterStates =
-                    checkFilterState()
+                is SearchStates.StartNoFilter -> {
+                    state =
+                        if (checkFilterState())
+                            SearchStates.StartFilter
+                        else
+                            SearchStates.StartNoFilter
+                    stateLiveData.value = state
+                }
 
-                is SearchStates.InvalidRequest -> (stateLiveData.value as SearchStates.InvalidRequest).filterStates =
-                    checkFilterState()
+                is SearchStates.ServerError -> {
+                    (state as SearchStates.ServerError).filterStates =
+                        checkFilterState()
+                    stateLiveData.value = state
+                }
 
-                is SearchStates.ConnectionError -> (stateLiveData.value as SearchStates.ConnectionError).filterStates =
-                    checkFilterState()
+                is SearchStates.InvalidRequest -> {
+                    (state as SearchStates.InvalidRequest).filterStates =
+                        checkFilterState()
+                    stateLiveData.value = state
+                }
+
+                is SearchStates.ConnectionError -> {
+                    (state as SearchStates.ConnectionError).filterStates =
+                        checkFilterState()
+                    stateLiveData.value = state
+                }
 
                 else -> Unit
             }
@@ -96,13 +117,7 @@ class SearchViewModel(
             refreshSearch()
             return
         }
-        if(stateLiveData.value is SearchStates.ConnectionError&& vacancyList.isNotEmpty())
-            stateLiveData.value = SearchStates.Success(
-                jobList = vacancyList,
-                page = page,
-                found = founded,
-                filterStates = checkFilterState()
-            )
+
     }
 
     fun getNewPage() {
@@ -115,32 +130,38 @@ class SearchViewModel(
     private fun requestHandler(jobsInfo: JobsInfo) {
         when (jobsInfo.responseCodes) {
             Codes.ERROR -> {
-                stateLiveData.value = SearchStates.ServerError(checkFilterState(), maxPage > 0)
+                state = SearchStates.ServerError(checkFilterState())
+                stateLiveData.value = state
             }
 
             Codes.SUCCESS -> {
                 vacancyList.addAll(jobsInfo.jobs!!)
                 page = jobsInfo.page
                 maxPage = jobsInfo.pages
-                founded = jobsInfo.found
-                stateLiveData.value = jobsInfo.let {
-                    SearchStates.Success(
-                        jobList = vacancyList,
-                        page = it.page,
-                        found = it.found,
-                        filterStates = checkFilterState()
-                    )
-                }
+                if (page == 0)
+                    founded = jobsInfo.found
+                state =
+                    jobsInfo.let {
+                        SearchStates.Success(
+                            jobList = vacancyList,
+                            page = it.page,
+                            found = founded,
+                            filterStates = checkFilterState()
+                        )
+                    }
+                stateLiveData.value = state
             }
 
             Codes.NO_NET_CONNECTION -> {
-                stateLiveData.value = SearchStates.ConnectionError(checkFilterState(), maxPage > 0)
+                state = SearchStates.ConnectionError(checkFilterState())
+                stateLiveData.value = state
             }
 
             Codes.NO_RESULTS -> {
-                stateLiveData.value = SearchStates.InvalidRequest(
-                    checkFilterState(), maxPage > 0
+                state = SearchStates.InvalidRequest(
+                    checkFilterState()
                 )
+                stateLiveData.value = state
             }
         }
     }
@@ -149,7 +170,12 @@ class SearchViewModel(
         filter.salary != null || filter.area != null || filter.industry != null || filter.onlyWithSalary
 
     fun clearAll() {
-        stateLiveData.value = SearchStates.Start(checkFilterState())
+        state =
+            if (checkFilterState())
+                SearchStates.StartFilter
+            else
+                SearchStates.StartNoFilter
+        stateLiveData.value = state
         vacancyList.clear()
         filter.request = ""
         searchJob?.cancel()
