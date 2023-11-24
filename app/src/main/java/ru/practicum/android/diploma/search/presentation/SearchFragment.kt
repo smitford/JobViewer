@@ -66,6 +66,7 @@ class SearchFragment : Fragment() {
                 }
                 is SearchStates.Loading -> setLoadingPaggScreen()
                 is SearchStates.FilterChanged -> changeFilterTint(state.filterNotBase)
+                else ->Unit
             }
         }
 
