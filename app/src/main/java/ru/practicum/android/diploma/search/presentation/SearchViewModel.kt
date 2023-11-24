@@ -21,8 +21,12 @@ class SearchViewModel(
 ) : ViewModel() {
     private var filter: Filter = getFilter()
     private var state: SearchStates =
-        if (checkFilterState()) SearchStates.StartFilter else SearchStates.StartNoFilter
+        SearchStates.Start
+
     private val stateLiveData = MutableLiveData(state)
+    init {
+        stateLiveData.value = SearchStates.FilterChanged(checkFilterState(filter))
+    }
     private val vacancyList = mutableListOf<Vacancy>()
     private var searchJob: Job? = null
     private var page = 0
@@ -69,50 +73,7 @@ class SearchViewModel(
         if (newFiler != filter) {
             newFiler.page = 0
             maxPage = 0
-            when (state) {
-                is SearchStates.Success -> {
-                    (state as SearchStates.Success).filterStates = checkFilterState()
-                    stateLiveData.value = state
-                }
-
-                is SearchStates.StartFilter -> {
-                    state =
-                        if (checkFilterState())
-                            SearchStates.StartFilter
-                        else
-                            SearchStates.StartNoFilter
-                    stateLiveData.value = state
-                }
-
-                is SearchStates.StartNoFilter -> {
-                    state =
-                        if (checkFilterState())
-                            SearchStates.StartFilter
-                        else
-                            SearchStates.StartNoFilter
-                    stateLiveData.value = state
-                }
-
-                is SearchStates.ServerError -> {
-                    (state as SearchStates.ServerError).filterStates =
-                        checkFilterState()
-                    stateLiveData.value = state
-                }
-
-                is SearchStates.InvalidRequest -> {
-                    (state as SearchStates.InvalidRequest).filterStates =
-                        checkFilterState()
-                    stateLiveData.value = state
-                }
-
-                is SearchStates.ConnectionError -> {
-                    (state as SearchStates.ConnectionError).filterStates =
-                        checkFilterState()
-                    stateLiveData.value = state
-                }
-
-                else -> Unit
-            }
+            stateLiveData.value = SearchStates.FilterChanged(checkFilterState(newFiler))
             filter = newFiler
             refreshSearch()
             return
@@ -130,7 +91,7 @@ class SearchViewModel(
     private fun requestHandler(jobsInfo: JobsInfo) {
         when (jobsInfo.responseCodes) {
             Codes.ERROR -> {
-                state = SearchStates.ServerError(checkFilterState())
+                state = SearchStates.ServerError
                 stateLiveData.value = state
             }
 
@@ -145,37 +106,29 @@ class SearchViewModel(
                         SearchStates.Success(
                             jobList = vacancyList,
                             page = it.page,
-                            found = founded,
-                            filterStates = checkFilterState()
+                            found = founded
                         )
                     }
                 stateLiveData.value = state
             }
 
             Codes.NO_NET_CONNECTION -> {
-                state = SearchStates.ConnectionError(checkFilterState())
+                state = SearchStates.ConnectionError
                 stateLiveData.value = state
             }
 
             Codes.NO_RESULTS -> {
-                state = SearchStates.InvalidRequest(
-                    checkFilterState()
-                )
+                state = SearchStates.InvalidRequest
                 stateLiveData.value = state
             }
         }
     }
 
-    private fun checkFilterState(): Boolean =
-        filter.salary != null || filter.area != null || filter.industry != null || filter.onlyWithSalary
+    private fun checkFilterState(filterForCheck: Filter): Boolean =
+        filterForCheck != Filter(0, "", null, null, null, false)
 
     fun clearAll() {
-        state =
-            if (checkFilterState())
-                SearchStates.StartFilter
-            else
-                SearchStates.StartNoFilter
-        stateLiveData.value = state
+        stateLiveData.value = SearchStates.Start
         vacancyList.clear()
         filter.request = ""
         searchJob?.cancel()

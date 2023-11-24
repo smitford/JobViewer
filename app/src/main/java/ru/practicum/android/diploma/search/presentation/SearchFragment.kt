@@ -56,28 +56,16 @@ class SearchFragment : Fragment() {
         recyclerView.adapter = adapter
         viewModel.getState().observe(viewLifecycleOwner) { state ->
             when (state) {
-                is SearchStates.StartNoFilter -> setDefaultScreen(false)
-                is SearchStates.StartFilter -> setDefaultScreen(true)
-                is SearchStates.ServerError -> setErrorScreen(
-                    state.filterStates
-                )
-
-                is SearchStates.ConnectionError -> setConnectionLostScreen(
-                    state.filterStates,
-                )
-
-                is SearchStates.InvalidRequest ->
-                    setInvalidRequestScreen(
-                        state.filterStates,
-                    )
-
+                is SearchStates.Start -> setDefaultScreen()
+                is SearchStates.ServerError -> setErrorScreen()
+                is SearchStates.ConnectionError -> setConnectionLostScreen()
+                is SearchStates.InvalidRequest -> setInvalidRequestScreen()
                 is SearchStates.Success -> {
-                    setSuccessScreen(state.found, state.filterStates)
+                    setSuccessScreen(state.found)
                     adapter.jobsList = state.jobList.toMutableList()
                 }
-
                 is SearchStates.Loading -> setLoadingPaggScreen()
-                else -> setLoadingPaggScreen()
+                is SearchStates.FilterChanged -> changeFilterTint(state.filterNotBase)
             }
         }
 
@@ -99,16 +87,15 @@ class SearchFragment : Fragment() {
         _binding = null
     }
 
-    private fun setDefaultScreen(hasFilter: Boolean) {
+    private fun setDefaultScreen() {
         binding.rvSearch.visibility = GONE
         binding.ivError.setImageResource(R.drawable.search_start)
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = GONE
         binding.pagingPrBar.visibility = GONE
-        changeFilterTint(hasFilter)
     }
 
-    private fun setErrorScreen(hasFilter: Boolean) {
+    private fun setErrorScreen() {
         binding.rvSearch.visibility = GONE
         binding.ivError.visibility = VISIBLE
         binding.ivError.setImageResource(R.drawable.error_server_2)
@@ -116,10 +103,9 @@ class SearchFragment : Fragment() {
         binding.tvError.setText(R.string.server_error)
         binding.tvRvHeader.visibility = GONE
         binding.pagingPrBar.visibility = GONE
-        changeFilterTint(hasFilter)
     }
 
-    private fun setConnectionLostScreen(hasFilter: Boolean) {
+    private fun setConnectionLostScreen() {
         binding.rvSearch.visibility = GONE
         binding.ivError.visibility = VISIBLE
         binding.ivError.setImageResource(R.drawable.disconnect)
@@ -127,20 +113,18 @@ class SearchFragment : Fragment() {
         binding.tvError.setText(R.string.internet_connection_issue)
         binding.tvRvHeader.visibility = GONE
         binding.pagingPrBar.visibility = GONE
-        changeFilterTint(hasFilter)
     }
 
-    private fun setSuccessScreen(amount: Int, hasFilter: Boolean) {
+    private fun setSuccessScreen(amount: Int) {
         binding.rvSearch.visibility = VISIBLE
         binding.ivError.visibility = GONE
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = VISIBLE
         binding.tvRvHeader.text = getString(R.string.founded, TextUtils.addSeparator(amount))
         binding.pagingPrBar.visibility = GONE
-        changeFilterTint(hasFilter)
     }
 
-    private fun setInvalidRequestScreen(hasFilter: Boolean) {
+    private fun setInvalidRequestScreen() {
         binding.rvSearch.visibility = GONE
         binding.ivError.visibility = VISIBLE
         binding.ivError.setImageResource(R.drawable.error_list_favorite)
@@ -149,7 +133,6 @@ class SearchFragment : Fragment() {
         binding.tvRvHeader.visibility = VISIBLE
         binding.tvRvHeader.setText(R.string.vacancy_mismatch)
         binding.pagingPrBar.visibility = GONE
-        changeFilterTint(hasFilter)
     }
 
     private fun setLoadingPaggScreen() {
