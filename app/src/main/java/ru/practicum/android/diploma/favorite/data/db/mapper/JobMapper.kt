@@ -9,13 +9,11 @@ import ru.practicum.android.diploma.job.domain.models.JobForScreen
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 class JobMapper {
-
     fun map(job: JobForScreen): FavoriteEntity {
-
         return FavoriteEntity(
             job.id.toString(),
             job.name,
-            job.salaryFrom,
+            job.salary,
             job.employerLogoUrl,
             job.employerUrl,
             job.employerName,
@@ -25,13 +23,12 @@ class JobMapper {
             job.employment,
             job.description,
             job.contactsName,
-            job.email
+            job.email,
+            job.vacancyUrl
         )
-
     }
 
-    fun map(job: FavoriteEntity,skills : Array<Skills?>,phones: Array<Phones?>): JobForScreen {
-
+    fun map(job: FavoriteEntity, skills: Array<Skills?>, phones: Array<Phones?>): JobForScreen {
         return JobForScreen(
             job.id,
             job.name,
@@ -47,39 +44,41 @@ class JobMapper {
             skills,
             job.contactsName,
             job.email,
-            phones
+            phones,
+            job.vacancyUrl
         )
-
     }
 
     fun mapJob(job: FavoriteEntity): Vacancy {
         return Vacancy(
             job.id,
-            job.area?: "",
-            job.employment?: "",
-            job.employerLogoUrl?: "",
-            job.employerName?: "",
-            job.name?: "",
-            job.salaryFrom?: "",
+            job.area ?: "",
+            job.employment ?: "",
+            job.employerLogoUrl ?: "",
+            job.employerName ?: "",
+            job.name ?: "",
+            job.salaryFrom ?: "",
             job.name ?: ""
         )
-
     }
 
-    fun mapSkills(skill:Skills,idVacancy: String) : KeySkillsEntity{
+    fun mapSkills(skill: Skills, idVacancy: String): KeySkillsEntity {
         return KeySkillsEntity(idVacancy = idVacancy, name = skill.name)
     }
 
-    fun mapSkills(keySkillsEntity: KeySkillsEntity) : Skills{
+    fun mapSkills(keySkillsEntity: KeySkillsEntity): Skills {
         return Skills(keySkillsEntity.name)
     }
 
-    fun mapPhones(phones: Phones,idVacancy: String): PhonesEntity{
-        return PhonesEntity(idVacancy=idVacancy, comment = phones.comment, formatted = phones.formatted)
+    fun mapPhones(phones: Phones, idVacancy: String): PhonesEntity {
+        return PhonesEntity(
+            idVacancy = idVacancy,
+            comment = phones.comment,
+            formatted = phones.formatted
+        )
     }
 
-    fun mapPhones(phonesEntity: PhonesEntity): Phones{
-        return Phones(phonesEntity.comment,phonesEntity.formatted)
+    fun mapPhones(phonesEntity: PhonesEntity): Phones {
+        return Phones(phonesEntity.comment, phonesEntity.formatted)
     }
-
 }

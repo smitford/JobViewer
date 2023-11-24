@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.filter.domain.models
 
-data class Area(
+data class Region(
     val name: String,
     val id: String,
     val countryName: String,

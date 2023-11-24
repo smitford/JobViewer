@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.filter.data.models.AllAreasResponse
 import ru.practicum.android.diploma.filter.data.models.AreasByIdResponse
 import ru.practicum.android.diploma.filter.data.models.CountriesResponse
 import ru.practicum.android.diploma.filter.data.models.FilterRequest
+import ru.practicum.android.diploma.filter.data.models.IndustriesResponse
 import ru.practicum.android.diploma.job.data.mainmodels.JobDtoForScreenRequest
 import ru.practicum.android.diploma.search.data.models.JobSearchRequest
 import ru.practicum.android.diploma.search.data.models.ResponseDto
@@ -17,20 +18,14 @@ import ru.practicum.android.diploma.search.data.models.ResultCodes
 import ru.practicum.android.diploma.similarjob.data.dto.JobDtoSimilarRequest
 
 class RetrofitNetworkClient(val context: Context) : NetworkClient {
-
-    override var lock = Any()
-    val requestOptions: HashMap<String, String> = HashMap()
-
     private val retrofitHh =
         Retrofit.Builder()
             .baseUrl(BASE_HH_API)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
     private val hhService = retrofitHh.create(HhApiJobInfo::class.java)
 
     override suspend fun doRequest(dto: Any): ResponseDto {
-
         if (!isConnected()) return ResponseDto()
 
         return when (dto) {
@@ -43,7 +38,6 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
             } catch (e: Exception) {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }
             }
-
             //Просмотр вакансии
             is JobDtoForScreenRequest -> try {
                 val resp = hhService.getJobById(
@@ -53,7 +47,6 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
             } catch (e: Exception) {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }
             }
-
             //Список стран
             is FilterRequest.Countries -> try {
                 val data = hhService.getCountries()
@@ -70,7 +63,6 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
             } catch (e: Exception) {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }
             }
-
             //Список регеонов по Id
             is FilterRequest.AreasById -> try {
                 val data = hhService.getAreasById(
@@ -81,9 +73,17 @@ class RetrofitNetworkClient(val context: Context) : NetworkClient {
             } catch (e: Exception) {
                 ResponseDto().apply { responseCode = ResultCodes.ERROR }
             }
+            //Список Отрослей
+            is FilterRequest.Industries -> try {
+                val data = hhService.getIndustries()
+                val response = IndustriesResponse(data)
+                response.apply { responseCode = ResultCodes.SUCCESS }
+            } catch (e: Exception) {
+                ResponseDto().apply { responseCode = ResultCodes.ERROR }
+            }
 
             is JobDtoSimilarRequest -> try {
-                val resp = hhService.getSimilarVacancies(dto.id)
+                val resp = hhService.getSimilarVacancies(dto.id, dto.page)
                 resp.apply { responseCode = ResultCodes.SUCCESS }
 
             } catch (e: Exception) {

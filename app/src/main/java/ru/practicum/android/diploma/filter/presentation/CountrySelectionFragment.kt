@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentCountrySelectionBinding
-import ru.practicum.android.diploma.filter.domain.models.Country
-import ru.practicum.android.diploma.filter.presentation.adapter.RegionAdapter
+import ru.practicum.android.diploma.filter.presentation.adapter.FilterAdapter
+import ru.practicum.android.diploma.filter.presentation.adapter.model.AreaDataInterface
 import ru.practicum.android.diploma.filter.presentation.view_model.CountrySelectionViewModel
 import ru.practicum.android.diploma.filter.presentation.view_model.model.FilterParametersState
 import ru.practicum.android.diploma.util.DataUtils.Companion.CONNECTION_ERROR
@@ -24,7 +24,7 @@ class CountrySelectionFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val vM: CountrySelectionViewModel by viewModel()
-    private val adapter = RegionAdapter { clickOnCountry(it) }
+    private val adapter = FilterAdapter { clickOnCountry(it) }
     private var recyclerView: RecyclerView? = null
 
 
@@ -103,21 +103,18 @@ class CountrySelectionFragment : Fragment() {
         }
     }
 
-    private fun setResult(list: List<Country>) {
+    private fun setResult(list: List<AreaDataInterface>) {
         binding.rvRegion.visibility = View.VISIBLE
         binding.pbLoading.visibility = View.GONE
         binding.tvError.visibility = View.GONE
         binding.ivError.visibility = View.GONE
-        adapter.countries = list
+        adapter.list = list
         adapter.notifyDataSetChanged()
     }
 
-    private fun clickOnCountry(country: Country) {
+    private fun clickOnCountry(country: AreaDataInterface) {
         vM.saveCountryInFilter(country)
         findNavController().popBackStack()
     }
 
-    companion object {
-        fun newInstance() = CountrySelectionFragment()
-    }
 }

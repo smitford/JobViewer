@@ -2,6 +2,8 @@ package ru.practicum.android.diploma.filter.data
 
 import ru.practicum.android.diploma.filter.data.models.CountryDto
 import ru.practicum.android.diploma.filter.data.models.FilterParametersDto
+import ru.practicum.android.diploma.filter.data.models.IndustrySp
+import ru.practicum.android.diploma.filter.data.models.RegionDto
 
 interface FilterStorage {
     fun getFilterSettings(): FilterParametersDto
@@ -10,4 +12,8 @@ interface FilterStorage {
     fun saveCountryToFilter(country: CountryDto)
     fun clearCountryInFilter()
     fun getCountry(): CountryDto?
+    fun saveRegionToFilter(region: RegionDto)
+    fun deleteRegionFromFilter()
+    fun deleteIndustryFromFilter()
+    fun saveIndustryToFilter(industrySp: IndustrySp)
 }

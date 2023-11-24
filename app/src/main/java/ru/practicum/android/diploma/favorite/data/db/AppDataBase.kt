@@ -10,7 +10,7 @@ import ru.practicum.android.diploma.favorite.data.db.entity.KeySkillsEntity
 import ru.practicum.android.diploma.favorite.data.db.entity.PhonesEntity
 
 @Database(
-    version = 17,
+    version = 1,
     entities = [FavoriteEntity::class, KeySkillsEntity::class, PhonesEntity::class],
     exportSchema = false
 )

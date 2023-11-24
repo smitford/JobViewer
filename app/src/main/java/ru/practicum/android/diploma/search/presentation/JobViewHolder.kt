@@ -10,7 +10,6 @@ import ru.practicum.android.diploma.util.ImgFunctions
 
 class JobViewHolder(private val binding: RecyclerVacancyItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
-
     fun bind(vacancy: Vacancy) {
         binding.department.text = vacancy.employer
         binding.salary.text = vacancy.salary
@@ -29,10 +28,7 @@ class JobViewHolder(private val binding: RecyclerVacancyItemBinding) :
                 )
             )
             .into(binding.ivCompany)
-
     }
-
-
 
     companion object {
         private const val ROUNDING_OF_CORNERS_PX = 12

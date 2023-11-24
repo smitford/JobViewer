@@ -6,7 +6,6 @@ import android.net.Uri
 import ru.practicum.android.diploma.sharing.domain.repository.SharingRepository
 
 class SharingRepositoryImpl(private val context: Context) : SharingRepository {
-
     override fun shareJobLink(jobLink: String) {
         Intent().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).apply {
             action = Intent.ACTION_SEND

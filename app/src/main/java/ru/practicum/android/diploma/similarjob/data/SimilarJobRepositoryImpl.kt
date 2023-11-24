@@ -17,9 +17,9 @@ class SimilarJobRepositoryImpl(
     private val networkClient: NetworkClient,
     private val adapterJob: AdapterJob
 ) : SimilarJobRepository {
-    override fun getSimilarJobs(vacancyId: String): Flow<DtoConsumer<JobsInfo>> =
+    override fun getSimilarJobs(vacancyId: String, page: Int): Flow<DtoConsumer<JobsInfo>> =
         flow {
-            val response = networkClient.doRequest(JobDtoSimilarRequest(vacancyId))
+            val response = networkClient.doRequest(JobDtoSimilarRequest(vacancyId, page))
 
             when (response.responseCode) {
                 ResultCodes.SUCCESS -> emit(

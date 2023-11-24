@@ -19,11 +19,10 @@ class JobFragmentViewModel(
     private val jobFavoriteInteractor: JobFavoriteInteractor
 ) : ViewModel() {
 
-    private val _favorite = MutableLiveData<Boolean>()
-    fun observeFavoriteLifeData(): LiveData<Boolean> = _favorite
-
     private val _state = MutableLiveData<JobScreenState>()
     fun observeJobScreenLiveData(): LiveData<JobScreenState> = _state
+
+    private var isFavourite: Boolean = false
 
     fun shareJobLink(jobLink: String) {
         sharingInteractor.shareJobLink(jobLink)
@@ -41,12 +40,27 @@ class JobFragmentViewModel(
         _state.postValue(JobScreenState.Loading)
         viewModelScope.launch {
             loadJobInteractor.getJob(id = id).collect { jobForScreenInfo ->
-                requestHandler(jobForScreenInfo)
+                requestHandler(jobForScreenInfo, id)
             }
         }
     }
 
-    private fun requestHandler(jobForScreenInfo: JobForScreenInfo) =
+    private fun getJobFromDb(id: String) {
+        _state.postValue(JobScreenState.Loading)
+        viewModelScope.launch {
+
+            val job = jobFavoriteInteractor.getFromBase(id)
+            if (job == null){
+                _state.postValue(JobScreenState.ServerError)
+            }else{
+                _state.postValue(JobScreenState.JobFromDb(job))
+            }
+
+        }
+
+    }
+
+    private fun requestHandler(jobForScreenInfo: JobForScreenInfo, id: String) {
         when (jobForScreenInfo.responseCodes) {
             Codes.ERROR -> {
                 _state.postValue(JobScreenState.ServerError)
@@ -58,29 +72,38 @@ class JobFragmentViewModel(
             }
 
             Codes.NO_NET_CONNECTION -> {
-                _state.postValue(JobScreenState.ConnectionError)
+                getJobFromDb(id)
             }
-            Codes.NO_RESULTS->{
+
+            Codes.NO_RESULTS -> {
             }
         }
+    }
 
-    fun addToFavorite(job:JobForScreen){
+    fun addToFavorite(job: JobForScreen) {
         viewModelScope.launch {
             jobFavoriteInteractor.add(job)
-            _favorite.value = true
+            _state.postValue(JobScreenState.FavouriteIcon((true)))
+            isFavourite = true
         }
     }
 
-    fun includedToFavorite(id: String){
+    fun includedToFavorite(id: String) {
         viewModelScope.launch {
-            _favorite.value = jobFavoriteInteractor.included(id)
+            _state.postValue(JobScreenState.FavouriteIcon(jobFavoriteInteractor.included(id)))
+            isFavourite = jobFavoriteInteractor.included(id)
         }
     }
 
-    fun deleteFromFavorite(id:String){
+    fun deleteFromFavorite(id: String) {
         viewModelScope.launch {
             jobFavoriteInteractor.delete(id)
-            _favorite.value = false
+            _state.postValue(JobScreenState.FavouriteIcon((false)))
+            isFavourite = false
         }
+    }
+
+    fun getFavouriteState(): Boolean {
+        return isFavourite
     }
 }

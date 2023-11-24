@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.filter.domain.FilterInteractor
 import ru.practicum.android.diploma.filter.domain.models.Country
+import ru.practicum.android.diploma.filter.presentation.adapter.model.AreaDataInterface
 import ru.practicum.android.diploma.filter.presentation.view_model.model.FilterParametersState
 import ru.practicum.android.diploma.search.domain.api.DtoConsumer
 import ru.practicum.android.diploma.util.DataUtils
@@ -25,8 +26,8 @@ class CountrySelectionViewModel(private val filterInteractor: FilterInteractor) 
         }
     }
 
-    fun saveCountryInFilter(country: Country) {
-        filterInteractor.saveCountryToFilter(country)
+    fun saveCountryInFilter(country: AreaDataInterface) {
+        filterInteractor.saveCountryToFilter(UiConvertor.convertCountryUiToCountry(country))
     }
 
     private fun requestHandler(request: DtoConsumer<List<Country>>) {
@@ -36,7 +37,11 @@ class CountrySelectionViewModel(private val filterInteractor: FilterInteractor) 
             }
 
             is DtoConsumer.Success -> {
-                _stateLiveData.postValue(FilterParametersState.ParametersResult(request.data))
+                _stateLiveData.postValue(
+                    FilterParametersState.ParametersResult(
+                        UiConvertor.convertCountryListToCountryUiList(request.data)
+                    )
+                )
             }
 
             is DtoConsumer.NoInternet -> {

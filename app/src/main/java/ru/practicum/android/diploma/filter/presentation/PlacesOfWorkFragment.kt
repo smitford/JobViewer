@@ -30,7 +30,47 @@ class PlacesOfWorkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setBinding()
+        vM.country.observe(viewLifecycleOwner){
+            if(it.isNullOrEmpty()){
+                binding.clCountry.visibility = View.GONE
+                binding.tvCountryClear.visibility = View.VISIBLE
+            } else {
+                binding.clCountry.visibility = View.VISIBLE
+                binding.tvCountryText.text = it
+                binding.tvCountryClear.visibility = View.GONE
+            }
+            buttonAcceptVisibility()
+        }
 
+        vM.region.observe(viewLifecycleOwner){
+            if(it.isNullOrEmpty()){
+                binding.clRegion.visibility = View.GONE
+                binding.tvRegionClear.visibility = View.VISIBLE
+            } else {
+                binding.clRegion.visibility = View.VISIBLE
+                binding.tvRegionText.text = it
+                binding.tvRegionClear.visibility = View.GONE
+            }
+            buttonAcceptVisibility()
+        }
+
+        vM.updateInfoFragment()
+        buttonAcceptVisibility()
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun buttonAcceptVisibility() {
+        binding.btnChoose.isVisible = (binding.clCountry.isVisible
+                || binding.clRegion.isVisible)
+    }
+
+    private fun setBinding() {
         binding.ibArrowBack.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -51,20 +91,17 @@ class PlacesOfWorkFragment : Fragment() {
             findNavController().navigate(R.id.action_placesOfWorkFragment_to_choosingRegionFragment)
         }
 
+        binding.ivClearCountry.setOnClickListener {
+            vM.clearCountry()
+        }
 
+        binding.ivClearRegion.setOnClickListener {
+            vM.clearRegion()
+        }
+
+        binding.btnChoose.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun buttonAcceptVisibility() {
-        binding.btnChoose.isVisible = (binding.tvCountryClear.isVisible
-                || binding.tvCountryClear.isVisible)
-    }
-
-    companion object {
-        fun newInstance() = PlacesOfWorkFragment()
-    }
 }

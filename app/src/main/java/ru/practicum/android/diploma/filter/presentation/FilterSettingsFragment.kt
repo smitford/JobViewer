@@ -58,6 +58,10 @@ class FilterSettingsFragment : Fragment() {
             vM.clearPlaceOfWork()
         }
 
+        binding.ivClearIndustry.setOnClickListener {
+            vM.clearIndustry()
+        }
+
         vM.placeOfWork.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 binding.tvPlaceOfWorkClear.visibility = View.VISIBLE
@@ -119,7 +123,6 @@ class FilterSettingsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         buttonVisibility()
-        vM.setFiltersInFragment()
     }
 
     override fun onDestroyView() {
@@ -131,7 +134,7 @@ class FilterSettingsFragment : Fragment() {
         if (!salaryIsChange
             && binding.tvPlaceOfWorkText.text.isNullOrEmpty()
             && binding.tvIndustryText.text.isNullOrEmpty()
-            && !binding.cbShowWithSalary.isChecked
+            && binding.cbShowWithSalary.isChecked == vM.showWithSalary.value
         ) {
             binding.btnAccept.isVisible = false
             binding.btnReset.isVisible = false
@@ -141,7 +144,4 @@ class FilterSettingsFragment : Fragment() {
         }
     }
 
-    companion object {
-        fun newInstance() = FilterSettingsFragment()
-    }
 }

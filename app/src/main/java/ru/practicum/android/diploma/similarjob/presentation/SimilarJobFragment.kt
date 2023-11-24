@@ -12,18 +12,15 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSimilarJobBinding
-import ru.practicum.android.diploma.search.domain.api.DtoConsumer
-import ru.practicum.android.diploma.search.domain.models.Vacancy
-import ru.practicum.android.diploma.search.domain.models.JobsInfo
 import ru.practicum.android.diploma.search.presentation.JobAdapter
+import ru.practicum.android.diploma.similarjob.presentation.models.SimilarState
 
 class SimilarJobFragment : Fragment() {
-
-
     companion object {
         private const val IDJOB = "id_job"
 
@@ -34,8 +31,8 @@ class SimilarJobFragment : Fragment() {
 
     private lateinit var binding: FragmentSimilarJobBinding
     private lateinit var jobClickCb: (String) -> Unit
-
-    private val viewModel: SimilarJobViewModel by viewModel{
+    private lateinit var adapter: JobAdapter
+    private val viewModel: SimilarJobViewModel by viewModel {
         parametersOf(requireArguments().getString(IDJOB))
     }
 
@@ -45,7 +42,7 @@ class SimilarJobFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSimilarJobBinding.inflate(inflater,container,false)
+        binding = FragmentSimilarJobBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -56,26 +53,23 @@ class SimilarJobFragment : Fragment() {
 
         jobClickCb = initClickCb()
         val recyclerView = binding.rvSearch
-        val adapter = JobAdapter(jobClickCb)
+        adapter = JobAdapter(jobClickCb)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
-        viewModel.getSimilarLiveData().observe(viewLifecycleOwner){
-
-            when(it){
-                is DtoConsumer.Success<JobsInfo> -> {
+        viewModel.getSimilarLiveData().observe(viewLifecycleOwner) {
+            when (it) {
+                is SimilarState.Success -> {
                     binding.rvSearch.isGone = false
                     binding.tvMessage.isGone = true
                     binding.ivPlaceholderPng.isGone = true
                     binding.pagingPrBar.isGone = true
                     // Заполнение списка вакансии
-                    adapter.jobsList = it.data.jobs as MutableList<Vacancy>
-                    adapter.notifyDataSetChanged()
-
+                    adapter.jobsList = it.jobList
                 }
 
-                is DtoConsumer.NoInternet<JobsInfo> -> {
+                is SimilarState.ConnectionError -> {
                     // No internet
                     binding.rvSearch.isGone = true
                     binding.tvMessage.isGone = false
@@ -85,7 +79,14 @@ class SimilarJobFragment : Fragment() {
                     binding.tvMessage.text = getText(R.string.no_internet)
                 }
 
-                else ->{
+                is SimilarState.Loading -> {
+                    binding.rvSearch.isGone = !it.pageRefresher
+                    binding.tvMessage.isGone = true
+                    binding.ivPlaceholderPng.isGone = true
+                    binding.pagingPrBar.isGone = false
+                }
+
+                else -> {
                     // error
                     binding.rvSearch.isGone = true
                     binding.tvMessage.isGone = false
@@ -103,10 +104,24 @@ class SimilarJobFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        binding.rvSearch.addOnScrollListener(initScrlLsnr())
+
     }
 
     private fun initClickCb(): (String) -> Unit = { jobId ->
         val arg = SimilarJobFragmentDirections.actionSimilarJobFragmentToJobFragment(jobId)
         findNavController().navigate(arg)
+    }
+
+    private fun initScrlLsnr() = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val pos =
+                (binding.rvSearch.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+            val itemsCount = adapter.itemCount
+            if (pos >= itemsCount - 1) {
+                viewModel.getNewPage()
+            }
+        }
     }
 }

@@ -63,7 +63,7 @@ object TextUtils {
                     is TypeForTextUtils.Phones ->
                         if (array.isArrayOf<Phones>()) {
                             item = array[i] as Phones
-                            item.formatted?.let { formattedString += (item.formatted + "\n") }
+                            item.formatted?.let { formattedString += item.formatted + "\n" }
                         }
 
                     is TypeForTextUtils.Comment ->

@@ -15,7 +15,7 @@ interface PhonesDAO {
 
     // Получить контакты по id
     @Query("SELECT * FROM Phones WHERE idVacancy LIKE :idVacancy")
-    suspend fun getPhones(idVacancy: String) : List<PhonesEntity>
+    suspend fun getPhones(idVacancy: String): List<PhonesEntity>
 
     // Добавить навыки
     @Insert(entity = PhonesEntity::class, onConflict = OnConflictStrategy.REPLACE)
