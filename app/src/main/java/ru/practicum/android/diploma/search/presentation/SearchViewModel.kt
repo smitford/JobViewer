@@ -119,7 +119,7 @@ class SearchViewModel(
     }
 
     private fun checkFilterState(filterForCheck: Filter): Boolean =
-        filterForCheck != Filter(0, "", null, null, null, false)
+        filterForCheck != Filter(0, filterForCheck.request, null, null, null, false)
 
     fun startFilterCheck() {
         stateLiveData.value = SearchStates.FilterChanged(checkFilterState(filter))
