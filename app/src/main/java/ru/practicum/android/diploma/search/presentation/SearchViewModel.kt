@@ -19,14 +19,16 @@ class SearchViewModel(
     private val loadJobsUseCase: LoadJobsUseCase,
     private val getSearchFilterUseCase: GetSearchFilterUseCase
 ) : ViewModel() {
-    private lateinit var filter: Filter
-    private val stateLiveData = MutableLiveData<SearchStates>()
+    private var filter: Filter
+
 
     init {
         filter = getFilter()
     }
 
     private val vacancyList = mutableListOf<Vacancy>()
+    private var state: SearchStates = SearchStates.Start
+    private val stateLiveData = MutableLiveData(state)
     private var searchJob: Job? = null
     private var page = 0
     private var maxPage = 0
@@ -68,6 +70,8 @@ class SearchViewModel(
         val newFiler = getFilter()
         newFiler.request = filter.request
         newFiler.page = filter.page
+        stateLiveData.value = state
+
         if (newFiler != filter) {
             newFiler.page = 0
             maxPage = 0
@@ -98,22 +102,25 @@ class SearchViewModel(
                 maxPage = jobsInfo.pages
                 if (page == 0)
                     founded = jobsInfo.found
-                stateLiveData.value =
-                    jobsInfo.let {
-                        SearchStates.Success(
-                            jobList = vacancyList,
-                            page = it.page,
-                            found = founded
-                        )
-                    }
+
+                state = jobsInfo.let {
+                    SearchStates.Success(
+                        jobList = vacancyList,
+                        page = it.page,
+                        found = founded
+                    )
+                }
+                stateLiveData.value = state
             }
 
             Codes.NO_NET_CONNECTION -> {
-                stateLiveData.value = SearchStates.ConnectionError
+                state = SearchStates.ConnectionError
+                stateLiveData.value = state
             }
 
             Codes.NO_RESULTS -> {
-                stateLiveData.value = SearchStates.InvalidRequest
+                state = SearchStates.InvalidRequest
+                stateLiveData.value = state
             }
         }
     }
@@ -122,6 +129,7 @@ class SearchViewModel(
         filterForCheck != Filter(0, filterForCheck.request, null, null, null, false)
 
     fun startFilterCheck() {
+        stateLiveData.value = state
         stateLiveData.value = SearchStates.FilterChanged(checkFilterState(filter))
     }
 

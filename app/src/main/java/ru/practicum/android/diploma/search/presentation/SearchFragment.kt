@@ -97,6 +97,7 @@ class SearchFragment : Fragment() {
         binding.tvError.visibility = GONE
         binding.tvRvHeader.visibility = GONE
         binding.pagingPrBar.visibility = GONE
+        binding.ivError.visibility = VISIBLE
     }
 
     private fun setErrorScreen() {

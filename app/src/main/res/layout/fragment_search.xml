@@ -106,6 +106,7 @@
         android:layout_height="@dimen/zero_0dp"
         android:scaleType="centerInside"
         android:src="@drawable/search_start"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/tvError"
         app:layout_constraintEnd_toEndOf="@id/glEnd"
         app:layout_constraintHeight_max="223dp"
