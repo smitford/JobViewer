@@ -20,10 +20,8 @@ class SearchViewModel(
     private val getSearchFilterUseCase: GetSearchFilterUseCase
 ) : ViewModel() {
     private var filter: Filter = getFilter()
-    private var state: SearchStates =
-        SearchStates.Start
 
-    private val stateLiveData = MutableLiveData(state)
+    private val stateLiveData = MutableLiveData<SearchStates>()
     init {
         stateLiveData.value = SearchStates.FilterChanged(checkFilterState(filter))
     }
@@ -48,8 +46,7 @@ class SearchViewModel(
     }
 
     private fun search() {
-        state = SearchStates.Loading
-        stateLiveData.value = state
+        stateLiveData.value = SearchStates.Loading
         viewModelScope.launch {
             loadJobsUseCase.execute(filter = filter).collect { jobsInfo ->
                 requestHandler(jobsInfo)
@@ -91,8 +88,7 @@ class SearchViewModel(
     private fun requestHandler(jobsInfo: JobsInfo) {
         when (jobsInfo.responseCodes) {
             Codes.ERROR -> {
-                state = SearchStates.ServerError
-                stateLiveData.value = state
+                stateLiveData.value = SearchStates.ServerError
             }
 
             Codes.SUCCESS -> {
@@ -101,7 +97,7 @@ class SearchViewModel(
                 maxPage = jobsInfo.pages
                 if (page == 0)
                     founded = jobsInfo.found
-                state =
+                stateLiveData.value =
                     jobsInfo.let {
                         SearchStates.Success(
                             jobList = vacancyList,
@@ -109,17 +105,14 @@ class SearchViewModel(
                             found = founded
                         )
                     }
-                stateLiveData.value = state
             }
 
             Codes.NO_NET_CONNECTION -> {
-                state = SearchStates.ConnectionError
-                stateLiveData.value = state
+                stateLiveData.value = SearchStates.ConnectionError
             }
 
             Codes.NO_RESULTS -> {
-                state = SearchStates.InvalidRequest
-                stateLiveData.value = state
+                stateLiveData.value = SearchStates.InvalidRequest
             }
         }
     }
