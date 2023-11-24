@@ -8,8 +8,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.search.domain.models.Codes
 import ru.practicum.android.diploma.search.domain.models.Filter
-import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.models.JobsInfo
+import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.use_cases.GetSearchFilterUseCase
 import ru.practicum.android.diploma.search.domain.use_cases.LoadJobsUseCase
 import ru.practicum.android.diploma.search.presentation.models.SearchStates
@@ -19,8 +19,8 @@ class SearchViewModel(
     private val loadJobsUseCase: LoadJobsUseCase,
     private val getSearchFilterUseCase: GetSearchFilterUseCase
 ) : ViewModel() {
-    private var filter: Filter
 
+    private var filter: Filter
 
     init {
         filter = getFilter()
@@ -151,5 +151,4 @@ class SearchViewModel(
         const val SEARCH_DEBOUNCE_DELAY_MILS = 2000L
         const val PAGE_LOAD_DEBOUNCE_DELAY_MILS = 100L
     }
-
 }

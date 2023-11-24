@@ -5,13 +5,12 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,7 +56,6 @@ class SearchFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         viewModel.getState().observe(viewLifecycleOwner) { state ->
-            Log.d("STATE", state.toString())
             when (state) {
                 is SearchStates.Start -> setDefaultScreen()
                 is SearchStates.ServerError -> setErrorScreen()
@@ -67,9 +65,10 @@ class SearchFragment : Fragment() {
                     setSuccessScreen(state.found)
                     adapter.jobsList = state.jobList.toMutableList()
                 }
+
                 is SearchStates.Loading -> setLoadingPaggScreen()
                 is SearchStates.FilterChanged -> changeFilterTint(state.filterNotBase)
-                else ->Unit
+                else -> Unit
             }
         }
 
@@ -92,58 +91,70 @@ class SearchFragment : Fragment() {
     }
 
     private fun setDefaultScreen() {
-        binding.rvSearch.visibility = GONE
-        binding.ivError.setImageResource(R.drawable.search_start)
-        binding.tvError.visibility = GONE
-        binding.tvRvHeader.visibility = GONE
-        binding.pagingPrBar.visibility = GONE
-        binding.ivError.visibility = VISIBLE
+        with(binding) {
+            rvSearch.visibility = GONE
+            ivError.setImageResource(R.drawable.search_start)
+            tvError.visibility = GONE
+            tvRvHeader.visibility = GONE
+            pagingPrBar.visibility = GONE
+            ivError.visibility = VISIBLE
+        }
     }
 
     private fun setErrorScreen() {
-        binding.rvSearch.visibility = GONE
-        binding.ivError.visibility = VISIBLE
-        binding.ivError.setImageResource(R.drawable.error_server_2)
-        binding.tvError.visibility = VISIBLE
-        binding.tvError.setText(R.string.server_error)
-        binding.tvRvHeader.visibility = GONE
-        binding.pagingPrBar.visibility = GONE
+        with(binding) {
+            rvSearch.visibility = GONE
+            ivError.visibility = VISIBLE
+            ivError.setImageResource(R.drawable.error_server_2)
+            tvError.visibility = VISIBLE
+            tvError.setText(R.string.server_error)
+            tvRvHeader.visibility = GONE
+            pagingPrBar.visibility = GONE
+        }
     }
 
     private fun setConnectionLostScreen() {
-        binding.rvSearch.visibility = GONE
-        binding.ivError.visibility = VISIBLE
-        binding.ivError.setImageResource(R.drawable.disconnect)
-        binding.tvError.visibility = VISIBLE
-        binding.tvError.setText(R.string.internet_connection_issue)
-        binding.tvRvHeader.visibility = GONE
-        binding.pagingPrBar.visibility = GONE
+        with(binding) {
+            rvSearch.visibility = GONE
+            ivError.visibility = VISIBLE
+            ivError.setImageResource(R.drawable.disconnect)
+            tvError.visibility = VISIBLE
+            tvError.setText(R.string.internet_connection_issue)
+            tvRvHeader.visibility = GONE
+            pagingPrBar.visibility = GONE
+        }
     }
 
     private fun setSuccessScreen(amount: Int) {
-        binding.rvSearch.visibility = VISIBLE
-        binding.ivError.visibility = GONE
-        binding.tvError.visibility = GONE
-        binding.tvRvHeader.visibility = VISIBLE
-        binding.tvRvHeader.text = getString(R.string.founded, TextUtils.addSeparator(amount))
-        binding.pagingPrBar.visibility = GONE
+        with(binding) {
+            rvSearch.visibility = VISIBLE
+            ivError.visibility = GONE
+            tvError.visibility = GONE
+            tvRvHeader.visibility = VISIBLE
+            tvRvHeader.text = getString(R.string.founded, TextUtils.addSeparator(amount))
+            pagingPrBar.visibility = GONE
+        }
     }
 
     private fun setInvalidRequestScreen() {
-        binding.rvSearch.visibility = GONE
-        binding.ivError.visibility = VISIBLE
-        binding.ivError.setImageResource(R.drawable.error_list_favorite)
-        binding.tvError.visibility = VISIBLE
-        binding.tvError.setText(R.string.error_list_favorite)
-        binding.tvRvHeader.visibility = VISIBLE
-        binding.tvRvHeader.setText(R.string.vacancy_mismatch)
-        binding.pagingPrBar.visibility = GONE
+        with(binding) {
+            rvSearch.visibility = GONE
+            ivError.visibility = VISIBLE
+            ivError.setImageResource(R.drawable.error_list_favorite)
+            tvError.visibility = VISIBLE
+            tvError.setText(R.string.error_list_favorite)
+            tvRvHeader.visibility = VISIBLE
+            tvRvHeader.setText(R.string.vacancy_mismatch)
+            pagingPrBar.visibility = GONE
+        }
     }
 
     private fun setLoadingPaggScreen() {
-        binding.ivError.visibility = GONE
-        binding.tvError.visibility = GONE
-        binding.pagingPrBar.visibility = VISIBLE
+        with(binding) {
+            ivError.visibility = GONE
+            tvError.visibility = GONE
+            pagingPrBar.visibility = VISIBLE
+        }
     }
 
     private fun changeFilterTint(hasFilter: Boolean) {
