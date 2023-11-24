@@ -19,12 +19,13 @@ class SearchViewModel(
     private val loadJobsUseCase: LoadJobsUseCase,
     private val getSearchFilterUseCase: GetSearchFilterUseCase
 ) : ViewModel() {
-    private var filter: Filter = getFilter()
-
+    private lateinit var filter: Filter
     private val stateLiveData = MutableLiveData<SearchStates>()
+
     init {
-        stateLiveData.value = SearchStates.FilterChanged(checkFilterState(filter))
+        filter = getFilter()
     }
+
     private val vacancyList = mutableListOf<Vacancy>()
     private var searchJob: Job? = null
     private var page = 0
@@ -119,6 +120,10 @@ class SearchViewModel(
 
     private fun checkFilterState(filterForCheck: Filter): Boolean =
         filterForCheck != Filter(0, "", null, null, null, false)
+
+    fun startFilterCheck() {
+        stateLiveData.value = SearchStates.FilterChanged(checkFilterState(filter))
+    }
 
     fun clearAll() {
         stateLiveData.value = SearchStates.Start
