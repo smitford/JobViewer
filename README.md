@@ -77,3 +77,6 @@ The screen displays a static list of people who participated in the development 
 
 
 ![Screenshot_20240522_185410_ru practicum android diploma](https://github.com/smitford/JobViewer/assets/17237585/5bafb873-ec61-4577-85ef-87d571baecf3)
+
+## Technology stack
+Kotlin, MVVM, Kotlin Coroutines, Koin, Navigation Component, Retrofit2 (for interaction with HeadHunter API), Gson, Room, Glide, KPermissions (handling permissions).
