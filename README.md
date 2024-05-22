@@ -22,6 +22,11 @@ On this screen, the user can search for vacancies using any non-empty set of sea
 are a list containing brief information about vacancies.
 
 
+
+https://github.com/smitford/JobViewer/assets/17237585/9677f64d-0cf4-4b60-9ed4-94c78d58824f
+
+
+
 ## Filtration -- filtration screens
 
 Using the filter settings, the user can refine some of the search parameters that are carried out on the screen
@@ -31,6 +36,11 @@ Using the filter settings, the user can refine some of the search parameters tha
 - Industry - the field of activity of the organization that posted the vacancy.
 - Salary level - salary level corresponding to that specified in the vacancy.
 - Ability to hide vacancies for which the salary is not specified.
+
+
+https://github.com/smitford/JobViewer/assets/17237585/b4f551e2-5e3b-4cbc-a2bd-9d3f50572699
+
+
 
 ## Screen of vacancies description
 
@@ -46,6 +56,10 @@ see on screen:
 The user can also view a list of similar vacancies, share a link to this vacancy, and
 contact the employer through the specified contacts.
 
+
+https://github.com/smitford/JobViewer/assets/17237585/9457616e-7c9c-4924-9edb-7763386f2315
+
+
 ## Screen of favorites
 
 The user can add vacancies to “Favorites” to be able to quickly return to the one that interests his
@@ -54,6 +68,12 @@ selected vacancies, the user can remove the vacancy from bookmarks. All vacancie
 on a separate screen in the application.
 
 
+![Screenshot_20240522_185406_ru practicum android diploma](https://github.com/smitford/JobViewer/assets/17237585/919af13a-437f-47fc-aaaa-c40fcd66f980)
+
+
 ## Screen with developers information
 
 The screen displays a static list of people who participated in the development of the application.
+
+
+![Screenshot_20240522_185410_ru practicum android diploma](https://github.com/smitford/JobViewer/assets/17237585/5bafb873-ec61-4577-85ef-87d571baecf3)
