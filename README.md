@@ -10,7 +10,7 @@ This application provides such types of functions:
 - Creation of the list of favorites.
 
 Developed as a graduation project on Yandex.Practicum.
-You may download the application [here](app-debug.apk)
+You may download the application [here](https://github.com/smitford/JobViewer/raw/main/app-debug.apk)
 
 ## Device requirements
 
