@@ -10,7 +10,11 @@ This application provides such types of functions:
 - Creation of the list of favorites.
 
 Developed as a graduation project on Yandex.Practicum.
-You may download the application [here]()
+You may download the application [here](app-debug.apk)
+
+## Device requirements
+
+Compatible from Android 8 (Android API 26)
 
 ## Main screen -- vacancies searchig
 
